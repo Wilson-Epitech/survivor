@@ -1,19 +1,27 @@
+// import Navbar from "./Navbar";
+
+// export default function Layout({children})
+// {
+//     return (
+//         <div className="bg-white flex-grow">
+//             <Navbar>
+//                 {children}
+//             </Navbar>
+//         </div>
+
+//     );
+// }
+
+import Navbar from "./Navbar";
+
 export default function Layout({children})
 {
     return (
-        <div className="bg-white min-h-screen flex">
-            <div className="bg-white flex-grow mt-2 mr-2 mb-2 rounded-lg p-4">
-                {children}
+        <div className="bg-white flex-grow">
+            <div className="bg-white min-h-screen flex">
+                <Navbar />
+                    {children}
             </div>
         </div>
     );
 }
-
-// export default function Layout({ children })
-// {
-//   return (
-//     <html lang="en">
-//       <body>{children}</body>
-//     </html>
-//   );
-// }

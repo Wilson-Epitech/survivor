@@ -1,8 +1,13 @@
+import Layout from "@/components/Layout";
+import Navbar from "@/components/Navbar";
+
 export default function Home()
 {
   return (
-    <div>
-      test
-    </div>
+    <>
+      <Layout>
+        <p>aaaaaaa</p>
+      </Layout>
+    </>
   );
 }
