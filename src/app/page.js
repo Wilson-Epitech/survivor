@@ -5,8 +5,9 @@ export default function Home()
 {
   return (
     <>
-      <Navbar />
+      <Layout>
         <p>aaaaaaa</p>
+      </Layout>
     </>
   );
 }

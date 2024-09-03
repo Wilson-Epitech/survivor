@@ -14,9 +14,9 @@ export default function RootLayout({ children })
   return (
     <html>
       <body>
-        <div className="bg-white min-h-screen flex">
+        {/* <div className="bg-white min-h-screen flex"> */}
             {children}
-        </div>
+        {/* </div> */}
       </body>
     </html>
   );

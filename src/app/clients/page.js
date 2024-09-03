@@ -7,7 +7,7 @@ export default function Home()
 {
     return (
         <>
-        <Navbar />
+        <Layout>
             <MaxWidthWrapper>
                     <button
                         className="flex flex-row bg-green-400 p-1 text-md rounded-md py-1.5 px-2.5">
@@ -47,6 +47,7 @@ export default function Home()
                         </ul>
                     </div>
             </MaxWidthWrapper>
+            </Layout>
         </>
     );
 }
