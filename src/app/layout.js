@@ -15,10 +15,7 @@ export default function RootLayout({ children })
     <html>
       <body>
         <div className="bg-white min-h-screen flex">
-              <Navbar />
-              <div className="bg-white flex-grow">
-                  {children}
-              </div>
+            {children}
         </div>
       </body>
     </html>

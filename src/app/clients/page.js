@@ -1,13 +1,14 @@
 import Layout from "@/components/Layout";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+import Navbar from "@/components/Navbar";
 import Link from "next/link";
 
 export default function Home()
 {
     return (
-        <div className="bg-white">
+        <>
+        <Navbar />
             <MaxWidthWrapper>
-                <Layout>
                     <button
                         className="flex flex-row bg-green-400 p-1 text-md rounded-md py-1.5 px-2.5">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="mt-0.5 mr-1 size-5">
@@ -45,8 +46,7 @@ export default function Home()
                             </li>
                         </ul>
                     </div>
-                </Layout>
             </MaxWidthWrapper>
-        </div>
+        </>
     );
 }
