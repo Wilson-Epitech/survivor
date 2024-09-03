@@ -1,7 +1,10 @@
-export default function MaxWidthWrapper({children}) {
+export default function MaxWidthWrapper({children})
+{
     return (
-        <div className="h-full mx-auto w-full max-w-screen-xl px-2.5 md:px-20">
-            {children}
+        <div className="bg-white">
+            <div className="h-full mx-auto w-full max-w-screen-xl px-2.5 md:px-20">
+                {children}
+            </div>
         </div>
     )
 }
