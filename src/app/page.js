@@ -6,7 +6,7 @@ export default function Home()
   return (
     <>
       <Layout>
-        <p>aaaaaaa</p>
+        <p>Dashboard</p>
       </Layout>
     </>
   );
