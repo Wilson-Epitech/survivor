@@ -13,7 +13,9 @@ export default function Home() {
                         </h1>
                     </div>
                     <div className="w-full h-0.5 bg-black mb-4 mt-2"></div>
-                    <Dropdown></Dropdown>
+                    <div className="flex justify-center">
+                        <Dropdown></Dropdown>
+                    </div>
                     <div className="w-full h-0.5 bg-black mb-4 mt-4"></div>
 
                     <div className="w-full grid grid-col gap-6">
@@ -89,8 +91,6 @@ export default function Home() {
                             </button>
                         </div>
                     </div>
-
-                    <div className="w-full h-0.5 bg-black mb-4 mt-4"></div>
                 </div>
             </main>
         </Layout>
