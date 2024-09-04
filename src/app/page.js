@@ -6,7 +6,9 @@ export default function Home()
   return (
     <>
       <Layout>
-        <p>Dashboard</p>
+        <div className="m-10">
+          <p>Dashboard</p>
+        </div>
       </Layout>
     </>
   );
