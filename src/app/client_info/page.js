@@ -8,8 +8,8 @@ export default function Home()
 {
     return (
         <Layout>
-        <main className="min-h-screen w-full flex-col items-center grid justify-items-stretch bg-white">
-            <div className="h-full flex-row pt-7 mx-10">
+        <main className="min-h-screen w-fit flex-col items-center grid justify-items-stretch bg-white">
+            <div className="h-4/6 flex-row pt-7 mx-10 mb-48">
                 <div className="mb-4">
                     <h1 className="mt-2 mb-4 text-left text-5xl font-bold leading-9 tracking-tight text-gray-900">
                         Customers
@@ -51,9 +51,9 @@ export default function Home()
                                     <thead
                                         className="border-2 border-black bg-[#2C84B9] font-medium dark:border-neutral-500 dark:bg-neutral-600">
                                         <tr>
-                                            <th scope="col" className="px-12 py-4 text-white">Date</th>
-                                            <th scope="col" className="px-12 py-4 text-white">Amount</th>
-                                            <th scope="col" className="px-12 py-4 text-white">Comment</th>
+                                            <th scope="col" className="px-12 py-4 border-2 border-black text-white">Date</th>
+                                            <th scope="col" className="px-12 py-4 border-2 border-black text-white">Amount</th>
+                                            <th scope="col" className="px-12 py-4 border-2 border-black text-white">Comment</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -88,10 +88,10 @@ export default function Home()
                                     <thead
                                         className="border-2 border-black bg-[#2C84B9] font-medium dark:border-neutral-500 dark:bg-neutral-600">
                                         <tr>
-                                            <th scope="col" className="px-12 py-4 text-white">Date</th>
-                                            <th scope="col" className="px-12 py-4 text-white">Rating</th>
-                                            <th scope="col" className="px-12 py-4 text-white">Report</th>
-                                            <th scope="col" className="px-12 py-4 text-white">Source</th>
+                                            <th scope="col" className="px-12 py-4 border-2 border-black text-white">Date</th>
+                                            <th scope="col" className="px-12 py-4 border-2 border-black text-white">Rating</th>
+                                            <th scope="col" className="px-12 py-4 border-2 border-black text-white">Report</th>
+                                            <th scope="col" className="px-12 py-4 border-2 border-black text-white">Source</th>
                                         </tr>
                                     </thead>
                                     <tbody>

@@ -6,7 +6,7 @@ export default function Home() {
     return (
         <Layout>
             <main className="min-h-screen w-full flex-col items-center justify-center bg-white">
-                <div className="h-full pt-11 mx-10">
+                <div className="h-4/6 pt-11 mx-10 mt-10">
                     <div className="mb-4">
                         <h1 className="mt-2 mb-4 text-left text-5xl font-bold leading-9 tracking-tight text-gray-900">
                             Wardrobe

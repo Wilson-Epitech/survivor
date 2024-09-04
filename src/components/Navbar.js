@@ -4,7 +4,7 @@ import MaxWidthWrapper from "./MaxWidthWrapper";
 const Navbar = () =>
 {
     return (
-        <aside className="w-1/6 mt-10 mb-10 border-r-2 border-r-black">
+        <aside className="sm:w-0 md:w-0 lg:w-1/6 w-1/6 mt-10 mb-10 border-r-2 border-r-black hidden sm:block">
             <nav className="flex flex-col gap-2">
                 <div className="mt-10 overflow-y-auto py-5 px-3 h-full bg-white dark:bg-gray-800 dark:border-gray-700">
                     <ul className="p-1 mb-2 text-3xl font-medium">
