@@ -23,7 +23,7 @@ export default function Home()
                         </div>
                         <div className="w-full h-12">
                             <p className="mt-2 mb-2 text-left text-3xl font-bold leading-9 tracking-tight text-gray-900">
-                                jean-eudes berlier
+                                Jean-eudes berlier
                             </p>
                         </div>
                         <div className="w-full h-12">
