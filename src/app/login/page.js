@@ -43,6 +43,7 @@ export default function Home() {
                         <button type="submit" className="flex w-full justify-center rounded-md bg-indigo-600 px-4 py-2 text-mb font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
                     </div>
                 </form>
+                {formState?.message && (<p className="text-red-500 text-sm text-center mt-4">{formState.message}</p>)}
                 {/* <p className="mt-10 text-center text-sm text-gray-500">
                         Not a member?
                         <a href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
