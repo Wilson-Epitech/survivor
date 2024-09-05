@@ -14,5 +14,5 @@ export async function GET(req) {
         return NextResponse.json(clothes);
     } catch (error) {
         return NextResponse.json({ error: 'Failed to get clothes' }, { status: 500 });
-    }
+    }top
 }
