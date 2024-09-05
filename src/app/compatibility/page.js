@@ -8,7 +8,7 @@ export default function Page()
 {
     const [users, setUsers] = useState([]);
     useEffect(() => {
-        axios.get('/api/employee').then(response => {
+        axios.get('/api/customers').then(response => {
             console.log(response.data);
             setUsers(response.data);
         });
