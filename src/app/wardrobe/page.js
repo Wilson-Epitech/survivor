@@ -1,8 +1,16 @@
 "use client";
 import Layout from "@/components/Layout";
 import Dropdown from "@/components/DropdownCustomers";
+import { useState } from "react";
 
 export default function Home() {
+    const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
+
+    const handleSelectionChange = (ids) => {
+        setSelectedCustomerIds(ids);
+        console.log("Selected Customer IDs:", ids);
+    };
+    
     return (
         <Layout>
             <main className="min-h-screen w-full flex-col items-center justify-center bg-white">
@@ -14,9 +22,10 @@ export default function Home() {
                     </div>
                     <div className="w-full h-0.5 bg-black mb-4 mt-2"></div>
                     <div className="flex justify-center">
-                        <Dropdown></Dropdown>
+                        <Dropdown onSelectionChange={handleSelectionChange} />
                     </div>
                     <div className="w-full h-0.5 bg-black mb-4 mt-4"></div>
+                    {selectedCustomerIds}
 
                     <div className="w-full grid grid-col gap-6">
                         {/* hat/cap */}

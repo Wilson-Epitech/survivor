@@ -8,7 +8,7 @@ export async function GET(req)
     await mongooseConnect();
 
     try {
-        const customers = await Customers.find();
+        const customers = await Customers.find({}, {_name: 1, _surname: 1, _id_customer: 1});
         return NextResponse.json(customers);
     } catch (error) {
         return NextResponse.json({ error: 'Failed to get customers' }, { status: 500 });

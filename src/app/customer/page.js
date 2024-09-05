@@ -9,15 +9,20 @@ import Dropdown from "@/components/DropdownCustomers";
 
 export default function Home()
 {
+    const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
+
+    const handleSelectionChange = (ids) => {
+        setSelectedCustomerIds(ids);
+        console.log("Selected Customer IDs:", ids);
+    };
+
     const [users, setUsers] = useState([]);
+
     useEffect(() => {
         axios.get('/api/customers').then(response => {
-            console.log(response.data);
             setUsers(response.data);
         });
     }, []);
-
-    let thisUser;
 
     return (
         <Layout>
@@ -32,13 +37,11 @@ export default function Home()
                 <div className="w-full flex flex-row h-fit">
                     <div className="w-3/4 h-fit">
                         <div className="w-full h-12">
-                            <Dropdown></Dropdown>
+                            <Dropdown onSelectionChange={handleSelectionChange} />
                         </div>
                         <div className="w-full h-12">
                             <p className="mt-2 mb-2 text-left text-3xl font-bold leading-9 tracking-tight text-gray-900">
-                                Jean-eudes berlier
-                                {/* {(users.find(user => user._id_customer === onSelectionChange))} */}
-                                {/* {thisUser._name} */}
+                                {(users.find(user => user._id_customer === selectedCustomerIds.at(selectedCustomerIds.length - 1))?._name)} {(users.find(user => user._id_customer === selectedCustomerIds.at(selectedCustomerIds.length - 1))?._surname)}
                             </p>
                         </div>
                         <div className="w-full h-12">
