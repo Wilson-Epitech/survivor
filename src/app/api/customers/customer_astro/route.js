@@ -12,7 +12,7 @@ export async function GET(req)
 
     try {
         const query = id ? { _id_customer: id } : {};
-        const res = await customer.find(query, {_birth_date: 1, _astrological_sign: 1, _id_customer: 1});
+        const res = await customer.find(query, {_name: 1, _surname: 1, _birth_date: 1, _astrological_sign: 1});
         return NextResponse.json(res);
     } catch (error) {
         return NextResponse.json({ error: 'Failed to get customers' }, { status: 500 });
