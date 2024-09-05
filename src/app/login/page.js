@@ -1,8 +1,19 @@
+'use client'
+
+import { logUser } from './login';
+import { useFormState } from 'react-dom';
+
 export default function Home() {
+
+    const initialState = {
+        message: ''
+    };
+    const [formState, formAction] = useFormState(logUser, initialState);
+
     return (
         <main className="flex min-h-screen flex-col items-center justify-between p-24 bg-gray-100">
             <div className="flex min-h-full flex-col justify-center px-24 py-12 lg:px-12 rounded-lg shadow-2xl bg-white sm:max-w-lg">
-                <form className="space-y-6" action="#" method="POST">
+                <form className="space-y-6" action={formAction} method="POST">
                     <div className="mb-4">
                         <h2 className="mt-2 mb-4 text-center text-3xl font-bold leading-9 tracking-tight text-gray-900">
                             Sign in to your account
