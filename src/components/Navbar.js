@@ -21,7 +21,7 @@ const Navbar = () =>
                             <div className="flex items-center justify-between border-b-2 border-gray-900"></div>
                         </li>
                         <li className="flex flex-col pb-2">
-                            <a href={'/clients'} className="cursor-pointer hover:bg-[#878787] p-1">
+                            <a href={'/client_info'} className="cursor-pointer hover:bg-[#878787] p-1">
                                 Customers
                             </a>
                             <div className="flex items-center justify-between border-b-2 border-gray-900"></div>

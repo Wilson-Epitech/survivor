@@ -1,4 +1,7 @@
-"use client";
+"use client"
+
+import { useEffect, useState } from "react";
+import axios from 'axios';
 import Layout from "@/components/Layout";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import Navbar from "@/components/Navbar";
@@ -6,6 +9,16 @@ import Dropdown from "@/components/DropdownCustomers";
 
 export default function Home()
 {
+    const [users, setUsers] = useState([]);
+    useEffect(() => {
+        axios.get('/api/customers').then(response => {
+            console.log(response.data);
+            setUsers(response.data);
+        });
+    }, []);
+
+    let thisUser;
+
     return (
         <Layout>
         <main className="min-h-screen w-fit flex-col items-center grid justify-items-stretch bg-white">
@@ -24,6 +37,8 @@ export default function Home()
                         <div className="w-full h-12">
                             <p className="mt-2 mb-2 text-left text-3xl font-bold leading-9 tracking-tight text-gray-900">
                                 Jean-eudes berlier
+                                {/* {(users.find(user => user._id_customer === onSelectionChange))} */}
+                                {/* {thisUser._name} */}
                             </p>
                         </div>
                         <div className="w-full h-12">
