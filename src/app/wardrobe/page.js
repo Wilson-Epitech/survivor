@@ -5,15 +5,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from 'axios';
 
-function get_hat_cap(clothes) {
-    let all_hat;
-    for (let index = 0; index < clothes.length; index++) {
-        if (clothes.at(index)._type === "hat/cap") {
-            all_hat.push(clothes.at(index)._type);
-        }
+function get_all_top(world)
+{
+    if (world === "top") {
+        return world;
     }
-    console.log(all_hat);
-    return all_hat;
+    return "";
 }
 
 export default function Home() {
@@ -25,10 +22,14 @@ export default function Home() {
     };
 
     const [clothes, setClothes] = useState([]);
-    let all_hat;
 
+    let hat_img_id = [];
+    let top_img_id = [];
+    let bottom_img_id = [];
+    let shoes_img_id = [];
     useEffect(() => {
         const lastSelectedId = selectedCustomerIds.at(selectedCustomerIds.length - 1);
+
         for (; clothes.length > 0;) {
             clothes.pop();
         }
@@ -37,7 +38,7 @@ export default function Home() {
             selectedCustomerIds.pop();
         }
         selectedCustomerIds.push(lastId);
-        console.log(clothes.length);
+
         if (lastSelectedId) {
             axios.get(`/api/customers_clothe?id=${lastSelectedId}`).then(response => {
                 setClothes(response.data);
@@ -45,12 +46,6 @@ export default function Home() {
                 console.error("Failed to fetch clothes", error);
             });
         }
-        for (let index = 0; index < clothes.length; index++) {
-            if (clothes.at(index)._type === "hat/cap") {
-                all_hat.push(clothes.at(index)._type);
-            }
-        }
-        console.log(clothes._type);
     }, [selectedCustomerIds]);
 
     // console.log(selectedCustomerIds.at(selectedCustomerIds.length - 1));
@@ -69,9 +64,15 @@ export default function Home() {
                         <Dropdown onSelectionChange={handleSelectionChange}/>
                     </div>
                     <div className="w-full h-0.5 bg-black mb-4 mt-4"></div>
-                    {clothes.map(user => (
-                        <p className="pr-1" key={user._type}>{user._type ? user._type : "vide"}</p>
-                    ))}
+
+                    {clothes.forEach((car) => car._type === 'hat/cap' ? hat_img_id.push(car._id_clothes) : car._id_clothes)}
+                    {clothes.forEach((car) => car._type === 'top' ? top_img_id.push(car._id_clothes) : car._id_clothes)}
+                    {clothes.forEach((car) => car._type === 'bottom' ? bottom_img_id.push(car._id_clothes) : car._id_clothes)}
+                    {clothes.forEach((car) => car._type === 'shoes' ? shoes_img_id.push(car._id_clothes) : car._id_clothes)}
+                    <p>
+                    {top_img_id[1]}
+                    </p>
+
                     <div className="w-full grid grid-col gap-6">
                         {/* hat/cap */}
                         <div className="flex flex-row items-center">
