@@ -17,10 +17,18 @@ export default function Home()
     };
 
     const [users, setUsers] = useState([]);
+    const [userDate, setUserDate] = useState([]);
+    const [userAddress, setUserAddress] = useState([]);
 
     useEffect(() => {
         axios.get('/api/customers').then(response => {
             setUsers(response.data);
+        });
+        axios.get('/api/customers/customer_birth').then(response => {
+            setUserDate(response.data);
+        });
+        axios.get('/api/customers/customer_address').then(response => {
+            setUserAddress(response.data);
         });
     }, []);
 
@@ -46,12 +54,12 @@ export default function Home()
                         </div>
                         <div className="w-full h-12">
                             <p className="text-left text-2xl leading-9 tracking-tight text-gray-900">
-                                22/07/2004
+                                {(userDate.find(user => user._id_customer === selectedCustomerIds.at(selectedCustomerIds.length - 1))?._birth_date)}
                             </p>
                         </div>
                         <div className="w-full h-12">
                             <p className="text-left text-2xl leading-9 tracking-tight text-gray-900">
-                                4 Rue de la Tour 34000 Montpellier, France
+                                {(userAddress.find(user => user._id_customer === selectedCustomerIds.at(selectedCustomerIds.length - 1))?._address)}
                             </p>
                         </div>
                     </div>
