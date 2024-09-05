@@ -22,6 +22,10 @@ jobs:
     - name: Install dependencies
       run: npm install
 
+    # - name: Create .env file
+    #   run: |
+    #     echo "MONGODB_URI=${{ secrets.MONGODB_URI }}" >> .env
+
     - name: Check Compilation
       run: |
         NODE_OPTIONS=--trace-deprecation npm run build

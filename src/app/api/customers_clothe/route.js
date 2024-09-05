@@ -1,5 +1,5 @@
 import { mongooseConnect } from '@/lib/mongoose';
-import { Clothes } from '@/app/models/clothes_schema';
+import { clothes } from '@/models/clothes_schema';
 import { NextResponse } from 'next/server';
 
 export async function GET(req) {
@@ -10,8 +10,8 @@ export async function GET(req) {
 
     try {
         const query = id ? { _id_client: id } : {};
-        const clothes = await Clothes.find(query, { _type: 1 });
-        return NextResponse.json(clothes);
+        const res = await clothes.find(query, { _type: 1 });
+        return NextResponse.json(res);
     } catch (error) {
         return NextResponse.json({ error: 'Failed to get clothes' }, { status: 500 });
     }
