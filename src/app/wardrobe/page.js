@@ -49,6 +49,10 @@ export default function Home() {
         if (lastSelectedId) {
             axios.get(`/api/customers_clothe?id=${lastSelectedId}`).then(response => {
                 setClothes(response.data);
+                handleChange(setSelectedHat, selectedHat, 1)
+                handleChange(setSelectedTop, selectedTop, 1)
+                handleChange(setSelectedBottom, selectedBottom, 1)
+                handleChange(setSelectedShoes, selectedShoes, 1)
             }).catch(error => {
                 console.error("Failed to fetch clothes", error);
             });
@@ -99,6 +103,24 @@ export default function Home() {
         }
     }, [selectedShoes]);
 
+    const imageSlider = (clothe_img, setSelectedImg, selectedImg) => (
+        <div className="flex flex-row items-center">
+            <button className="mb-2 w-full h-full grid justify-items-end items-center" onClick={() => handleChange(setSelectedImg, selectedImg, -1)}>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-12">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18" />
+                </svg>
+            </button>
+            {clothe_img.map(user => (
+                <img className="object-contain w-full h-36" src={`data:image/jpeg;base64, ${user._image}`}/>
+            ))}
+            <button className="mb-2 w-full h-full grid justify-items-start items-center" onClick={() => handleChange(setSelectedImg, selectedImg, 1)}>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-12">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
+                </svg>
+            </button>
+        </div>
+    );
+
     return (
         <Layout>
             <main className="min-h-screen w-full flex-col items-center justify-center bg-white">
@@ -122,72 +144,17 @@ export default function Home() {
 
                     <div className="w-full grid grid-col gap-6">
                         {/* hat/cap */}
-                        <div className="flex flex-row items-center">
-                            <button className="mb-2 w-full h-full grid justify-items-end items-center" onClick={() => handleChange(setSelectedHat, selectedHat, -1)}>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-12">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18" />
-                                </svg>
-                            </button>
-                            {clothes_img_hat.map(user => (
-                                <img className="object-contain w-full h-36" src={`data:image/jpeg;base64, ${user._image}`}/>
-                            ))}
-                            <button className="mb-2 w-full h-full grid justify-items-start items-center" onClick={() => handleChange(setSelectedHat, selectedHat, 1)}>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-12">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
-                                </svg>
-                            </button>
-                        </div>
+                        {imageSlider(clothes_img_hat, setSelectedHat, selectedHat)}
 
                         {/* top */}
-                        <div className="flex flex-row items-center">
-                            <button className="mb-2 w-full h-full grid justify-items-end items-center" onClick={() => handleChange(setSelectedTop, selectedTop, -1)}>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-12">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18" />
-                                </svg>
-                            </button>
-                            {clothes_img_top.map(user => (
-                                <img className="object-contain w-full h-36" src={`data:image/jpeg;base64, ${user._image}`}/>
-                            ))}
-                            <button className="mb-2 w-full h-full grid justify-items-start items-center" onClick={() => handleChange(setSelectedTop, selectedTop, 1)}>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-12">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
-                                </svg>
-                            </button>
-                        </div>
+                        {imageSlider(clothes_img_top, setSelectedTop, selectedTop)}
 
                         {/* bottom */}
-                        <div className="flex flex-row items-center">
-                            <button className="mb-2 w-full h-full grid justify-items-end items-center" onClick={() => handleChange(setSelectedBottom, selectedBottom, -1)}>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-12">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18" />
-                                </svg>
-                            </button>
-                            {clothes_img_bottom.map(user => (
-                                <img className="object-contain w-full h-36" src={`data:image/jpeg;base64, ${user._image}`}/>
-                            ))}
-                            <button className="mb-2 w-full h-full grid justify-items-start items-center" onClick={() => handleChange(setSelectedBottom, selectedBottom, 1)}>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-12">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
-                                </svg>
-                            </button>
-                        </div>
+                        {imageSlider(clothes_img_bottom, setSelectedBottom, selectedBottom)}
 
                         {/* shoes */}
-                        <div className="flex flex-row items-center">
-                            <button className="mb-2 w-full h-full grid justify-items-end items-center" onClick={() => handleChange(setSelectedShoes, selectedShoes, -1)}>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-12">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18" />
-                                </svg>
-                            </button>
-                            {clothes_img_shoes.map(user => (
-                                <img className="object-contain w-full h-36" src={`data:image/jpeg;base64, ${user._image}`}/>
-                            ))}
-                            <button className="mb-2 w-full h-full grid justify-items-start items-center" onClick={() => handleChange(setSelectedShoes, selectedShoes, 1)}>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-12">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
-                                </svg>
-                            </button>
-                        </div>
+                        {imageSlider(clothes_img_shoes, setSelectedShoes, selectedShoes)}
+
                     </div>
                 </div>
             </main>
