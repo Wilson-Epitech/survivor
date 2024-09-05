@@ -13,12 +13,12 @@ export default function Home()
 
     const handleSelectionChange = (ids) => {
         setSelectedCustomerIds(ids);
-        console.log("Selected Customer IDs:", ids);
     };
 
     const [users, setUsers] = useState([]);
     const [userDate, setUserDate] = useState([]);
     const [userAddress, setUserAddress] = useState([]);
+    const [userPhoto, setUserPhoto] = useState([]);
 
     useEffect(() => {
         axios.get('/api/customers').then(response => {
@@ -30,7 +30,16 @@ export default function Home()
         axios.get('/api/customers/customer_address').then(response => {
             setUserAddress(response.data);
         });
-    }, []);
+        const lastSelectedId = selectedCustomerIds.at(selectedCustomerIds.length - 1);
+        if (lastSelectedId) {
+            axios.get(`/api/customers/customer_photo?id=${lastSelectedId}`).then(response => {
+                setUserPhoto(response.data);
+            }).catch(error => {
+                console.error("Failed to fetch clothes", error);
+            });
+    }}, [selectedCustomerIds]);
+
+    let img = userPhoto.length > 0 ? userPhoto[0]._image : null
 
     return (
         <Layout>
@@ -64,7 +73,7 @@ export default function Home()
                         </div>
                     </div>
                     <div className="w-1/4 flex-none mb-4">
-                        <img className="object-contain w-full h-36" src="https://cdn-uploads-frankfurt.starofservice.com/uploads/pj/thumbs-medium/starofservice_829605etw5ii.jpeg"></img>
+                        <img className="object-contain w-full h-36" src={`data:image/jpeg;base64, ${img}`}></img>
                     </div>
                 </div>
                 <div className="w-full h-0.5 bg-black mb-4 mt-4"></div>
