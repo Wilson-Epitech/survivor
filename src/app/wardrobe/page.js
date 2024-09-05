@@ -1,7 +1,20 @@
 "use client";
 import Layout from "@/components/Layout";
 import Dropdown from "@/components/DropdownCustomers";
-import { useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from 'axios';
+
+function get_hat_cap(clothes) {
+    let all_hat;
+    for (let index = 0; index < clothes.length; index++) {
+        if (clothes.at(index)._type === "hat/cap") {
+            all_hat.push(clothes.at(index)._type);
+        }
+    }
+    console.log(all_hat);
+    return all_hat;
+}
 
 export default function Home() {
     const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
@@ -10,7 +23,38 @@ export default function Home() {
         setSelectedCustomerIds(ids);
         console.log("Selected Customer IDs:", ids);
     };
-    
+
+    const [clothes, setClothes] = useState([]);
+    let all_hat;
+
+    useEffect(() => {
+        const lastSelectedId = selectedCustomerIds.at(selectedCustomerIds.length - 1);
+        for (; clothes.length > 0;) {
+            clothes.pop();
+        }
+        const lastId = selectedCustomerIds.at(selectedCustomerIds.length - 1);
+        for (; selectedCustomerIds.length > 0;) {
+            selectedCustomerIds.pop();
+        }
+        selectedCustomerIds.push(lastId);
+        console.log(clothes.length);
+        if (lastSelectedId) {
+            axios.get(`/api/customers_clothe?id=${lastSelectedId}`).then(response => {
+                setClothes(response.data);
+            }).catch(error => {
+                console.error("Failed to fetch clothes", error);
+            });
+        }
+        for (let index = 0; index < clothes.length; index++) {
+            if (clothes.at(index)._type === "hat/cap") {
+                all_hat.push(clothes.at(index)._type);
+            }
+        }
+        console.log(clothes._type);
+    }, [selectedCustomerIds]);
+
+    // console.log(selectedCustomerIds.at(selectedCustomerIds.length - 1));
+
     return (
         <Layout>
             <main className="min-h-screen w-full flex-col items-center justify-center bg-white">
@@ -22,11 +66,12 @@ export default function Home() {
                     </div>
                     <div className="w-full h-0.5 bg-black mb-4 mt-2"></div>
                     <div className="flex justify-center">
-                        <Dropdown onSelectionChange={handleSelectionChange} />
+                        <Dropdown onSelectionChange={handleSelectionChange}/>
                     </div>
                     <div className="w-full h-0.5 bg-black mb-4 mt-4"></div>
-                    {selectedCustomerIds}
-
+                    {clothes.map(user => (
+                        <p className="pr-1" key={user._type}>{user._type ? user._type : "vide"}</p>
+                    ))}
                     <div className="w-full grid grid-col gap-6">
                         {/* hat/cap */}
                         <div className="flex flex-row items-center">
