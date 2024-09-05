@@ -6,6 +6,27 @@ import Layout from "@/components/Layout";
 
 export default function Home()
 {
+        axios.get('http://localhost:3000/api/employee/count_coachs').then(response => {
+            console.log("nb of coachs:" + response.data);
+        })
+        axios.get('http://localhost:3000/api/customers/count_customers').then(response => {
+            console.log("nb of customers:" + response.data);
+        });
+        axios.get('http://localhost:3000/api/customers/count_customers_by_gender').then(response => {
+            console.log("nb of men:" + response.data[0]);
+            console.log("nb of women:" + response.data[1]);
+        });
+        axios.get('http://localhost:3000/api/encounters/count_encounters').then(response => {
+            console.log("nb of encounters:" + response.data);
+        });
+        axios.get('http://localhost:3000/api/encounters/encounters_rating_numbers').then(response => {
+            console.log("nb of encounters 1:" + response.data[0]);
+            console.log("nb of encounters 2:" + response.data[1]);
+            console.log("nb of encounters 3:" + response.data[2]);
+            console.log("nb of encounters 4:" + response.data[3]);
+            console.log("nb of encounters 5:" + response.data[4]);
+        });
+
     return (
         <Layout>
         <main className="min-h-screen w-fit flex-col items-center grid justify-items-stretch bg-white">

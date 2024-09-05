@@ -1,7 +1,6 @@
 import { mongooseConnect } from '@/lib/mongoose';
-import { Employee } from '@/app/models/Employee';
+import { employee } from '@/models/employee_schema';
 import { NextResponse } from 'next/server';
-// import { User } from '@/app/models/Users';
 
 export async function GET(req)
 {

@@ -1,5 +1,5 @@
 import { mongooseConnect } from '@/lib/mongoose';
-import { Employee } from '@/models/Employee';
+import { employee } from '@/models/employee_schema';
 import { User } from '@/models/User';
 import { NextResponse } from 'next/server';
 
