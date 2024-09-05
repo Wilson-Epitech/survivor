@@ -2,7 +2,17 @@
 import Layout from "@/components/Layout";
 import Dropdown from "@/components/DropdownCustomers";
 
+import { useEffect, useState } from "react";
+import axios from 'axios';
+
 export default function Home() {
+    const [users, setUsers] = useState([]);
+    useEffect(() => {
+        axios.get('/api/tips').then(response => {
+            console.log(response.data);
+            setUsers(response.data);
+        });
+    }, []);
     return (
         <Layout>
             <main className="min-h-screen w-full flex-col items-center justify-center bg-white">
@@ -15,46 +25,14 @@ export default function Home() {
                     <div className="w-full h-0.5 bg-black mb-4 mt-2"></div>
                     <div className="w-full h-5/6 overflow-auto">
                         <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full pr-2">
-                            <div className="border-2 border-black w-full max-w-max h-44 overflow-auto">
-                                <h1 className="font-bold ml-2">
-                                    How to Choose a Profile Picture for a Dating App
-                                </h1>
-                                <p className="ml-2 mt-2">
-                                    Use a recent, high-quality photo where you are smiling and looking approachable. Avoid group photos or heavily edited images.
-                                </p>
-                            </div>
-                            <div className="border-2 border-black w-full max-w-max h-44 overflow-auto">
-                                <h1 className="font-bold ml-2">
-                                    How to Choose a Profile Picture for a Dating App
-                                </h1>
-                                <p className="ml-2 mt-2">
-                                    Use a recent, high-quality photo where you are smiling and looking approachable. Avoid group photos or heavily edited images.
-                                </p>
-                            </div>
-                            <div className="border-2 border-black w-full max-w-max h-44 overflow-auto">
-                                <h1 className="font-bold ml-2">
-                                    How to Choose a Profile Picture for a Dating App
-                                </h1>
-                                <p className="ml-2 mt-2">
-                                    Use a recent, high-quality photo where you are smiling and looking approachable. Avoid group photos or heavily edited images.
-                                </p>
-                            </div>
-                            <div className="border-2 border-black w-full max-w-max h-44 overflow-auto">
-                                <h1 className="font-bold ml-2">
-                                    How to Choose a Profile Picture for a Dating App
-                                </h1>
-                                <p className="ml-2 mt-2">
-                                    Use a recent, high-quality photo where you are smiling and looking approachable. Avoid group photos or heavily edited images.
-                                </p>
-                            </div>
-                            <div className="border-2 border-black w-full max-w-max h-44 overflow-auto">
-                                <h1 className="font-bold ml-2">
-                                    How to Choose a Profile Picture for a Dating App
-                                </h1>
-                                <p className="ml-2 mt-2">
-                                    Use a recent, high-quality photo where you are smiling and looking approachable. Avoid group photos or heavily edited images.
-                                </p>
-                            </div>
+                            {users.map(user => (
+                                <div className="border-2 border-black w-full max-w-max h-44 overflow-auto">
+                                    <h1 className="font-bold ml-2" key={user._title}>
+                                    {user._title ? user._title : "vide"}
+                                    </h1>
+                                    <p className="ml-2 mt-2" key={user._tip}> {user._tip ? user._tip : "vide"}</p>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>
