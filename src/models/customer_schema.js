@@ -13,4 +13,4 @@ const CustomerSchema = new Schema ({
     address: {type: String, required: true},
   }, { collection: 'customers' });
 
-export const Customer = models.Customer || model('Customer', CustomerSchema);
+export const customer = models.customer || model('customer', CustomerSchema);

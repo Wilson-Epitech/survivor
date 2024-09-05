@@ -1,8 +1,8 @@
-"use client";
 import Layout from "@/components/Layout";
 import Dropdown from "@/components/DropdownCustomers";
 
 export default function Home() {
+
     return (
         <Layout>
             <main className="sm:w-fit md:w-fit lg:w-full flex-col items-center grid justify-items-stretch bg-white">
