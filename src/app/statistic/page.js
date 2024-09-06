@@ -23,22 +23,22 @@ export default function Home() {
     useEffect(() => {
         axios.get('http://localhost:3000/api/employee/count_coachs').then(response => {
             setCoachNb(response.data);
-        });
+        }).catch(err => {console.error(err)});
         axios.get('http://localhost:3000/api/customers/count_customers').then(response => {
             setCustoNb(response.data);
-        });
+        }).catch(err => {console.error(err)});
         axios.get('http://localhost:3000/api/customers/count_customers_by_gender').then(response => {
             setGenderDisp(response.data);
-        });
+        }).catch(err => {console.error(err)});
         axios.get('http://localhost:3000/api/customers/group_customer_by_age').then(response => {
             setCustoAge(response.data);
-        });
+        }).catch(err => {console.error(err)});
         axios.get('http://localhost:3000/api/encounters/count_encounters').then(response => {
             console.log("nb of encounters:" + response.data);
-        });
+        }).catch(err => {console.error(err)});
         axios.get('http://localhost:3000/api/encounters/encounters_rating_numbers').then(response => {
             setRating(response.data);
-        });
+        }).catch(err => {console.error(err)});
     }, []);
 
     return (
