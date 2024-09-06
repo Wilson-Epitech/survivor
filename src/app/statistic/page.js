@@ -21,7 +21,7 @@ export function SimpleBarChart() {
       width={500}
       height={300}
       series={[
-        { data: Nb_Customer, label: 'Number of Customer', id: 'uvId' },
+        { data: Nb_Customer, label: 'Number of Customer per Age Group', id: 'uvId' },
       ]}
       xAxis={[{ data: xLabels, scaleType: 'band' }]}
     />
@@ -64,13 +64,8 @@ export default function Home() {
                     <div className="w-full h-0.5 bg-black mb-4"></div>
 
                     <div className="flex justify-between items-start">
-                        <div className="justify-between"><h2 className="ml-20">Encounters' rating</h2></div>
-                        <div className="justify-between"><h2 className="mr-0">Coaches Vs Customers</h2></div>
-                        <div className="justify-between"><h2 className="mr-20">Women vs Men</h2></div>
-                    </div>
-
-                    <div className="flex justify-between items-start">
                         <div className="ml-10 mt-10 border border-gray-300 p-4 rounded-lg shadow-lg">
+                            <div className="justify-center mb-3"><h2 className="ml-20">Encounters' rating</h2></div>
                             <PieChart
                                 series={[
                                     {
@@ -89,6 +84,7 @@ export default function Home() {
                         </div>
 
                         <div className="mt-10 border border-gray-300 p-4 rounded-lg shadow-lg">
+                        <div className="justify-center mb-3 ml-20"><h2 className="mr-0">Coaches Vs Customers</h2></div>
                             <PieChart
                                 series={[
                                     {
@@ -104,6 +100,7 @@ export default function Home() {
                         </div>
 
                         <div className="mt-10 border border-gray-300 p-4 rounded-lg shadow-lg">
+                        <div className="justify-center mb-3 ml-20"><h2 className="mr-20">Women vs Men</h2></div>
                             <PieChart
                                 series={[
                                     {
