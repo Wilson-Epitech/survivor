@@ -23,13 +23,13 @@ export default function Home()
 
         axios.get('/api/customers').then(response => {
             setUsers(response.data);
-        });
+        }).catch(err => {console.error(err)});
         axios.get('/api/customers/customer_birth').then(response => {
             setUserDate(response.data);
-        });
+        }).catch(err => {console.error(err)});
         axios.get('/api/customers/customer_address').then(response => {
             setUserAddress(response.data);
-        });
+        }).catch(err => {console.error(err)});
         const lastSelectedId = selectedCustomerIds.at(selectedCustomerIds.length - 1);
         if (lastSelectedId) {
             axios.get(`/api/customers/customer_photo?id=${lastSelectedId}`).then(response => {

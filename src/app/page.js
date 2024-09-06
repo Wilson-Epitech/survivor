@@ -14,16 +14,16 @@ export default function Home()
   useEffect(() => {
     axios.get('http://localhost:3000/api/employee/count_coachs').then(response => {
       setCoachNb(response.data);
-    });
+    }).catch(err => {console.error(err)});
     axios.get('http://localhost:3000/api/customers/count_customers').then(response => {
       setCustoNb(response.data);
-    });
+    }).catch(err => {console.error(err)});
     axios.get('http://localhost:3000/api/encounters/count_encounters').then(response => {
       setDateNb(response.data);
-    });
+    }).catch(err => {console.error(err)});
     axios.get('http://localhost:3000/api/events/count_events').then(response => {
       setEventNb(response.data);
-    });
+    }).catch(err => {console.error(err)});
   }, []);
 
   return (
