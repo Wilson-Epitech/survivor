@@ -33,7 +33,7 @@ const Navbar = () =>
                             <div className="flex items-center justify-between border-b-2 border-gray-900"></div>
                         </li>
                         <li className="flex flex-col pb-2">
-                            <a href={'/compatibility'} className="cursor-pointer hover:bg-[#878787] p-1">
+                            <a href={'/astrological'} className="cursor-pointer hover:bg-[#878787] p-1">
                                 Astrological
                             </a>
                             <div className="flex items-center justify-between border-b-2 border-gray-900"></div>
