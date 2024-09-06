@@ -10,6 +10,6 @@ export async function GET(req)
         const employees = await Employee.find();
         return NextResponse.json(employees);
     } catch (error) {
-        return NextResponse.json({ error: 'Failed to get employees' }, { status: 500 });
+        return NextResponse.json({ error: 'Failed to get employees' }, { status: 404 });
     }
 }
