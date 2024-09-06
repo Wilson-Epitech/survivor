@@ -4,6 +4,7 @@ import Layout from "@/components/Layout";
 import Dropdown from "@/components/DropdownCustomers";
 import { useState } from "react";
 import axios from 'axios';
+import { useRouter } from "next/navigation";
 
 export default function Home() {
     const [firstDate, setFirstDate] = useState(null);
@@ -16,6 +17,7 @@ export default function Home() {
     const [secondSurname, setSecondSurname] = useState([]);
     const [compatibility, setCompatibility] = useState([]);
     const [showCompatibility, setShowCompatibility] = useState(false);
+    const router = useRouter();
 
     const handleSelectionChange1 = (ids) => {
         const id = ids[0];
@@ -25,7 +27,7 @@ export default function Home() {
             setFirstDate(data['_birth_date']);
             setFirstName(data['_name']);
             setFirstSurname(data['_surname']);
-        });
+        }).catch(err => {console.error(err)});
     };
 
     const handleSelectionChange2 = (ids) => {
@@ -36,13 +38,14 @@ export default function Home() {
             setSecondDate(data['_birth_date']);
             setSecondName(data['_name']);
             setSecondSurname(data['_surname']);
-        });
+        }).catch(err => {console.error(err)});
     };
 
     const calculateCompatibility = () =>
     {
         if (!firstDate || !secondDate) {
             console.log("customers are not correctly selected");
+            router.push('/compatibility');
             return;
         }
         const firstMonth = parseInt(firstDate.split("-")[1], 10);
@@ -60,7 +63,7 @@ export default function Home() {
                 <div className="min-w-max  pt-11 mx-10 mt-10">
                     <div className="mb-4">
                         <h1 className="mt-2 mb-4 text-left text-5xl font-bold leading-9 tracking-tight text-gray-900">
-                            Astrological Compatibility
+                            Astrological
                         </h1>
                     </div>
                     <div className="w-full h-0.5 bg-black mb-4 mt-2"/>
@@ -77,6 +80,7 @@ export default function Home() {
                                     <p className="mt-4 border-2 border-black p-2">
                                         {firstAstro ? `${firstAstro}` : ""}
                                     </p>
+
                                 </div>
 
                                 <div className="w-28"></div>

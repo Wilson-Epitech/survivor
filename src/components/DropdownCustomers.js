@@ -15,7 +15,7 @@ const DropdownCustomers = ({ onSelectionChange }) => {
         axios.get('/api/customers').then(response => {
             console.log(response.data);
             setUsers(response.data);
-        });
+        }).catch(err => {console.error(err)});
     }, []);
 
     const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);

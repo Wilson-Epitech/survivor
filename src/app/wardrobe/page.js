@@ -157,7 +157,7 @@ export default function Home() {
                 <div className="h-4/6 pt-11 mx-10 mt-10">
                     <div className="mb-4">
                         <h1 className="mt-2 mb-4 text-left text-5xl font-bold leading-9 tracking-tight text-gray-900">
-                            Wardrobe
+                            Clothing
                         </h1>
                     </div>
                     <div className="w-full h-0.5 bg-black mb-4 mt-2"></div>

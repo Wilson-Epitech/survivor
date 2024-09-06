@@ -11,7 +11,7 @@ export default function Home() {
         axios.get('/api/tips').then(response => {
             console.log(response.data);
             setUsers(response.data);
-        });
+        }).catch(err => {console.error(err)});
     }, []);
     return (
         <Layout>
