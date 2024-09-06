@@ -80,6 +80,7 @@ export default function Home() {
                                     <p className="mt-4 border-2 border-black p-2">
                                         {firstAstro ? `${firstAstro}` : ""}
                                     </p>
+
                                 </div>
 
                                 <div className="w-28"></div>
