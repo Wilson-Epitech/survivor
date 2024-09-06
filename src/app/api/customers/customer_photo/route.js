@@ -8,7 +8,7 @@ export async function GET(req)
 
     const { searchParams } = new URL(req.url);
     const id = parseInt(searchParams.get('id'))
-    
+
     try {
         const query = id ? { _id_customer: id } : {};
         const res = await customer.find(query, '_image').exec();

@@ -1,4 +1,5 @@
 import { mongooseConnect } from '@/lib/mongoose';
+import { employee } from '@/models/employee_schema';
 import { NextResponse } from 'next/server';
 
 export async function POST(req) {
@@ -14,7 +15,7 @@ export async function POST(req) {
                 return NextResponse.json({ error: 'name and mail are required' }, { status: 400 });
             }
 
-            const result = await User.create({name, email}); //CHANGE user en employee pour la suite
+            const result = await employee.create({name, email});
             return NextResponse.json(result);
         } catch (error) {
             if (error instanceof Error) {

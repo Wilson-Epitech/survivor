@@ -1,4 +1,4 @@
-import mongoose, { mongo } from 'mongoose';
+import mongoose, { mongo, models, model } from 'mongoose';
 
 const employeeSchema = new mongoose.Schema ({
     _id_employee: {type: Number, required: true},
@@ -11,4 +11,4 @@ const employeeSchema = new mongoose.Schema ({
     _image: {type: String, required: true}
   });
 
-export const employee = mongoose.model("employees", employeeSchema);
+export const employee = models.employee || model('employee', employeeSchema);
