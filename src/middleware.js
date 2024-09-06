@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers';
 import { verifyToken } from './app/login/handleToken';
 
-const protectedRoutes = ['/', '/coaches', '/tips', '/customer', '/wardrobe', '/compatibility', '/clients', '/statistic'];
+const protectedRoutes = ['/', '/coaches', '/tips', '/customer', '/wardrobe', '/astrological', '/clients', '/statistic'];
 
 export default function middleware(req) {
     const path = req.nextUrl.pathname;
