@@ -45,7 +45,7 @@ export default function Home()
                 <p className="text-9xl text-blue-500">{numberDate}</p>
                 <p className="text-9xl text-blue-600">{numberEvent}</p>
               </div>
-  
+
               <div className="mb-4 flex flex-row items-center justify-between">
               <p className="text-5xl">Coaches</p>
                 <p className="text-5xl">Customers</p>
