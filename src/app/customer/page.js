@@ -20,6 +20,7 @@ export default function Home()
     const [userPhoto, setUserPhoto] = useState([]);
 
     useEffect(() => {
+
         axios.get('/api/customers').then(response => {
             setUsers(response.data);
         });

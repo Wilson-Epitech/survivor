@@ -6,33 +6,19 @@ import { PieChart } from '@mui/x-charts/PieChart';
 import Layout from "@/components/Layout";
 import { BarChart } from '@mui/x-charts/BarChart';
 
-export function SimpleBarChart() {
-  const Nb_Customer = [15, 30, 30, 15, 10];
-  const xLabels = [
-    '18-25',
-    '25-33',
-    '33-45',
-    '45-60',
-    '60-80'
-  ];
-
-  return (
-    <BarChart
-      width={500}
-      height={300}
-      series={[
-        { data: Nb_Customer, label: 'Number of Customer per Age Group', id: 'uvId' },
-      ]}
-      xAxis={[{ data: xLabels, scaleType: 'band' }]}
-    />
-  );
-}
-
 export default function Home() {
     const [numberRating, setRating] = useState([]);
     const [numberCoach, setCoachNb] = useState(0);
     const [numberCustomer, setCustoNb] = useState(0);
     const [nbMenVsWomen, setGenderDisp] = useState([]);
+    const [customerAge, setCustoAge] = useState([]);
+    const xLabels = [
+      '18-25',
+      '26-33',
+      '34-45',
+      '46-60',
+      '61-80'
+    ];
 
     useEffect(() => {
         axios.get('http://localhost:3000/api/employee/count_coachs').then(response => {
@@ -43,6 +29,9 @@ export default function Home() {
         });
         axios.get('http://localhost:3000/api/customers/count_customers_by_gender').then(response => {
             setGenderDisp(response.data);
+        });
+        axios.get('http://localhost:3000/api/customers/group_customer_by_age').then(response => {
+            setCustoAge(response.data);
         });
         axios.get('http://localhost:3000/api/encounters/count_encounters').then(response => {
             console.log("nb of encounters:" + response.data);
@@ -117,10 +106,19 @@ export default function Home() {
                     </div>
 
                     <div className="mt-10 flex justify-center border border-gray-300 p-4 rounded-lg shadow-lg">
-                        <SimpleBarChart />
+                    <BarChart
+                          width={500}
+                          height={300}
+                          series={[
+                            { data: customerAge, label: 'Number of Customer', id: 'uvId' },
+                          ]}
+                          xAxis={[{ data: xLabels, scaleType: 'band' }]}
+                        />
                     </div>
+
                 </div>
             </main>
         </Layout>
+
     );
 }

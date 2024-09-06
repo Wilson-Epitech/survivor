@@ -13,4 +13,5 @@ const CustomerSchema = new Schema ({
     address: {type: String, required: true},
   }, { collection: 'customers' });
 
+
 export const customer = models.customer || model('customer', CustomerSchema);
