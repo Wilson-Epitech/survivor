@@ -6,7 +6,6 @@ import { PieChart } from '@mui/x-charts/PieChart';
 import Layout from "@/components/Layout";
 import { BarChart } from '@mui/x-charts/BarChart';
 
-// SimpleBarChart is already defined here
 export function SimpleBarChart() {
   const Nb_Customer = [15, 30, 30, 15, 10];
   const xLabels = [
