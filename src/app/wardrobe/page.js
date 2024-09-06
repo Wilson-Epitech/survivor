@@ -35,12 +35,37 @@ export default function Home() {
         });
     };
 
+    const setSelectedToZero = (setSelectedChange) => {
+        setSelectedChange(() => {
+            const newSelectedShoes = 0;
+            return newSelectedShoes;
+        });
+    };
+
     useEffect(() => {
         const lastSelectedId = selectedCustomerIds.at(selectedCustomerIds.length - 1);
 
         for (; clothes.length > 0;) {
             clothes.pop();
         }
+
+        for (; clothes_img_hat.length > 0;) {
+            clothes_img_hat.pop();
+        }
+
+        for (; clothes_img_top.length > 0;) {
+            clothes_img_top.pop();
+        }
+
+        for (; clothes_img_bottom.length > 0;) {
+            clothes_img_bottom.pop();
+        }
+
+        for (; clothes_img_shoes.length > 0;) {
+            clothes_img_shoes.pop();
+        }
+
+        //decoche les encient customers
         const lastId = selectedCustomerIds.at(selectedCustomerIds.length - 1);
         for (; selectedCustomerIds.length > 0;) {
             selectedCustomerIds.pop();
@@ -48,6 +73,10 @@ export default function Home() {
         selectedCustomerIds.push(lastId);
 
         if (lastSelectedId) {
+            setSelectedToZero(setSelectedHat)
+            setSelectedToZero(setSelectedTop)
+            setSelectedToZero(setSelectedBottom)
+            setSelectedToZero(setSelectedShoes)
             axios.get(`/api/customers_clothe?id=${lastSelectedId}`).then(response => {
                 setClothes(response.data);
                 handleChange(setSelectedHat, selectedHat, 1)
