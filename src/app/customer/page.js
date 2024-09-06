@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import axios from 'axios';
 import Layout from "@/components/Layout";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import Navbar from "@/components/Navbar";
 import Dropdown from "@/components/DropdownCustomers";
 
 export default function Home()
@@ -21,6 +20,7 @@ export default function Home()
     const [userPhoto, setUserPhoto] = useState([]);
 
     useEffect(() => {
+
         axios.get('/api/customers').then(response => {
             setUsers(response.data);
         });

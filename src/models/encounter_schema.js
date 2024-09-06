@@ -1,4 +1,4 @@
-import mongoose, { mongo } from 'mongoose';
+import mongoose, { mongo, models, model } from 'mongoose';
 
 const encounterSchema = new mongoose.Schema ({
     _id_encounter: Number,
@@ -9,4 +9,4 @@ const encounterSchema = new mongoose.Schema ({
     _source: String
 });
 
-export const encounter = mongoose.model("encounters", encounterSchema);
+export const encounter = models.encounter || model('encounter', encounterSchema);
