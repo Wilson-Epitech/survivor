@@ -1,5 +1,5 @@
 import { mongooseConnect } from '@/lib/mongoose';
-import { Clothes } from '@/models/clothes_schema';
+import { clothes } from '@/models/clothes_schema';
 import { NextResponse } from 'next/server';
 
 export async function GET(req) {
@@ -14,5 +14,5 @@ export async function GET(req) {
         return NextResponse.json(clothes);
     } catch (error) {
         return NextResponse.json({ error: 'Failed to get clothes' }, { status: 500 });
-    }top
+    }
 }
