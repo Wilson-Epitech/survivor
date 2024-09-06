@@ -1,4 +1,5 @@
-import mongoose, { mongo } from 'mongoose';
+import { Schema, models, model} from "mongoose";
+const mongoose = require('mongoose');
 
 const eventSchema = new mongoose.Schema ({
     _id_event: Number,
@@ -10,6 +11,6 @@ const eventSchema = new mongoose.Schema ({
     _type: String,
     _employee_id: Number,
     _location_name: String
-  });
+  }, {collection: 'events'});
 
-export const event = mongoose.model("events", eventSchema);
+export const event = models.event || model("events", eventSchema);
