@@ -1,5 +1,5 @@
 import { mongooseConnect } from '@/lib/mongoose';
-import { Clothes } from '@/app/models/clothes_schema';
+import { Clothes } from '@/models/clothes_schema';
 import { NextResponse } from 'next/server';
 
 export async function GET(req) {
