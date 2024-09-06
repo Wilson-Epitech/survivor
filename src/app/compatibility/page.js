@@ -4,6 +4,7 @@ import Layout from "@/components/Layout";
 import Dropdown from "@/components/DropdownCustomers";
 import { useState } from "react";
 import axios from 'axios';
+import { useRouter } from "next/navigation";
 
 export default function Home() {
     const [firstDate, setFirstDate] = useState(null);
@@ -16,6 +17,7 @@ export default function Home() {
     const [secondSurname, setSecondSurname] = useState([]);
     const [compatibility, setCompatibility] = useState([]);
     const [showCompatibility, setShowCompatibility] = useState(false);
+    const router = useRouter();
 
     const handleSelectionChange1 = (ids) => {
         const id = ids[0];
@@ -43,6 +45,7 @@ export default function Home() {
     {
         if (!firstDate || !secondDate) {
             console.log("customers are not correctly selected");
+            router.push('/compatibility');
             return;
         }
         const firstMonth = parseInt(firstDate.split("-")[1], 10);
