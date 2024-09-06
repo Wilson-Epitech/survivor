@@ -12,4 +12,4 @@ const eventSchema = new Schema ({
     _location_name: String
   }, {collection: 'events'});
 
-export const event = models.event || model("events", eventSchema);
+export const event = models.event || model("event", eventSchema);

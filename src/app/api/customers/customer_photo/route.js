@@ -14,6 +14,6 @@ export async function GET(req)
         const res = await customer.find(query, '_image').exec();
         return NextResponse.json(res);
     } catch (error) {
-        return NextResponse.json({ error: 'Failed to get customers' }, { status: 500 });
+        return NextResponse.json({ error: 'Failed to get customers' }, { status: 404 });
     }
 }

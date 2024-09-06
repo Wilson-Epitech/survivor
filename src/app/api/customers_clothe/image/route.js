@@ -13,6 +13,6 @@ export async function GET(req) {
         const res = await clothes.find(query, { _image: 1 });
         return NextResponse.json(res);
     } catch (error) {
-        return NextResponse.json({ error: 'Failed to get clothes' }, { status: 500 });
+        return NextResponse.json({ error: 'Failed to get clothes' }, { status: 404 });
     }top
 }

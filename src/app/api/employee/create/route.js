@@ -19,9 +19,9 @@ export async function POST(req) {
             return NextResponse.json(result);
         } catch (error) {
             if (error instanceof Error) {
-                return NextResponse.json({ error: 'Failed to create product', details: error.message }, { status: 500 });
+                return NextResponse.json({ error: 'Failed to create product', details: error.message }, { status: 404 });
             } else {
-                return NextResponse.json({ error: 'Failed to create product', details: 'Unknown error' }, { status: 500 });
+                return NextResponse.json({ error: 'Failed to create product', details: 'Unknown error' }, { status: 404 });
             }
         }
     } else {
