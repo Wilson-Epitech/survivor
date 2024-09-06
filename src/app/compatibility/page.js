@@ -25,7 +25,7 @@ export default function Home() {
             setFirstDate(data['_birth_date']);
             setFirstName(data['_name']);
             setFirstSurname(data['_surname']);
-        });
+        }).catch(err => {console.error(err)});
     };
 
     const handleSelectionChange2 = (ids) => {
@@ -36,7 +36,7 @@ export default function Home() {
             setSecondDate(data['_birth_date']);
             setSecondName(data['_name']);
             setSecondSurname(data['_surname']);
-        });
+        }).catch(err => {console.error(err)});
     };
 
     const calculateCompatibility = () =>
