@@ -1,5 +1,4 @@
 import { mongooseConnect } from '@/lib/mongoose';
-import { customer } from '@/models/customer_schema';
 import { NextResponse } from 'next/server';
 import { customer } from '@/models/customer_schema';
 
