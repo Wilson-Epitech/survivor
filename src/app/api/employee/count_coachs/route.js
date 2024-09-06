@@ -10,6 +10,6 @@ export async function GET(req)
         const res = await employee.countDocuments({_work: "Coach"});
         return NextResponse.json(res);
     } catch (error) {
-        return NextResponse.json({ error: 'Failed to get employees' }, { status: 500 });
+        return NextResponse.json({ error: 'Failed to get employees' }, { status: 404 });
     }
 }

@@ -11,6 +11,6 @@ export async function GET(req)
         const tips = await tip.find();
         return NextResponse.json(tips);
     } catch (error) {
-        return NextResponse.json({ error: 'Failed to get tips' }, { status: 500 });
+        return NextResponse.json({ error: 'Failed to get tips' }, { status: 404 });
     }
 }

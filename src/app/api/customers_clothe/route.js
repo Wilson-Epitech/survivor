@@ -10,9 +10,9 @@ export async function GET(req) {
 
     try {
         const query = id ? { _id_client: id } : {};
-        const clothe = await clothes.find({query}, { _type: 1, _id_clothes: 1 });
-        return NextResponse.json(clothe);
+        const res = await clothes.find(query, { _type: 1, _id_clothes: 1 });
+        return NextResponse.json(res);
     } catch (error) {
-        return NextResponse.json({ error: 'Failed to get clothes' }, { status: 500 });
+        return NextResponse.json({ error: 'Failed to get clothes' }, { status: 404 });
     }
 }

@@ -7,4 +7,4 @@ const tipsSchema = new mongoose.Schema ({
     _tip: String
 }, { collection: 'tips' });
 
-export const tip = models.tip || model("tips", tipsSchema);
+export const tip = models.tip || model("tip", tipsSchema);

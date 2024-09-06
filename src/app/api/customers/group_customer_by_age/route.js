@@ -37,6 +37,6 @@ export async function GET(req)
         const nbCustomers = await customer.countDocuments();
         return NextResponse.json(fillAgeArray(nbCustomers, res));
     } catch (error) {
-        return NextResponse.json({ error: 'Failed to get customers' }, { status: 500 });
+        return NextResponse.json({ error: 'Failed to get customers' }, { status: 404 });
     }
 }

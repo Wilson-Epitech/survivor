@@ -10,6 +10,6 @@ export async function GET(req)
         const count = await encounter.countDocuments();
         return NextResponse.json(count);
     } catch (error) {
-        return NextResponse.json({ error: 'Failed to get encounters' }, { status: 500 });
+        return NextResponse.json({ error: 'Failed to get encounters' }, { status: 404 });
     }
 }
