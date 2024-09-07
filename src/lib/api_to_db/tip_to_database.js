@@ -12,7 +12,7 @@ export default async function Page() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "X-Group-Authorization": "***REMOVED***",
+        "X-Group-Authorization": process.env.X_GROUP_KEY,
         Authorization: `Bearer ***REMOVED***`
         }
     });
