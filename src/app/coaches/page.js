@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import axios from 'axios';
 import Layout from "@/components/Layout";
-import Dropdown from "@/components/DropdownCustomers";
 import Dropdown_coach from "@/components/dropdown_customers_coach";
 
 export default function Home() {
@@ -51,7 +50,7 @@ export default function Home() {
                                         <td className="whitespace-nowrap border-2 border-black px-4 py-2">{user._name} {user._surname}</td>
                                         <td className="whitespace-nowrap border-2 border-black px-4 py-2">{user._birth_date}</td>
                                         <td className="whitespace-nowrap border-2 border-black px-4 py-2"><Dropdown_coach key={user._id_employee || index} onSelectionChange={handleSelectionChange} coach_id={user._id_employee} /></td>
-                                        <td className="whitespace-nowrap border-2 border-black px-4 py-2">03-09-2024 {selectedCustomerIds}</td>
+                                        <td className="whitespace-nowrap border-2 border-black px-4 py-2">03-09-2024</td>
                                     </tr>
                                 </tbody>
                             ))}

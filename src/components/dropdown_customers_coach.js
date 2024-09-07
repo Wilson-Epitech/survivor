@@ -35,7 +35,7 @@ const dropdown_customers_coach = ({ onSelectionChange , coach_id}) => {
         try {
             axios.post('/api/customers/assign_coach', {
                 customerId,
-                coachId: isSelected ? "0" : parseInt(coach_id)
+                coachId: isSelected ? 0 : parseInt(coach_id)
             });
 
             console.log(`Customer ${customerId} updated successfully`);
@@ -57,7 +57,7 @@ const dropdown_customers_coach = ({ onSelectionChange , coach_id}) => {
   return (
     <TEDropdown className="">
         <TEDropdownToggle className="flex items-center rounded px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-black shadow-[0_4px_9px_-4px_#3b71ca] hover:bg-primary-600 focus:bg-primary-600 focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] motion-reduce:transition-none dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]">
-            All customers {coach_id} {selectedCustomerIds}
+            All customers
 
             <TEDropdownMenu className="max-h-52 overflow-scroll ">
                 {users.map(user => (
@@ -66,8 +66,7 @@ const dropdown_customers_coach = ({ onSelectionChange , coach_id}) => {
                             <div className="flex">
                                 <input type="checkbox" className="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800" id="hs-checked-checkbox" onChange={() => handleCheckboxChange(user._id_customer)} checked={selectedCustomerIds.includes(user._id_customer)}/>
                                 <p className="pr-1 ml-1" key={user._name}>{user._name ? user._name : "vide"}</p>
-                                <p className="pr-1 ml-1" key={user._surname}>{user._surname ? user._surname : "vide"}</p>
-                                <p className="pr-1" key={user._coach}>{user._coach ? user._coach : "vide"}</p>
+                                <p className="pr-1" key={user._surname}>{user._surname ? user._surname : "vide"}</p>
                             </div>
                         </a>
                     </TEDropdownItem>
