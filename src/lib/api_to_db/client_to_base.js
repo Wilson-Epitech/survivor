@@ -62,6 +62,7 @@ export default async function Page() {
           _astrological_sign: customerData.astrological_sign,
           _phone_number: customerData.phone_number,
           _address: customerData.address,
+          _coach: 0,
           _image: imageBase64})
       } catch (error) {
         console.error('Error inserting employees ${id_custo}:', error);
