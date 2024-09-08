@@ -28,8 +28,8 @@ export async function logUser(message, formData) {
     }
 
     let token = await data.json();
-    const jwtToken = generateToken({token});
-    cookies().set('jwt-token', jwtToken, {
+    const jwtToken = await generateToken({token});
+    cookies().set('jwtToken', jwtToken, {
       httpOnly: true,
       sameSite: "strict",
       secure: true
