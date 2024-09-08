@@ -1,31 +1,7 @@
 'use server'
 
 import { redirect } from 'next/navigation';
-import { cookies } from 'next/headers';
-import { generateToken } from './handleToken'
-import { sealData } from "iron-session";
-
-function setSecureCookie(cookieName, data) {
-  return cookies().set(cookieName, data, {
-    httpOnly: true,
-    sameSite: "strict",
-    secure: true
-  })
-}
-
-async function encryptData(data) {
-  return await sealData(data, {password: process.env.SECRET_KEY});
-}
-
-async function setWebsiteCookies(token, employeeWork, employeeID) {
-  const jwtToken = generateToken({token});
-  const encryptedUserRole = await encryptData(employeeWork);
-  const encryptedUserID = await encryptData(employeeID);
-
-  setSecureCookie('jwtToken', jwtToken);
-  setSecureCookie('employeeRole', encryptedUserRole);
-  setSecureCookie('employeeID', encryptedUserID);
-}
+import { setCookies } from '@/app/login/setCookies'
 
 async function getEmployeeData(access_token) {
   let response = await fetch('https://soul-connection.fr/api/employees/me',{
@@ -61,6 +37,6 @@ export async function logUser(message, formData) {
     const data = await response.json();
 
     const employeeData = await getEmployeeData(data.access_token);
-    await setWebsiteCookies(data.access_token, employeeData.work, employeeData.id);
+    await setCookies(data.access_token, employeeData.work, employeeData.id);
     redirect('/');
 }
