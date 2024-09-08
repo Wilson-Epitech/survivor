@@ -1,26 +1,29 @@
 import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers';
 import { verifyToken } from './app/login/handleToken';
-import { unsealData } from "iron-session";
+import { getEmployeeRole } from "@/app/login/getEmployeeInfos";
 
-const protectedRoutes = ['/', '/coaches', '/tips', '/customer', '/wardrobe', '/astrological', '/clients', '/statistic'];
+const protectedRoutes = ['/', '/coaches', '/tips', '/customer', '/wardrobe',
+        '/astrological', '/clients', '/statistic'];
+
+const coachUnauthorizedRoutes = ['/coaches', '/statistic'];
 
 export default async function middleware(req) {
     const path = req.nextUrl.pathname;
     const isProtectedRoute = protectedRoutes.includes(path);
+    const isCoachUnauthorizedRoute = coachUnauthorizedRoutes.includes(path);
     const jwtToken = cookies().get('jwtToken')?.value;
-    const employeeRoleCookie = cookies().get("employeeRole")?.value;
+    const employeeRole = await getEmployeeRole();
 
-    if (isProtectedRoute && !jwtToken)
+    if (isProtectedRoute && !jwtToken || isProtectedRoute && !employeeRole)
         return NextResponse.redirect(new URL('/login', req.nextUrl));
 
     const decoded = verifyToken(jwtToken);
     if (isProtectedRoute && !decoded)
         return NextResponse.redirect(new URL('/login', req.nextUrl));
 
-    if (employeeRoleCookie) {
-        const employeeRole = await unsealData(employeeRoleCookie,
-            { password: process.env.SECRET_KEY });
-    }
+    if (isCoachUnauthorizedRoute && employeeRole === "Coach")
+        return NextResponse.redirect(new URL('/', req.nextUrl));
+
     return NextResponse.next();
 }
