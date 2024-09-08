@@ -61,6 +61,6 @@ export async function logUser(message, formData) {
     const data = await response.json();
 
     const employeeData = await getEmployeeData(data.access_token);
-    setWebsiteCookies(data.access_token, employeeData.work, employeeData.id);
+    await setWebsiteCookies(data.access_token, employeeData.work, employeeData.id);
     redirect('/');
 }
