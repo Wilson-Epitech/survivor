@@ -7,7 +7,7 @@ export async function GET(req)
     await mongooseConnect();
 
     try {
-        const employees = await Employee.find();
+        const employees = await employee.find();
         return NextResponse.json(employees);
     } catch (error) {
         return NextResponse.json({ error: 'Failed to get employees' }, { status: 404 });
