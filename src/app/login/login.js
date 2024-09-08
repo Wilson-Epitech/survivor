@@ -13,18 +13,21 @@ function setSecureCookie(cookieName, data) {
   })
 }
 
-async function setWebsiteCookies(token, employeeWork)
-{
-  const jwtToken = generateToken({token});
-  setSecureCookie('jwt-token', jwtToken);
-
-  const encryptedUserRole = await sealData(employeeWork,
-      { password: process.env.SECRET_KEY });
-  setSecureCookie('user-role', encryptedUserRole);
+async function encryptData(data) {
+  return await sealData(data, {password: process.env.SECRET_KEY});
 }
 
-async function getEmployeeWork(access_token) {
+async function setWebsiteCookies(token, employeeWork, employeeID) {
+  const jwtToken = generateToken({token});
+  const encryptedUserRole = await encryptData(employeeWork);
+  const encryptedUserID = await encryptData(employeeID);
 
+  setSecureCookie('jwtToken', jwtToken);
+  setSecureCookie('employeeRole', encryptedUserRole);
+  setSecureCookie('employeeID', encryptedUserID);
+}
+
+async function getEmployeeData(access_token) {
   let response = await fetch('https://soul-connection.fr/api/employees/me',{
     method: "GET",
     headers: {
@@ -32,12 +35,10 @@ async function getEmployeeWork(access_token) {
       "X-Group-Authorization": process.env.X_GROUP_KEY,
       Authorization: `Bearer ${access_token}`
     }})
-  const data = await response.json();
-  return data.work;
+  return await response.json();
 }
 
 export async function logUser(message, formData) {
-
     const email = formData.get('email');
     const password = formData.get('password');
 
@@ -59,7 +60,7 @@ export async function logUser(message, formData) {
     }
     const data = await response.json();
 
-    const employeeWork = await getEmployeeWork(data.access_token);
-    setWebsiteCookies(data.access_token, employeeWork);
+    const employeeData = await getEmployeeData(data.access_token);
+    setWebsiteCookies(data.access_token, employeeData.work, employeeData.id);
     redirect('/');
 }

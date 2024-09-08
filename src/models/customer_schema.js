@@ -11,7 +11,7 @@ const CustomerSchema = new Schema ({
     astrological_sign: {type: String, required: true},
     phone_number: {type: String, required: true},
     address: {type: String, required: true},
+    coach: {type: Number, required: true}
   }, { collection: 'customers' });
-
 
 export const customer = models.customer || model('customer', CustomerSchema);

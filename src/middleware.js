@@ -8,8 +8,8 @@ const protectedRoutes = ['/', '/coaches', '/tips', '/customer', '/wardrobe', '/a
 export default async function middleware(req) {
     const path = req.nextUrl.pathname;
     const isProtectedRoute = protectedRoutes.includes(path);
-    const jwtToken = cookies().get('jwt-token')?.value;
-    const userRoleCookie = cookies().get("user-role")?.value;
+    const jwtToken = cookies().get('jwtToken')?.value;
+    const employeeRoleCookie = cookies().get("employeeRole")?.value;
 
     if (isProtectedRoute && !jwtToken)
         return NextResponse.redirect(new URL('/login', req.nextUrl));
@@ -18,10 +18,9 @@ export default async function middleware(req) {
     if (isProtectedRoute && !decoded)
         return NextResponse.redirect(new URL('/login', req.nextUrl));
 
-    if (userRoleCookie) {
-        const userRole = await unsealData(userRoleCookie,
+    if (employeeRoleCookie) {
+        const employeeRole = await unsealData(employeeRoleCookie,
             { password: process.env.SECRET_KEY });
-        console.log("rôle du user:", userRole);
     }
     return NextResponse.next();
 }
