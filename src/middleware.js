@@ -17,11 +17,14 @@ export default async function middleware(req) {
 
     if (isProtectedRoute && !jwtToken || isProtectedRoute && !employeeRole)
         return NextResponse.redirect(new URL('/login', req.nextUrl));
+    if (path.startsWith(`/api/`) && !jwtToken || path.startsWith(`/api/`) && !employeeRole)
+        return NextResponse.json({ error: 'Unauthorized access' }, { status: 401 });
 
     const decoded = verifyToken(jwtToken);
     if (isProtectedRoute && !decoded)
         return NextResponse.redirect(new URL('/login', req.nextUrl));
-
+    if (path.startsWith(`/api/`) && !decoded)
+        return NextResponse.json({ error: 'Unauthorized access' }, { status: 401 });
     if (isCoachUnauthorizedRoute && employeeRole === "Coach")
         return NextResponse.redirect(new URL('/', req.nextUrl));
 
