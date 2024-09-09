@@ -54,7 +54,7 @@ export default function Home()
                 <div className="w-full flex flex-row h-fit">
                     <div className="w-3/4 h-fit">
                         <div className="w-full h-12">
-                            <Dropdown onSelectionChange={handleSelectionChange} />
+                            <Dropdown onSelectionChange={handleSelectionChange} label={(users._name) ? ("Customer : ") + users._name : ("Customer : ")} />
                         </div>
                         <div className="w-full h-12 flex items-center">
                         <img className="w-[1.5rem] h-[1.5rem] ml-0.5 mr-2" src="/Happy.ico" alt="Happy icon" />
