@@ -51,6 +51,21 @@ export default function Home() {
       '61-80'
     ];
 
+    const yMonthes = [
+        '10/23',
+        '11/23',
+        '12/23',
+        '01/24',
+        '02/24',
+        '03/24',
+        '04/24',
+        '05/24',
+        '06/24',
+        '07/24',
+        '08/24',
+        '09/24',
+    ];
+
     const [users, setUsers] = useState([]);
     const [coachUsers, setCoachUsers] = useState([]);
     const [selectedCoachIds, setSelectedCoachIds] = useState([]);
@@ -88,8 +103,8 @@ export default function Home() {
                     })
                 }).catch(err => {console.error(err)});
             })
-            console.log("id de coach:", lastSelectedId);
-            console.log("users associés:", coachUsers);
+            setEncountersYearStats(yearTab);
+            console.log(encountersYearStats)
         }
     }, [selectedCoachIds]);
 
@@ -181,17 +196,32 @@ export default function Home() {
                         </div>
                     </div>
 
-                    <div className="mt-10 flex justify-center border border-gray-300 p-4 rounded-lg shadow-lg">
-                    <BarChart
-                          width={500}
-                          height={300}
-                          series={[
-                            { data: customerAge, label: 'Number of Customer', id: 'uvId' },
-                          ]}
-                          xAxis={[{ data: xLabels, scaleType: 'band' }]}
-                        />
-                    </div>
+                    <div className="flex justify-between items-start">
+                        <div className="mt-10 flex justify-center border border-gray-300 p-4 rounded-lg shadow-lg">
+                            <BarChart
+                                width={500}
+                                height={300}
+                                series={[
+                                    { data: customerAge, label: 'Number of Customer', id: 'uvId' },
+                                ]}
+                                xAxis={[{ data: xLabels, scaleType: 'band' }]}
+                            />
+                        </div>
 
+                        <div className="mt-10 flex justify-center border border-gray-300 p-4 rounded-lg shadow-lg">
+                            <BarChart
+                                width={500}
+                                height={300}
+                                series={
+                                    [
+                                        {data: encountersYearStats, label: 'Number of Dates', id: 'uvId'},
+                                    ]
+                                }
+                                yAxis={[{ scaleType: 'band', data: yMonthes }]}
+                                layout="horizontal"
+                            />
+                        </div>
+                    </div>
                 </div>
             </main>
         </Layout>
