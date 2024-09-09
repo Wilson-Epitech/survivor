@@ -1,16 +1,16 @@
 import { Schema, models, model} from "mongoose";
 
 const CustomerSchema = new Schema ({
-    id: {type: Number, required: true},
-    id_customer: {type: Number, required: true},
-    email: {type: String, required: true},
-    name: {type: String, required: true},
-    surname: {type: String, required: true},
-    birth_date: {type: String, required: true},
-    description: {type: String, required: true},
-    astrological_sign: {type: String, required: true},
-    phone_number: {type: String, required: true},
-    address: {type: String, required: true},
+    _id_customer: {type: Number},
+    _email: {type: String},
+    _name: {type: String},
+    _surname: {type: String},
+    _birth_date: {type: String},
+    _description: {type: String},
+    _astrological_sign: {type: String},
+    _phone_number: {type: String},
+    _address: {type: String},
+    _coach: {type: Number},
   }, { collection: 'customers' });
 
 
