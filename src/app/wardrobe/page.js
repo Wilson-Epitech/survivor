@@ -64,7 +64,6 @@ export default function Home() {
             clothes_img_shoes.pop();
         }
 
-        //decoche les encient customers
         const lastId = selectedCustomerIds.at(selectedCustomerIds.length - 1);
         for (; selectedCustomerIds.length > 0;) {
             selectedCustomerIds.pop();
