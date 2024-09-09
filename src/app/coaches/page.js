@@ -25,7 +25,7 @@ export default function Home() {
         <Layout>
             <main className="h-screen sm:w-fit md:w-fit lg:w-full flex-col items-center bg-white">
                 <div className="mx-10 mt-24 h-4/5">
-                    <div className="mb-4 flex shrink-0 items-end">
+                    <div className="mb-4 flex items-end justify-between">
                         <h1 className="mt-2 mb-4 text-left text-5xl font-bold leading-9 tracking-tight text-gray-900">
                             Coaches
                         </h1>
