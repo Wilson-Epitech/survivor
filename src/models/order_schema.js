@@ -1,12 +1,12 @@
-import mongoose, { mongo } from 'mongoose';
+import { Schema, models, model} from "mongoose";
 
-const orderSchema = new mongoose.Schema ({
+const orderSchema = new Schema ({
     _id_order: Number,
     _id_client: Number,
     _date: String,
     _payment_method: String,
     _amount: Number,
     _comment: String
-  });
+  }, {collection: "orders"});
 
-export const order = mongoose.model("orders", orderSchema);
+export const order = models['orders'] || model('orders', orderSchema);

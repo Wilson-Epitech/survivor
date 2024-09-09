@@ -57,6 +57,19 @@ async function eventsToDatabase() {
 
       const eventData = await data.json()
 
+      console.log(`
+        ID_Event: ${eventData.id},
+        Name: ${eventData.name},
+        Date: ${eventData.date},
+        Duration: ${eventData.duration},
+        Max_Participants: ${eventData.max_participants},
+        Location X:${eventData.location_x},
+        Location Y: ${eventData.location_y},
+        Type: ${eventData.type},
+        Employee ID: ${eventData.employee_id},
+        Location Name: ${eventData.location_name}
+      `)
+
       try {
         event.create({
           _id_event: eventData.id,
