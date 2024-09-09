@@ -11,22 +11,24 @@ const coachUnauthorizedRoutes = ['/coaches', '/statistic'];
 export default async function middleware(req) {
     const path = req.nextUrl.pathname;
     const isProtectedRoute = protectedRoutes.includes(path);
-    const isCoachUnauthorizedRoute = coachUnauthorizedRoutes.includes(path);
     const jwtToken = cookies().get('jwtToken')?.value;
     const employeeRole = await getEmployeeRole();
+    const isCoachUnauthorizedRoute = coachUnauthorizedRoutes.includes(path);
 
-    if (isProtectedRoute && !jwtToken || isProtectedRoute && !employeeRole)
+    if (!jwtToken || !employeeRole) {
+        if (isProtectedRoute)
+            return NextResponse.redirect(new URL('/login', req.nextUrl));
+        else if (path.startsWith(`/api/`))
+            return NextResponse.json({ error: 'Unauthorized access' }, { status: 401 });
+        return NextResponse.next();
+    }
+    const decoded = await verifyToken(jwtToken);
+    if (!decoded) {
+        if (path.startsWith(`/api/`) && !decoded)
+            return NextResponse.json({ error: 'Unauthorized access' }, { status: 401 });
         return NextResponse.redirect(new URL('/login', req.nextUrl));
-    if (path.startsWith(`/api/`) && !jwtToken || path.startsWith(`/api/`) && !employeeRole)
-        return NextResponse.json({ error: 'Unauthorized access' }, { status: 401 });
-
-    const decoded = verifyToken(jwtToken);
-    if (isProtectedRoute && !decoded)
-        return NextResponse.redirect(new URL('/login', req.nextUrl));
-    if (path.startsWith(`/api/`) && !decoded)
-        return NextResponse.json({ error: 'Unauthorized access' }, { status: 401 });
+    }
     if (isCoachUnauthorizedRoute && employeeRole === "Coach")
         return NextResponse.redirect(new URL('/', req.nextUrl));
-
     return NextResponse.next();
 }

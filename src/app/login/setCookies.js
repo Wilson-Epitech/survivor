@@ -17,7 +17,7 @@ async function encryptData(data) {
 }
 
 export async function setCookies(token, employeeWork, employeeID) {
-  const jwtToken = generateToken({token});
+  const jwtToken = await generateToken({token});
   const encryptedEmployeeRole = await encryptData(employeeWork);
   const encryptedEmployeeID = await encryptData(employeeID);
 

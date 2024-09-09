@@ -1,12 +1,29 @@
+"use client"
+
+import { useEffect, useState } from "react";
+import axios from 'axios';
 import Layout from "@/components/Layout";
-import Dropdown from "@/components/DropdownCustomers";
+import Dropdown_coach from "@/components/dropdown_customers_coach";
 
 export default function Home() {
+    const [coach, setCoach] = useState([]);
+
+    useEffect(() => {
+        axios.get('/api/employee/coachs').then(response => {
+            setCoach(response.data);
+        });
+    }, []);
+
+    const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
+
+    const handleSelectionChange = (ids) => {
+        setSelectedCustomerIds(ids);
+    };
 
     return (
         <Layout>
-            <main className="sm:w-fit md:w-fit lg:w-full flex-col items-center grid justify-items-stretch bg-white">
-                <div className="h-5/6 flex-row pt-7 mx-10 mb-10">
+            <main className="h-screen sm:w-fit md:w-fit lg:w-full flex-col items-center bg-white">
+                <div className="mx-10 mt-24 h-4/5">
                     <div className="mb-4">
                         <h1 className="mt-2 mb-4 text-left text-5xl font-bold leading-9 tracking-tight text-gray-900">
                             Coaches
@@ -14,7 +31,7 @@ export default function Home() {
                     </div>
                     <div className="w-full h-0.5 bg-black mb-4 mt-4"></div>
 
-                    <div className="flex flex-row gap-6 sm:-mx-6 lg:-mx-8 w-full py-2 sm:px-12 lg:px-8">
+                    <div className="flex flex-row gap-6 w-full h-full overflow-auto border-t-2 border-b-2 border-black">
                         <table className="w-full text-left text-sm font-light">
                             <thead className="border-2 border-black bg-[#2C84B9] font-medium dark:border-neutral-500 dark:bg-neutral-600">
                                 <tr>
@@ -25,33 +42,17 @@ export default function Home() {
                                     <th scope="col" className="px-4 py-2 border-2 border-black text-white">Last connection</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr className="border-2 border-black bg-neutral-100 dark:border-neutral-500 dark:bg-neutral-700">
-                                    <td className="whitespace-nowrap border-2 border-black px-4 py-2">1</td>
-                                    <td className="whitespace-nowrap border-2 border-black px-4 py-2">Otto</td>
-                                    <td className="whitespace-nowrap border-2 border-black px-4 py-2">29-01-1987</td>
-                                    <td className="whitespace-nowrap border-2 border-black px-4 py-2"><Dropdown /></td>
-                                    <td className="whitespace-nowrap border-2 border-black px-4 py-2">03-09-2024</td>
-                                </tr>
-                            </tbody>
-                            <tbody>
-                                <tr className="border-2 border-black bg-neutral-100 dark:border-neutral-500 dark:bg-neutral-700">
-                                    <td className="whitespace-nowrap border-2 border-black px-4 py-2">2</td>
-                                    <td className="whitespace-nowrap border-2 border-black px-4 py-2">Otto</td>
-                                    <td className="whitespace-nowrap border-2 border-black px-4 py-2">29-01-1987</td>
-                                    <td className="whitespace-nowrap border-2 border-black px-4 py-2"><Dropdown /></td>
-                                    <td className="whitespace-nowrap border-2 border-black px-4 py-2">03-09-2024</td>
-                                </tr>
-                            </tbody>
-                            <tbody>
-                                <tr className="border-2 border-black bg-neutral-100 dark:border-neutral-500 dark:bg-neutral-700">
-                                    <td className="whitespace-nowrap border-2 border-black px-4 py-2">3</td>
-                                    <td className="whitespace-nowrap border-2 border-black px-4 py-2">Otto</td>
-                                    <td className="whitespace-nowrap border-2 border-black px-4 py-2">29-01-1987</td>
-                                    <td className="whitespace-nowrap border-2 border-black px-4 py-2"><Dropdown /></td>
-                                    <td className="whitespace-nowrap border-2 border-black px-4 py-2">03-09-2024</td>
-                                </tr>
-                            </tbody>
+                            {coach.map((user, index) => (
+                                <tbody>
+                                    <tr className="border-2 border-black bg-neutral-100 dark:border-neutral-500 dark:bg-neutral-700">
+                                        <td className="whitespace-nowrap border-2 border-black px-4 py-2">{user._id_employee}</td>
+                                        <td className="whitespace-nowrap border-2 border-black px-4 py-2">{user._name} {user._surname}</td>
+                                        <td className="whitespace-nowrap border-2 border-black px-4 py-2">{user._birth_date}</td>
+                                        <td className="whitespace-nowrap border-2 border-black px-4 py-2"><Dropdown_coach key={user._id_employee || index} onSelectionChange={handleSelectionChange} coach_id={user._id_employee} /></td>
+                                        <td className="whitespace-nowrap border-2 border-black px-4 py-2">03-09-2024</td>
+                                    </tr>
+                                </tbody>
+                            ))}
                         </table>
                     </div>
                 </div>

@@ -31,6 +31,13 @@ export default function Home()
             setUserAddress(response.data);
         }).catch(err => {console.error(err)});
         const lastSelectedId = selectedCustomerIds.at(selectedCustomerIds.length - 1);
+
+        const lastId = selectedCustomerIds.at(selectedCustomerIds.length - 1);
+        for (; selectedCustomerIds.length > 0;) {
+            selectedCustomerIds.pop();
+        }
+        selectedCustomerIds.push(lastId);
+
         if (lastSelectedId) {
             axios.get(`/api/customers/customer_photo?id=${lastSelectedId}`).then(response => {
                 setUserPhoto(response.data);
