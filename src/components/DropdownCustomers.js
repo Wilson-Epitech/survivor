@@ -10,7 +10,7 @@ import {
   TEDropdownItem,
 } from "tw-elements-react";
 
-const DropdownCustomers = ({ onSelectionChange }) => {
+const DropdownCustomers = ({ onSelectionChange, label }) => {
     const [tmpUsers, setTmpUsers] = useState([]);
     const [users, setUsers] = useState([]);
     const [employeeRole, setEmployeeRole] = useState(0);
