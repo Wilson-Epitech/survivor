@@ -3,8 +3,8 @@ import { cookies } from 'next/headers';
 import { verifyToken } from './app/login/handleToken';
 import { getEmployeeRole } from "@/app/login/getEmployeeInfos";
 
-const protectedRoutes = ['/', '/coaches', '/tips', '/customer', '/wardrobe',
-        '/astrological', '/clients', '/statistic'];
+const protectedRoutes = ['/', '/coaches', '/tips', '/customers', '/wardrobe',
+        '/astrological', '/clients', '/statistics'];
 
 const coachUnauthorizedRoutes = ['/coaches', '/statistic'];
 

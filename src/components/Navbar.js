@@ -7,7 +7,7 @@ const Statistics = () =>
 {
     return (
         <li className="flex flex-col pb-2">
-            <a href={'/statistic'} className="cursor-pointer hover:bg-[#878787] p-1">
+            <a href={'/statistics'} className="cursor-pointer hover:bg-[#878787] p-1">
                 Statistics
             </a>
             <div className="flex items-center justify-between border-b-2 border-gray-900"></div>
@@ -85,12 +85,7 @@ const Navbar = () =>
                             </a>
                             <div className="flex items-center justify-between border-b-2 border-gray-900"></div>
                         </li>
-                        <li className="flex flex-col pb-2">
-                            <a href={'/statistics'} className="cursor-pointer hover:bg-[#878787] p-1">
-                                Statistics
-                            </a>
-                            <div className="flex items-center justify-between border-b-2 border-gray-900"></div>
-                        </li>
+                        <DisplayStatistics role={employeeRole} />
                         <li className="flex flex-col pb-2">
                             <a href={'/tips'} className="cursor-pointer hover:bg-[#878787] p-1">
                                 Tips
