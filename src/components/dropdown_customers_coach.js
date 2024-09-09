@@ -35,7 +35,7 @@ const dropdown_customers_coach = ({ onSelectionChange , coach_id}) => {
         try {
             axios.post('/api/customers/assign_coach', {
                 customerId,
-                coachId: isSelected ? 0 : parseInt(coach_id)
+                coachId: isSelected ? "0" : parseInt(coach_id)
             });
 
             console.log(`Customer ${customerId} updated successfully`);
@@ -64,7 +64,7 @@ const dropdown_customers_coach = ({ onSelectionChange , coach_id}) => {
                     <TEDropdownItem>
                         <a href="#" className="block w-full min-w-[160px] px-4 py-2 text-sm text-left text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:bg-neutral-100 focus:bg-neutral-100 focus:text-neutral-800 dark:text-neutral-200 dark:hover:bg-neutral-600 dark:focus:bg-neutral-600 dark:active:bg-neutral-600">
                             <div className="flex">
-                                <input type="checkbox" className="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800" id="hs-checked-checkbox" onChange={() => handleCheckboxChange(user._id_customer)} checked={selectedCustomerIds.includes(user._id_customer)}/>
+                                <input type="checkbox" className="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800" id="hs-checked-checkbox" onChange={() => handleCheckboxChange(user._id_customer)} checked={selectedCustomerIds.includes(user._id_customer)} onClick={() => window.location.reload(false)}/>
                                 <p className="pr-1 ml-1" key={user._name}>{user._name ? user._name : "vide"}</p>
                                 <p className="pr-1" key={user._surname}>{user._surname ? user._surname : "vide"}</p>
                             </div>
