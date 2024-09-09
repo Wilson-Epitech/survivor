@@ -35,7 +35,7 @@ export default function Home() {
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="mt-0.5 mr-1 size-5">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                             </svg>
-                            New client
+                            New Employee
                         </Link>
                     </div>
                     <div className="w-full h-0.5 bg-black mb-4 mt-4"></div>
