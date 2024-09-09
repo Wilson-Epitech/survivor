@@ -3,10 +3,9 @@ import { cookies } from 'next/headers';
 import { verifyToken } from './app/login/handleToken';
 import { getEmployeeRole } from "@/app/login/getEmployeeInfos";
 
-const protectedRoutes = ['/', '/coaches', '/tips', '/customers', '/wardrobe',
-        '/astrological', '/clients', '/statistics'];
+const protectedRoutes = ['/', '/coaches', '/tips', '/customers', '/wardrobe', '/astrological', '/statistics'];
 
-const coachUnauthorizedRoutes = ['/coaches', '/statistic'];
+const coachUnauthorizedRoutes = ['/coaches', '/statistics'];
 
 export default async function middleware(req) {
     const path = req.nextUrl.pathname;
