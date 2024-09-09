@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@emotion/react": "^11.13.3",
+    "@vis.gl/react-google-maps": "latest",
     "@emotion/styled": "^11.13.0",
     "@mui/material": "^6.0.2",
     "@mui/styled-engine-sc": "^6.0.2",
