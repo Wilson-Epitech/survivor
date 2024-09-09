@@ -7,67 +7,35 @@ import { PieChart } from '@mui/x-charts/PieChart';
 import { BarChart } from '@mui/x-charts/BarChart';
 import DropdownStatisticsCoachs from "@/components/DropdownCoachs"
 
+const lastYear = [{year: "2023", month: "10"}, {year: "2023", month: "11"}, {year: "2023", month: "12"},
+    {year: "2024", month: "01"}, {year: "2024", month: "02"}, {year: "2024", month: "03"},
+    {year: "2024", month: "04"}, {year: "2024", month: "05"}, {year: "2024", month: "06"},
+    {year: "2024", month: "07"}, {year: "2024", month: "08"}, {year: "2024", month: "09"},
+]
+
 function fillRatingStats(rating, ratingArray)
 {
     ratingArray[rating - 1]++;
     return ratingArray;
 }
 
-function fillRatingYearStats(year, month, rating, ratingYearStats)
+function fillRatingYearStats(year, month, rating, yearArray)
 {
-    if (year == "2024" && month == "09")
-        ratingYearStats[11] = fillRatingStats(rating, ratingYearStats[11]);
-    if (year == "2024" && month == "08")
-        ratingYearStats[10] = fillRatingStats(rating, ratingYearStats[10]);
-    if (year == "2024" && month == "07")
-        ratingYearStats[9] = fillRatingStats(rating, ratingYearStats[9]);
-    if (year == "2024" && month == "06")
-        ratingYearStats[8] = fillRatingStats(rating, ratingYearStats[8]);
-    if (year == "2024" && month == "05")
-        ratingYearStats[7] = fillRatingStats(rating, ratingYearStats[7]);
-    if (year == "2024" && month == "04")
-        ratingYearStats[6] = fillRatingStats(rating, ratingYearStats[6]);
-    if (year == "2024" && month == "03")
-        ratingYearStats[5] = fillRatingStats(rating, ratingYearStats[5]);
-    if (year == "2024" && month == "02")
-        ratingYearStats[4] = fillRatingStats(rating, ratingYearStats[4]);
-    if (year == "2024" && month == "01")
-        ratingYearStats[3] = fillRatingStats(rating, ratingYearStats[3]);
-    if (year == "2023" && month == "12")
-        ratingYearStats[2] = fillRatingStats(rating, ratingYearStats[2]);
-    if (year == "2023" && month == "11")
-        ratingYearStats[1] = fillRatingStats(rating, ratingYearStats[1]);
-    if (year == "2023" && month == "10")
-        ratingYearStats[0] = fillRatingStats(rating, ratingYearStats[0]);
-    return ratingYearStats;
+    for (let i = 0; i < yearArray.length; i++) {
+        if (year == lastYear[i].year && month == lastYear[i].month) {
+            yearArray[i] = fillRatingStats(rating, yearArray[i]);
+        }
+    }
+    return yearArray;
 }
 
 function fillYearStats(year, month, yearArray)
 {
-    if (year == "2024" && month == "09")
-        yearArray[11]++;
-    if (year == "2024" && month == "08")
-        yearArray[10]++;
-    if (year == "2024" && month == "07")
-        yearArray[9]++;
-    if (year == "2024" && month == "06")
-        yearArray[8]++;
-    if (year == "2024" && month == "05")
-        yearArray[7]++;
-    if (year == "2024" && month == "04")
-        yearArray[6]++;
-    if (year == "2024" && month == "03")
-        yearArray[5]++;
-    if (year == "2024" && month == "02")
-        yearArray[4]++;
-    if (year == "2024" && month == "01")
-        yearArray[3]++;
-    if (year == "2023" && month == "12")
-        yearArray[2]++;
-    if (year == "2023" && month == "11")
-        yearArray[1]++;
-    if (year == "2023" && month == "10")
-        yearArray[0]++;
+    for (let i = 0; i < yearArray.length; i++) {
+        if (year == lastYear[i].year && month == lastYear[i].month) {
+            yearArray[i]++;
+        }
+    }
     return yearArray;
 }
 
@@ -77,6 +45,7 @@ export default function Home() {
     const [numberCustomer, setCustoNb] = useState(0);
     const [nbMenVsWomen, setGenderDisp] = useState([]);
     const [customerAge, setCustoAge] = useState([]);
+
     const xLabels = [
       '18-25',
       '26-33',
@@ -84,7 +53,6 @@ export default function Home() {
       '46-60',
       '61-80'
     ];
-
     const yMonthes = [
         '10/23',
         '11/23',
@@ -144,7 +112,6 @@ export default function Home() {
                 }).catch(err => {console.error(err)});
 
             }
-            console.log(ratingYearStats);
             setEncountersYearStats(encountersYearArray);
         }
     }, [selectedCoachIds]);
