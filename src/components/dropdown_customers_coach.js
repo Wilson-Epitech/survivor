@@ -14,7 +14,7 @@ const dropdown_customers_coach = ({ onSelectionChange , coach_id}) => {
     useEffect(() => {
         axios.get('/api/customers').then(response => {
             setUsers(response.data);
-        });
+        }).catch(err => console.error(err))
     }, []);
 
     const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
@@ -35,7 +35,7 @@ const dropdown_customers_coach = ({ onSelectionChange , coach_id}) => {
             axios.post('/api/customers/assign_coach', {
                 customerId,
                 coachId: isSelected ? "0" : parseInt(coach_id)
-            });
+            }).catch(err => console.error(err))
         } catch (error) {
             console.error(`Error updating customer ${customerId}:`, error);
         }
