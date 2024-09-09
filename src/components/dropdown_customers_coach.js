@@ -37,8 +37,6 @@ const dropdown_customers_coach = ({ onSelectionChange , coach_id}) => {
                 customerId,
                 coachId: isSelected ? "0" : parseInt(coach_id)
             });
-
-            console.log(`Customer ${customerId} updated successfully`);
         } catch (error) {
             console.error(`Error updating customer ${customerId}:`, error);
         }
