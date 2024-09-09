@@ -9,17 +9,37 @@ import DropdownStatisticsCoachs from "@/components/DropdownCoachs"
 
 function fillRatingStats(rating, ratingArray)
 {
-    if (rating === 1)
-        ratingArray[0]++;
-    if (rating === 2)
-        ratingArray[1]++;
-    if (rating === 3)
-        ratingArray[2]++;
-    if (rating === 4)
-        ratingArray[3]++;
-    if (rating === 5)
-        ratingArray[4]++;
+    ratingArray[rating - 1]++;
     return ratingArray;
+}
+
+function fillRatingYearStats(year, month, rating, ratingYearStats)
+{
+    if (year == "2024" && month == "09")
+        ratingYearStats[11] = fillRatingStats(rating, ratingYearStats[11]);
+    if (year == "2024" && month == "08")
+        ratingYearStats[10] = fillRatingStats(rating, ratingYearStats[10]);
+    if (year == "2024" && month == "07")
+        ratingYearStats[9] = fillRatingStats(rating, ratingYearStats[9]);
+    if (year == "2024" && month == "06")
+        ratingYearStats[8] = fillRatingStats(rating, ratingYearStats[8]);
+    if (year == "2024" && month == "05")
+        ratingYearStats[7] = fillRatingStats(rating, ratingYearStats[7]);
+    if (year == "2024" && month == "04")
+        ratingYearStats[6] = fillRatingStats(rating, ratingYearStats[6]);
+    if (year == "2024" && month == "03")
+        ratingYearStats[5] = fillRatingStats(rating, ratingYearStats[5]);
+    if (year == "2024" && month == "02")
+        ratingYearStats[4] = fillRatingStats(rating, ratingYearStats[4]);
+    if (year == "2024" && month == "01")
+        ratingYearStats[3] = fillRatingStats(rating, ratingYearStats[3]);
+    if (year == "2023" && month == "12")
+        ratingYearStats[2] = fillRatingStats(rating, ratingYearStats[2]);
+    if (year == "2023" && month == "11")
+        ratingYearStats[1] = fillRatingStats(rating, ratingYearStats[1]);
+    if (year == "2023" && month == "10")
+        ratingYearStats[0] = fillRatingStats(rating, ratingYearStats[0]);
+    return ratingYearStats;
 }
 
 function fillYearStats(year, month, yearArray)
@@ -83,7 +103,6 @@ export default function Home() {
     const [users, setUsers] = useState([]);
     const [coachUsers, setCoachUsers] = useState([]);
     const [selectedCoachIds, setSelectedCoachIds] = useState([]);
-
     const [encountersYearStats, setEncountersYearStats] = useState([]);
 
     useEffect(() => {
@@ -95,28 +114,37 @@ export default function Home() {
     const handleSelectionChange = (ids) => {
         setSelectedCoachIds(ids);
     };
+
     useEffect(() => {
-        let encountersYearArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-        let ratingArray = [0, 0, 0, 0, 0];
+        let encountersYearArray = Array.from({ length: 12 }, () => 0);
+        let ratingArray = Array.from({ length: 5 }, () => 0);
+        let ratingYearStats = Array.from({ length: 12 }, () => [...ratingArray]);
+
         const lastSelectedId = selectedCoachIds.at(selectedCoachIds.length - 1);
+
         if (lastSelectedId) {
             setCoachUsers([]);
             users.forEach((user) => {
                 if (user._coach == lastSelectedId)
                     coachUsers.push(user);
             })
-            coachUsers.forEach((coachUser) => {
-                axios.get(`/api/encounters?customer_id=${coachUser._id_customer}`).then(response => {
-                    const data = response.data;
-                    data.forEach((data1) => {
-                        const date = data1._date;
-                        const rating = data1._rating;
-                        const dateCut = date.split("-");
-                        encountersYearArray = fillYearStats(dateCut[0], dateCut[1], encountersYearArray);
-                        ratingArray = fillRatingStats(rating, ratingArray);
-                    })
+
+            for (let i = 0; i < coachUsers.length; i++) {
+                axios.get(`/api/encounters?customer_id=${coachUsers[i]._id_customer}`).then(response => {
+                const data = response.data;
+
+                data.forEach((userData) => {
+                    const date = userData._date;
+                    const rating = userData._rating;
+                    const dateCut = date.split("-");
+                    encountersYearArray = fillYearStats(dateCut[0], dateCut[1], encountersYearArray);
+                    ratingYearStats = fillRatingYearStats(dateCut[0], dateCut[1], rating, ratingYearStats);
+                })
+
                 }).catch(err => {console.error(err)});
-            })
+
+            }
+            console.log(ratingYearStats);
             setEncountersYearStats(encountersYearArray);
         }
     }, [selectedCoachIds]);
