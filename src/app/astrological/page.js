@@ -5,6 +5,8 @@ import Dropdown from "@/components/DropdownCustomers";
 import { useState } from "react";
 import axios from 'axios';
 import { useRouter } from "next/navigation";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowsAltH } from '@fortawesome/free-solid-svg-icons';
 
 export default function Home() {
     const [firstDate, setFirstDate] = useState(null);
@@ -17,35 +19,52 @@ export default function Home() {
     const [secondSurname, setSecondSurname] = useState([]);
     const [compatibility, setCompatibility] = useState([]);
     const [showCompatibility, setShowCompatibility] = useState(false);
+    const [isClientASelected, setIsClientASelected] = useState(true);
+    const [isClientBSelected, setIsClientBSelected] = useState(true);
+    const [errorMessage, setErrorMessage] = useState(null);
     const router = useRouter();
 
     const handleSelectionChange1 = (ids) => {
         const id = ids[0];
+        if (!id) {
+            setIsClientASelected(false);
+            return;
+        }
         axios.get(`/api/customers/customer_astro?id=${id}`).then(response => {
             const data = response.data[0];
             setFirstAstro(data['_astrological_sign']);
             setFirstDate(data['_birth_date']);
             setFirstName(data['_name']);
             setFirstSurname(data['_surname']);
+            setIsClientASelected(true);
         }).catch(err => {console.error(err)});
     };
 
     const handleSelectionChange2 = (ids) => {
         const id = ids[0];
+        if (!id) {
+            setIsClientBSelected(false);
+            return;
+        }
         axios.get(`/api/customers/customer_astro?id=${id}`).then(response => {
             const data = response.data[0];
             setSecondAstro(data['_astrological_sign']);
             setSecondDate(data['_birth_date']);
             setSecondName(data['_name']);
             setSecondSurname(data['_surname']);
+            setIsClientBSelected(true);
         }).catch(err => {console.error(err)});
     };
 
     const calculateCompatibility = () =>
     {
-        if (!firstDate || !secondDate) {
-            console.log("customers are not correctly selected");
-            router.push('/compatibility');
+        if (!isClientASelected || !isClientBSelected || !firstDate || !secondDate) {
+            setErrorMessage("customers are not correctly selected");
+
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+
             return;
         }
         const firstMonth = parseInt(firstDate.split("-")[1], 10);
@@ -72,29 +91,62 @@ export default function Home() {
                 <div className="m-10 max-w-[500px]">
                         <div className="pt-4">
                             <div className="flex flex-row justify-between items-start">
-                                <div className="w-full">
-                                    <Dropdown onSelectionChange={handleSelectionChange1} />
-                                    <p className="mt-4 border-2 border-black p-2">
-                                        {firstName ? `${firstName}` : ""} {firstSurname ? `${firstSurname}` : ""}
-                                    </p>
-                                    <p className="mt-4 border-2 border-black p-2">
-                                        {firstAstro ? `${firstAstro}` : ""}
-                                    </p>
-
+                                <div className="w-full flex flex-col items-center text-center">
+                                    <Dropdown onSelectionChange={handleSelectionChange1} label="Client A"/>
+                                        {isClientASelected ? (
+                                            <>
+                                                <p className="mt-4 border-2 border-black p-2">
+                                                    {firstName} {firstSurname}
+                                                </p>
+                                                <p className="mt-4 border-2 border-black p-2">
+                                                    {firstAstro}
+                                                </p>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <p className="mt-4 border-2 border-black p-2">
+                                                    {""}
+                                                </p>
+                                                <p className="mt-4 border-2 border-black p-2">
+                                                    {""}
+                                                </p>
+                                            </>
+                                        )}
                                 </div>
 
-                                <div className="w-28"></div>
+                                <div className="pt-[5.4rem] flex items-center justify-center w-full">
+                                    <div className="relative">
+                                        <FontAwesomeIcon icon={faArrowsAltH}/>
+                                    </div>
+                                </div>
 
-                                <div className="w-full">
-                                    <Dropdown onSelectionChange={handleSelectionChange2} />
-                                    <p className="mt-4 border-2 border-black p-2">
-                                        {secondName ? `${secondName}` : ""} {secondSurname ? `${secondSurname}` : ""}
-                                    </p>
-                                    <p className="mt-4 border-2 border-black p-2">
-                                        {secondAstro ? `${secondAstro}` : ""}
-                                    </p>
+                                <div className="w-full flex flex-col items-center text-center">
+                                    <Dropdown onSelectionChange={handleSelectionChange2} label="Client B"/>
+                                    {isClientBSelected ? (
+                                        <>
+                                            <p className="mt-4 border-2 border-black p-2">
+                                                {secondName} {secondSurname}
+                                            </p>
+                                            <p className="mt-4 border-2 border-black p-2">
+                                                {secondAstro}
+                                            </p>
+                                        </>
+                                    ) : (
+                                        <>
+                                        <p className="mt-4 border-2 border-black p-2">
+                                            {""}
+                                        </p>
+                                        <p className="mt-4 border-2 border-black p-2">
+                                            {""}
+                                        </p>
+                                        </>
+                                    )}
                                 </div>
                             </div>
+
+                            {errorMessage && (
+                                <p className="mt-4 text-red-600 text-center">Clients are not correctly selected</p>
+                            )}
 
                             <div className="mt-6 flex flex-col items-center">
                                 {showCompatibility && (
