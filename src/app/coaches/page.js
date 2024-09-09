@@ -11,7 +11,6 @@ export default function Home() {
     useEffect(() => {
         axios.get('/api/employee/coachs').then(response => {
             setCoach(response.data);
-            console.log(response.data);
         });
     }, []);
 

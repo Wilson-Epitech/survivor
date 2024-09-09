@@ -13,7 +13,6 @@ const dropdown_customers_coach = ({ onSelectionChange , coach_id}) => {
     const [users, setUsers] = useState([]);
     useEffect(() => {
         axios.get('/api/customers').then(response => {
-            console.log(response.data);
             setUsers(response.data);
         });
     }, []);

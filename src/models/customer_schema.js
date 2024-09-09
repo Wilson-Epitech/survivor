@@ -1,7 +1,6 @@
 import { Schema, models, model} from "mongoose";
 
 const CustomerSchema = new Schema ({
-    _id: {type: Number},
     _id_customer: {type: Number},
     _email: {type: String},
     _name: {type: String},

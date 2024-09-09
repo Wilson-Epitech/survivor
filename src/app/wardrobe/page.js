@@ -94,7 +94,6 @@ export default function Home() {
             }).catch(error => {
                 console.error("Failed to fetch clothes", error);
             });
-            console.log("pass useEffect image")
         }
     }, [selectedHat]);
 
@@ -105,7 +104,6 @@ export default function Home() {
             }).catch(error => {
                 console.error("Failed to fetch clothes", error);
             });
-            console.log("pass useEffect image")
         }
     }, [selectedTop]);
 
@@ -116,7 +114,6 @@ export default function Home() {
             }).catch(error => {
                 console.error("Failed to fetch clothes", error);
             });
-            console.log("pass useEffect image")
         }
     }, [selectedBottom]);
 
@@ -127,7 +124,6 @@ export default function Home() {
             }).catch(error => {
                 console.error("Failed to fetch clothes", error);
             });
-            console.log("pass useEffect image")
         }
     }, [selectedShoes]);
 
