@@ -1,13 +1,12 @@
 "use client"
 
-import { useEffect, useState , useRef} from "react";
+import { useEffect, useState } from "react";
 import axios from 'axios';
 import Layout from "@/components/Layout";
 import {
     APIProvider,
     Map,
     AdvancedMarker,
-    MapCameraChangedEvent,
     Pin
   } from '@vis.gl/react-google-maps';
 
