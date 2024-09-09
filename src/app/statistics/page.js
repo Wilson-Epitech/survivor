@@ -22,6 +22,33 @@ export default function Home() {
       '61-80'
     ];
 
+    const [users, setUsers] = useState([]);
+    const [coachUsers, setCoachUsers] = useState([]);
+    const [selectedCoachIds, setSelectedCoachIds] = useState([]);
+
+    useEffect(() => {
+        axios.get('/api/customers').then(response => {
+            setUsers(response.data);
+        }).catch(err => {console.error(err)});
+    }, []);
+
+    const handleSelectionChange = (ids) => {
+        setSelectedCoachIds(ids);
+    };
+
+    useEffect(() => {
+        const lastSelectedId = selectedCoachIds.at(selectedCoachIds.length - 1);
+        if (lastSelectedId) {
+            setCoachUsers([]);
+            users.forEach((user) => {
+                if (user._coach == lastSelectedId)
+                    coachUsers.push(user);
+            })
+            console.log("id de coach:", lastSelectedId);
+            console.log("users associés:", coachUsers);
+        }
+    }, [selectedCoachIds]);
+
     const [isClientSelected, setIsClientSelected] = useState(true);
 
     useEffect(() => {
@@ -44,14 +71,6 @@ export default function Home() {
             setRating(response.data);
         }).catch(err => {console.error(err)});
     }, []);
-
-    const handleSelectionChange = (ids) => {
-        const id = ids[0];
-        if (!id) {
-            setIsClientSelected(false);
-            return;
-        }
-    };
 
     return (
         <Layout>
