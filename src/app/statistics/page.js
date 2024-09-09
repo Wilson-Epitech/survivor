@@ -6,6 +6,8 @@ import { PieChart } from '@mui/x-charts/PieChart';
 import Layout from "@/components/Layout";
 import { BarChart } from '@mui/x-charts/BarChart';
 
+import DropdownStatisticsCoachs from "@/components/DropdownCoachs"
+
 export default function Home() {
     const [numberRating, setRating] = useState([]);
     const [numberCoach, setCoachNb] = useState(0);
@@ -19,6 +21,8 @@ export default function Home() {
       '46-60',
       '61-80'
     ];
+
+    const [isClientSelected, setIsClientSelected] = useState(true);
 
     useEffect(() => {
         axios.get('http://localhost:3000/api/employee/count_coachs').then(response => {
@@ -41,10 +45,19 @@ export default function Home() {
         }).catch(err => {console.error(err)});
     }, []);
 
+    const handleSelectionChange = (ids) => {
+        const id = ids[0];
+        if (!id) {
+            setIsClientSelected(false);
+            return;
+        }
+    };
+
     return (
         <Layout>
             <main className="min-h-screen w-full flex-col items-center justify-items-stretch bg-white">
                 <div className="h-full flex-row pt-7 mx-10 mb-48">
+             <DropdownStatisticsCoachs onSelectionChange={handleSelectionChange} label="enorme"/>
                     <div className="mb-4">
                         <h1 className="mt-2 mb-4 text-left text-5xl font-bold leading-9 tracking-tight text-gray-900">
                             Statistics
