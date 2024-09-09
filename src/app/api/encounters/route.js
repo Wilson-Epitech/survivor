@@ -11,7 +11,7 @@ export async function GET(req)
 
     try {
         const query = customer_id ? { _customer_id: customer_id } : {};
-        const res = await encounter.find(query, {_date: 1});
+        const res = await encounter.find(query, {_date: 1, _rating: 1});
         return NextResponse.json(res);
     } catch (error) {
         return NextResponse.json({ error: 'Failed to get customers' }, { status: 404 });

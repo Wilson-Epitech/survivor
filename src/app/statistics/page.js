@@ -2,39 +2,53 @@
 
 import { useEffect, useState } from "react";
 import axios from 'axios';
-import { PieChart } from '@mui/x-charts/PieChart';
 import Layout from "@/components/Layout";
+import { PieChart } from '@mui/x-charts/PieChart';
 import { BarChart } from '@mui/x-charts/BarChart';
-
 import DropdownStatisticsCoachs from "@/components/DropdownCoachs"
 
-function fillEncountersYearStats(year, month, yearTab)
+function fillRatingStats(rating, ratingArray)
+{
+    if (rating === 1)
+        ratingArray[0]++;
+    if (rating === 2)
+        ratingArray[1]++;
+    if (rating === 3)
+        ratingArray[2]++;
+    if (rating === 4)
+        ratingArray[3]++;
+    if (rating === 5)
+        ratingArray[4]++;
+    return ratingArray;
+}
+
+function fillYearStats(year, month, yearArray)
 {
     if (year == "2024" && month == "09")
-        yearTab[11]++;
+        yearArray[11]++;
     if (year == "2024" && month == "08")
-        yearTab[10]++;
+        yearArray[10]++;
     if (year == "2024" && month == "07")
-        yearTab[9]++;
+        yearArray[9]++;
     if (year == "2024" && month == "06")
-        yearTab[8]++;
+        yearArray[8]++;
     if (year == "2024" && month == "05")
-        yearTab[7]++;
+        yearArray[7]++;
     if (year == "2024" && month == "04")
-        yearTab[6]++;
+        yearArray[6]++;
     if (year == "2024" && month == "03")
-        yearTab[5]++;
+        yearArray[5]++;
     if (year == "2024" && month == "02")
-        yearTab[4]++;
+        yearArray[4]++;
     if (year == "2024" && month == "01")
-        yearTab[3]++;
+        yearArray[3]++;
     if (year == "2023" && month == "12")
-        yearTab[2]++;
+        yearArray[2]++;
     if (year == "2023" && month == "11")
-        yearTab[1]++;
+        yearArray[1]++;
     if (year == "2023" && month == "10")
-        yearTab[0]++;
-    return yearTab;
+        yearArray[0]++;
+    return yearArray;
 }
 
 export default function Home() {
@@ -70,7 +84,7 @@ export default function Home() {
     const [coachUsers, setCoachUsers] = useState([]);
     const [selectedCoachIds, setSelectedCoachIds] = useState([]);
 
-    const[encountersYearStats, setEncountersYearStats] = useState([]);
+    const [encountersYearStats, setEncountersYearStats] = useState([]);
 
     useEffect(() => {
         axios.get('/api/customers').then(response => {
@@ -82,7 +96,8 @@ export default function Home() {
         setSelectedCoachIds(ids);
     };
     useEffect(() => {
-        let yearTab = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        let encountersYearArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        let ratingArray = [0, 0, 0, 0, 0];
         const lastSelectedId = selectedCoachIds.at(selectedCoachIds.length - 1);
         if (lastSelectedId) {
             setCoachUsers([]);
@@ -93,22 +108,18 @@ export default function Home() {
             coachUsers.forEach((coachUser) => {
                 axios.get(`/api/encounters?customer_id=${coachUser._id_customer}`).then(response => {
                     const data = response.data;
-                    console.log("data:", data);
                     data.forEach((data1) => {
                         const date = data1._date;
-                        console.log(data1._date);
+                        const rating = data1._rating;
                         const dateCut = date.split("-");
-                        yearTab = fillEncountersYearStats(dateCut[0], dateCut[1], yearTab);
-                        console.log(yearTab);
+                        encountersYearArray = fillYearStats(dateCut[0], dateCut[1], encountersYearArray);
+                        ratingArray = fillRatingStats(rating, ratingArray);
                     })
                 }).catch(err => {console.error(err)});
             })
-            setEncountersYearStats(yearTab);
-            console.log(encountersYearStats)
+            setEncountersYearStats(encountersYearArray);
         }
     }, [selectedCoachIds]);
-
-    const [isClientSelected, setIsClientSelected] = useState(true);
 
     useEffect(() => {
         axios.get('http://localhost:3000/api/employee/count_coachs').then(response => {
