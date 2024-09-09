@@ -31,13 +31,6 @@ export default function Home()
             setUserAddress(response.data);
         }).catch(err => {console.error(err)});
         const lastSelectedId = selectedCustomerIds.at(selectedCustomerIds.length - 1);
-
-        const lastId = selectedCustomerIds.at(selectedCustomerIds.length - 1);
-        for (; selectedCustomerIds.length > 0;) {
-            selectedCustomerIds.pop();
-        }
-        selectedCustomerIds.push(lastId);
-
         if (lastSelectedId) {
             axios.get(`/api/customers/customer_photo?id=${lastSelectedId}`).then(response => {
                 setUserPhoto(response.data);
@@ -61,19 +54,22 @@ export default function Home()
                 <div className="w-full flex flex-row h-fit">
                     <div className="w-3/4 h-fit">
                         <div className="w-full h-12">
-                            <Dropdown onSelectionChange={handleSelectionChange} />
+                            <Dropdown onSelectionChange={handleSelectionChange} label={(users._name) ? ("Customer : ") + users._name : ("Customer : ")} />
                         </div>
-                        <div className="w-full h-12">
+                        <div className="w-full h-12 flex items-center">
+                        <img className="w-[1.5rem] h-[1.5rem] ml-0.5 mr-2" src="/Happy.ico" alt="Happy icon" />
                             <p className="mt-2 mb-2 text-left text-3xl font-bold leading-9 tracking-tight text-gray-900">
                                 {(users.find(user => user._id_customer === selectedCustomerIds.at(selectedCustomerIds.length - 1))?._name)} {(users.find(user => user._id_customer === selectedCustomerIds.at(selectedCustomerIds.length - 1))?._surname)}
                             </p>
                         </div>
-                        <div className="w-full h-12">
+                        <div className="w-full h-12 flex items-center">
+                            <img className="w-[1.5rem] h-[1.5rem] mr-2" src="/Birth.ico" alt="Happy icon" />
                             <p className="text-left text-2xl leading-9 tracking-tight text-gray-900">
                                 {(userDate.find(user => user._id_customer === selectedCustomerIds.at(selectedCustomerIds.length - 1))?._birth_date)}
                             </p>
                         </div>
-                        <div className="w-full h-12">
+                        <div className="w-full h-12 flex items-center">
+                            <img className="w-[1.4rem] h-[1.7rem] ml-1 mr-2" src="/Location.ico" alt="Happy icon" />
                             <p className="text-left text-2xl leading-9 tracking-tight text-gray-900">
                                 {(userAddress.find(user => user._id_customer === selectedCustomerIds.at(selectedCustomerIds.length - 1))?._address)}
                             </p>
