@@ -4,16 +4,18 @@ import { verifyToken } from './app/login/handleToken';
 
 const protectedRoutes = ['/', '/coaches', '/tips', '/customer', '/wardrobe', '/astrological', '/clients', '/statistic'];
 
-export default function middleware(req) {
+export default async function middleware(req) {
     const path = req.nextUrl.pathname;
     const isProtectedRoute = protectedRoutes.includes(path);
-    const jwtToken = cookies().get('jwt-token')?.value;
+    const jwtToken = cookies().get('jwtToken')?.value;
 
-    if (isProtectedRoute && !jwtToken)
+    if (!isProtectedRoute)
+        return NextResponse.next();
+    if (!jwtToken)
         return NextResponse.redirect(new URL('/login', req.nextUrl));
 
-    const decoded = verifyToken(jwtToken);
-    if (isProtectedRoute && !decoded)
+    const decoded = await verifyToken(jwtToken);
+    if (!decoded)
         return NextResponse.redirect(new URL('/login', req.nextUrl));
     return NextResponse.next();
 }
