@@ -156,7 +156,7 @@ export default function Home() {
                     </div>
                     <div className="w-full h-0.5 bg-black mb-4 mt-2"></div>
                     <div className="flex justify-center">
-                        <Dropdown onSelectionChange={handleSelectionChange}/>
+                        <Dropdown onSelectionChange={handleSelectionChange} label="Customer : " />
                     </div>
                     <div className="w-full h-0.5 bg-black mb-4 mt-4"></div>
 

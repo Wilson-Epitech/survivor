@@ -11,11 +11,11 @@ export default function Dropdown_coach({children})
     );
 }
 
-export default function Dropdown({children})
+export default function Dropdown({children, label})
 {
     return (
         <div>
-            <DropdownCustomers />
+            <DropdownCustomers label={label}/>
                 {children}
         </div>
     );
