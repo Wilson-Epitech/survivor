@@ -9,8 +9,6 @@ export async function GET(req)
     const { searchParams } = new URL(req.url);
     const customer_id = parseInt(searchParams.get('customer_id'));
 
-    console.log("id du customer:", customer_id);
-
     try {
         const query = customer_id ? { _customer_id: customer_id } : {};
         const res = await encounter.find(query, {_date: 1});

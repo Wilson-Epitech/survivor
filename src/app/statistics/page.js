@@ -8,6 +8,35 @@ import { BarChart } from '@mui/x-charts/BarChart';
 
 import DropdownStatisticsCoachs from "@/components/DropdownCoachs"
 
+function fillEncountersYearStats(year, month, yearTab)
+{
+    if (year == "2024" && month == "09")
+        yearTab[11]++;
+    if (year == "2024" && month == "08")
+        yearTab[10]++;
+    if (year == "2024" && month == "07")
+        yearTab[9]++;
+    if (year == "2024" && month == "06")
+        yearTab[8]++;
+    if (year == "2024" && month == "05")
+        yearTab[7]++;
+    if (year == "2024" && month == "04")
+        yearTab[6]++;
+    if (year == "2024" && month == "03")
+        yearTab[5]++;
+    if (year == "2024" && month == "02")
+        yearTab[4]++;
+    if (year == "2024" && month == "01")
+        yearTab[3]++;
+    if (year == "2023" && month == "12")
+        yearTab[2]++;
+    if (year == "2023" && month == "11")
+        yearTab[1]++;
+    if (year == "2023" && month == "10")
+        yearTab[0]++;
+    return yearTab;
+}
+
 export default function Home() {
     const [numberRating, setRating] = useState([]);
     const [numberCoach, setCoachNb] = useState(0);
@@ -26,6 +55,8 @@ export default function Home() {
     const [coachUsers, setCoachUsers] = useState([]);
     const [selectedCoachIds, setSelectedCoachIds] = useState([]);
 
+    const[encountersYearStats, setEncountersYearStats] = useState([]);
+
     useEffect(() => {
         axios.get('/api/customers').then(response => {
             setUsers(response.data);
@@ -35,14 +66,27 @@ export default function Home() {
     const handleSelectionChange = (ids) => {
         setSelectedCoachIds(ids);
     };
-
     useEffect(() => {
+        let yearTab = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         const lastSelectedId = selectedCoachIds.at(selectedCoachIds.length - 1);
         if (lastSelectedId) {
             setCoachUsers([]);
             users.forEach((user) => {
                 if (user._coach == lastSelectedId)
                     coachUsers.push(user);
+            })
+            coachUsers.forEach((coachUser) => {
+                axios.get(`/api/encounters?customer_id=${coachUser._id_customer}`).then(response => {
+                    const data = response.data;
+                    console.log("data:", data);
+                    data.forEach((data1) => {
+                        const date = data1._date;
+                        console.log(data1._date);
+                        const dateCut = date.split("-");
+                        yearTab = fillEncountersYearStats(dateCut[0], dateCut[1], yearTab);
+                        console.log(yearTab);
+                    })
+                }).catch(err => {console.error(err)});
             })
             console.log("id de coach:", lastSelectedId);
             console.log("users associés:", coachUsers);
