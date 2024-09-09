@@ -15,9 +15,11 @@ export default function Home()
     };
 
     const [users, setUsers] = useState([]);
-    const [userDate, setUserDate] = useState([]);
+    const [userBirthdate, setUserBirthdate] = useState([]);
     const [userAddress, setUserAddress] = useState([]);
     const [userPhoto, setUserPhoto] = useState([]);
+    const [userPayement, setUserPayement] = useState([]);
+    const [userDate, setUserDate] = useState([]);
 
     useEffect(() => {
 
@@ -25,18 +27,30 @@ export default function Home()
             setUsers(response.data);
         }).catch(err => {console.error(err)});
         axios.get('/api/customers/customer_birth').then(response => {
-            setUserDate(response.data);
+            setUserBirthdate(response.data);
         }).catch(err => {console.error(err)});
         axios.get('/api/customers/customer_address').then(response => {
             setUserAddress(response.data);
         }).catch(err => {console.error(err)});
+
         const lastSelectedId = selectedCustomerIds.at(selectedCustomerIds.length - 1);
+        const lastId = selectedCustomerIds.at(selectedCustomerIds.length - 1);
+
+        while (selectedCustomerIds.length > 0) {
+            selectedCustomerIds.pop();
+        }
+        selectedCustomerIds.push(lastId);
+
         if (lastSelectedId) {
             axios.get(`/api/customers/customer_photo?id=${lastSelectedId}`).then(response => {
                 setUserPhoto(response.data);
-            }).catch(error => {
-                console.error("Failed to fetch clothes", error);
-            });
+            }).catch(err => {console.error(err)});
+            axios.get(`/api/orders?id=${lastSelectedId}`).then(response => {
+                setUserPayement(response.data);
+            }).catch(err => {console.error(err)});
+            axios.get(`/api/encounters/get_encounter_clientpage?id=${lastSelectedId}`).then(response => {
+                setUserDate(response.data);
+            }).catch(err => {console.error(err)});
     }}, [selectedCustomerIds]);
 
     let img = userPhoto.length > 0 ? userPhoto[0]._image : null
@@ -65,7 +79,7 @@ export default function Home()
                         <div className="w-full h-12 flex items-center">
                             <img className="w-[1.5rem] h-[1.5rem] mr-2" src="/Birth.ico" alt="Happy icon" />
                             <p className="text-left text-2xl leading-9 tracking-tight text-gray-900">
-                                {(userDate.find(user => user._id_customer === selectedCustomerIds.at(selectedCustomerIds.length - 1))?._birth_date)}
+                                {(userBirthdate.find(user => user._id_customer === selectedCustomerIds.at(selectedCustomerIds.length - 1))?._birth_date)}
                             </p>
                         </div>
                         <div className="w-full h-12 flex items-center">
@@ -94,26 +108,15 @@ export default function Home()
                                             <th scope="col" className="px-12 py-4 border-2 border-black text-white">Comment</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr
-                                            className="border-2 border-black bg-neutral-100 dark:border-neutral-500 dark:bg-neutral-700">
-                                            <td className="whitespace-nowrap border-2 border-black px-12 py-4">Mark</td>
-                                            <td className="whitespace-nowrap border-2 border-black px-12 py-4">Otto</td>
-                                            <td className="whitespace-nowrap border-2 border-black px-12 py-4">@mdo</td>
-                                        </tr>
-                                        <tr
-                                            className="border-2 border-black bg-white dark:border-neutral-500 dark:bg-neutral-600">
-                                            <td className="whitespace-nowrap border-2 border-black px-12 py-4">Jacob</td>
-                                            <td className="whitespace-nowrap border-2 border-black px-12 py-4">Thornton</td>
-                                            <td className="whitespace-nowrap border-2 border-black px-12 py-4">@fat</td>
-                                        </tr>
-                                        <tr
-                                            className="border-2 border-black bg-neutral-100 dark:border-neutral-500 dark:bg-neutral-700">
-                                            <td className="whitespace-nowrap border-2 border-black px-12 py-4"> Larry the Bird</td>
-                                            <td className="whitespace-nowrap border-2 border-black px-12 py-4"> Larry the Bird</td>
-                                            <td className="whitespace-nowrap border-2 border-black px-12 py-4">@twitter</td>
-                                        </tr>
-                                    </tbody>
+                                    {userPayement.map((user) => (
+                                        <tbody>
+                                            <tr className="border-2 border-black bg-neutral-100 dark:border-neutral-500 dark:bg-neutral-700">
+                                                <td className="whitespace-nowrap border-2 border-black px-4 py-2">{user._date}</td>
+                                                <td className="whitespace-nowrap border-2 border-black px-4 py-2">{user._amount}</td>
+                                                <td className="whitespace-nowrap border-2 border-black px-4 py-2">{user._comment}</td>
+                                            </tr>
+                                        </tbody>
+                                    ))}
                                 </table>
                             </div>
                         </div>
@@ -132,29 +135,16 @@ export default function Home()
                                             <th scope="col" className="px-12 py-4 border-2 border-black text-white">Source</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr
-                                            className="border-2 border-black bg-neutral-100 dark:border-neutral-500 dark:bg-neutral-700">
-                                            <td className="whitespace-nowrap border-2 border-black px-12 py-4">Mark</td>
-                                            <td className="whitespace-nowrap border-2 border-black px-12 py-4">Otto</td>
-                                            <td className="whitespace-nowrap border-2 border-black px-12 py-4">@mdo</td>
-                                            <td className="whitespace-nowrap border-2 border-black px-12 py-4">@mdo</td>
-                                        </tr>
-                                        <tr
-                                            className="border-2 border-black bg-white dark:border-neutral-500 dark:bg-neutral-600">
-                                            <td className="whitespace-nowrap border-2 border-black px-12 py-4">Jacob</td>
-                                            <td className="whitespace-nowrap border-2 border-black px-12 py-4">Jacob</td>
-                                            <td className="whitespace-nowrap border-2 border-black px-12 py-4">Thornton</td>
-                                            <td className="whitespace-nowrap border-2 border-black px-12 py-4">@fat</td>
-                                        </tr>
-                                        <tr
-                                            className="border-2 border-black bg-neutral-100 dark:border-neutral-500 dark:bg-neutral-700">
-                                            <td className="whitespace-nowrap border-2 border-black px-12 py-4"> Larry the Bird</td>
-                                            <td className="whitespace-nowrap border-2 border-black px-12 py-4"> Larry the Bird</td>
-                                            <td className="whitespace-nowrap border-2 border-black px-12 py-4"> Larry the Bird</td>
-                                            <td className="whitespace-nowrap border-2 border-black px-12 py-4">@twitter</td>
-                                        </tr>
-                                    </tbody>
+                                    {userDate.map((user) => (
+                                        <tbody>
+                                            <tr className="border-2 border-black bg-neutral-100 dark:border-neutral-500 dark:bg-neutral-700">
+                                                <td className="whitespace-nowrap border-2 border-black px-4 py-2">{user._date}</td>
+                                                <td className="whitespace-nowrap border-2 border-black px-4 py-2">{user._rating}</td>
+                                                <td className="whitespace-nowrap border-2 border-black px-4 py-2">{user._comment}</td>
+                                                <td className="whitespace-nowrap border-2 border-black px-4 py-2">{user._source}</td>
+                                            </tr>
+                                        </tbody>
+                                    ))}
                                 </table>
                             </div>
                         </div>
