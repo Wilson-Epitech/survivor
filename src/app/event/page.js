@@ -10,12 +10,13 @@ import {
     Pin
   } from '@vis.gl/react-google-maps';
 
-
+const paris_x = 48.866667;
+const paris_y = 2.333333;
 
 export default function Home() {
     const [events, set_events] = useState([]);
-    const [selected_x = 48.866667, set_selected_x] = useState();
-    const [selected_y = 2.333333, set_selected_y] = useState();
+    const [selected_x = paris_x, set_selected_x] = useState();
+    const [selected_y = paris_y, set_selected_y] = useState();
     const [selected_event = 0, set_selected_event] = useState();
 
     useEffect(() => {
