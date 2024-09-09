@@ -29,15 +29,15 @@ export default function Home() {
 
     const handleChange = (setSelectedChange, selectedChange, nb) => {
         setSelectedChange(() => {
-            const newSelectedShoes = selectedChange + nb;
-            return newSelectedShoes;
+            const newSelected = selectedChange + nb;
+            return newSelected;
         });
     };
 
     const setSelectedToZero = (setSelectedChange) => {
         setSelectedChange(() => {
-            const newSelectedShoes = 0;
-            return newSelectedShoes;
+            const newSelected = 0;
+            return newSelected;
         });
     };
 
@@ -63,12 +63,6 @@ export default function Home() {
         for (; clothes_img_shoes.length > 0;) {
             clothes_img_shoes.pop();
         }
-
-        const lastId = selectedCustomerIds.at(selectedCustomerIds.length - 1);
-        for (; selectedCustomerIds.length > 0;) {
-            selectedCustomerIds.pop();
-        }
-        selectedCustomerIds.push(lastId);
 
         if (lastSelectedId) {
             setSelectedToZero(setSelectedHat)
@@ -134,9 +128,12 @@ export default function Home() {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18" />
                 </svg>
             </button>
-            {clothe_img.map(user => (
-                <img className="object-contain w-full h-36" src={`data:image/jpeg;base64, ${user._image}`}/>
-            ))}
+            {clothe_img.length < selectedImg ?
+                <img className="object-contain w-full h-36" src={`https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg`}/> :
+                clothe_img.map(user => (
+                    <img className="object-contain w-full h-36" src={`data:image/jpeg;base64, ${user._image}`}/>
+                ))
+            }
             <button className="mb-2 w-full h-full grid justify-items-start items-center" onClick={() => handleChange(setSelectedImg, selectedImg, 1)}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-12">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
