@@ -170,7 +170,7 @@ export default function EmployeeForm
                 {errorMessage && (
                     <p className="mt-4 text-red-600 text-center">The fields were incorrectly filled</p>
                 )}
-                <button type="submit" className="mt-2 bg-[#2D84B9] text-white px-4 py-1">Save</button>
+                <button type="submit" className="mt-2 bg-[#2D84B9] hover:bg-[#5197c3] text-white px-4 py-1">Save</button>
             </form>
         </div>
     );
