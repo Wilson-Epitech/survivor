@@ -5,6 +5,8 @@ import axios from 'axios';
 import Layout from "@/components/Layout";
 import { PieChart } from '@mui/x-charts/PieChart';
 import { BarChart } from '@mui/x-charts/BarChart';
+import { Gauge, gaugeClasses } from '@mui/x-charts/Gauge';
+import Stack from '@mui/material/Stack';
 import DropdownStatisticsCoachs from "@/components/DropdownCoachs"
 
 const lastYear = [{year: "2023", month: "10"}, {year: "2023", month: "11"}, {year: "2023", month: "12"},
@@ -87,6 +89,7 @@ export default function Home() {
     const [encountersYearStats, setEncountersYearStats] = useState([]);
     const [ratingYearStats, setRatingYearStats] = useState([]);
     const [zodiacCoaches, setZodiacCoaches] = useState([]);
+    const [totalSumSale, setTotalSumSale] = useState(0);
 
     useEffect(() => {
         axios.get('/api/customers').then(response => {
@@ -103,6 +106,7 @@ export default function Home() {
         let ratingArray = Array.from({ length: 5 }, () => 0);
         let ratingYearStats = Array.from({ length: 12 }, () => [...ratingArray]);
         let zodiacSignsArray = Array.from({ length: 12 }, () => 0);
+        let totalSum = 0;
 
         const lastSelectedId = selectedCoachIds.at(selectedCoachIds.length - 1);
 
@@ -114,29 +118,42 @@ export default function Home() {
             })
 
             for (let i = 0; i < coachUsers.length; i++) {
-                axios.get(`/api/encounters?customer_id=${coachUsers[i]._id_customer}`).then(response => {
-                const data = response.data;
 
-                data.forEach((userEncounter) => {
-                    const date = userEncounter._date;
-                    const rating = userEncounter._rating;
-                    const dateCut = date.split("-");
-                    encountersYearArray = fillYearStats(dateCut[0], dateCut[1], encountersYearArray);
-                    ratingYearStats = fillRatingYearStats(dateCut[0], dateCut[1], rating, ratingYearStats);
-                })
+                axios.get(`/api/encounters?customer_id=${coachUsers[i]._id_customer}`).then(response => {
+                    const data = response.data;
+
+                    data.forEach((userEncounter) => {
+                        const date = userEncounter._date;
+                        const rating = userEncounter._rating;
+                        const dateCut = date.split("-");
+                        encountersYearArray = fillYearStats(dateCut[0], dateCut[1], encountersYearArray);
+                        ratingYearStats = fillRatingYearStats(dateCut[0], dateCut[1], rating, ratingYearStats);
+                    })
                 }).catch(err => {console.error(err)});
 
                 axios.get(`/api/customers/customer_astro?id=${coachUsers[i]._id_customer}`).then(response => {
-                const data = response.data;
-                data.forEach((user) => {
-                    const zodiacSign = user._astrological_sign;
-                    zodiacSignsArray = fillZodiacSigns(zodiacSign, zodiacSignsArray);
-                })
+                    const data = response.data;
+                    data.forEach((user) => {
+                        const zodiacSign = user._astrological_sign;
+                        zodiacSignsArray = fillZodiacSigns(zodiacSign, zodiacSignsArray);
+                    })
                 }).catch(err => {console.error(err)});
+
+                axios.get(`/api/orders?id=${coachUsers[i]._id_customer}`).then(response => {
+
+                    const data = response.data;
+
+                    data.forEach((orders) => {
+                        const ordersClient = orders._amount;
+                        totalSum += ordersClient;
+                    })
+                    setTotalSumSale(totalSum)
+                    setRatingYearStats(ratingYearStats)
+                    setEncountersYearStats(encountersYearArray)
+                    setZodiacCoaches(zodiacSignsArray)
+                }).catch(err => {console.error(err)});
+
             }
-            setRatingYearStats(ratingYearStats)
-            setEncountersYearStats(encountersYearArray);
-            setZodiacCoaches(zodiacSignsArray)
         }
     }, [selectedCoachIds]);
 
@@ -214,7 +231,7 @@ export default function Home() {
                                 series={[
                                     {
                                         data: [
-                                            { id: 0, value: nbMenVsWomen[1], label: 'Women'},
+                                            { id: 0, value: nbMenVsWomen[1], label: 'Women' },
                                             { id: 1, value: nbMenVsWomen[0], label: 'Men' },
                                         ],
                                     },
@@ -281,6 +298,22 @@ export default function Home() {
                         </div>
 
                         <div className="mt-10 flex justify-center border border-gray-300 p-4 rounded-lg shadow-lg">
+                            {ratingYearStats.length > 0 && ratingYearStats[0].length > 0 ? (
+                                <Stack direction={{ xs: 'column', md: 'row' }} spacing={{ xs: 1, md: 3 }}>
+                                    <Gauge width={400} height={300} value={totalSumSale} startAngle={-90} endAngle={90} valueMax={2000} sx={{
+                                        [`& .${gaugeClasses.valueText}`]: {
+                                            fontSize: 30,
+                                            transform: 'translate(0px, 0px)',
+                                        },
+                                        }}
+                                        text={
+                                            ({ value, valueMax }) => `${value}$ / ${valueMax}$`
+                                        }
+                                 />
+                                </Stack>
+                            ) : (
+                                <p>Please select a coach</p>
+                            )}
                         </div>
                     </div>
                     <div className="mt-10 flex justify-center border border-gray-300 p-4 rounded-lg shadow-lg">
