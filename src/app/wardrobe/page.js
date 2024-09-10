@@ -128,7 +128,7 @@ export default function Home() {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18" />
                 </svg>
             </button>
-            {clothe_img.length < selectedImg ?
+            {clothe_img.length < 1 ?
                 <img className="object-contain w-full h-36" src={`https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg`}/> :
                 clothe_img.map(user => (
                     <img className="object-contain w-full h-36" src={`data:image/jpeg;base64, ${user._image}`}/>
@@ -151,6 +151,7 @@ export default function Home() {
                             Clothing
                         </h1>
                     </div>
+
                     <div className="w-full h-0.5 bg-black mb-4 mt-2"></div>
                     <div className="flex justify-center">
                         <Dropdown onSelectionChange={handleSelectionChange} label="Customer : " />
