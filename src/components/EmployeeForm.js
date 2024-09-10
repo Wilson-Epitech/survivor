@@ -38,6 +38,7 @@ export default function EmployeeForm
                     'Content-Type': 'multipart/form-data',
                 },
             });
+            setGoToEmployees(true);
             return response.data;
         } catch (error) {
             console.error('Failed to upload image:', error);
@@ -58,14 +59,12 @@ export default function EmployeeForm
         if (_image) {
             image_link = await uploadImage();
         }
-        console.log("image ici: ", _image);
 
         event.preventDefault();
         const data = {_email, _name, _surname, _birth_date, _gender, _work, _image: image_link};
 
         try {
             axios.post('/api/employee/create', data);
-            setGoToEmployees(true);
         } catch (error) {
             console.error('Failed to create employee:', error);
         }
@@ -79,7 +78,7 @@ export default function EmployeeForm
 
     return (
         <div className="m-10">
-            <form onSubmit={SaveEmployee}>
+            <form className="absolute left-1/3 max-w-screen-sm translate-x-12" onSubmit={SaveEmployee}>
                 <label>Name</label>
                 <textarea
                     placeholder="name"
@@ -115,7 +114,6 @@ export default function EmployeeForm
                 />
                 <label>Gender</label>
                 <div className='flex gap-2'>
-                    <label htmlFor="male">Male</label>
                     <input
                         type="radio"
                         value="Male"
@@ -123,8 +121,8 @@ export default function EmployeeForm
                         onChange={(ev) => setGender(ev.target.checked ? "Male" : "")}
                         className="border-2 border-gray-300 rounded-md px-2 py-2"
                     />
+                    <label htmlFor="male">Male</label>
 
-                    <label htmlFor="female">Female</label>
                     <input
                         type="radio"
                         value="Female"
@@ -132,6 +130,7 @@ export default function EmployeeForm
                         onChange={(ev) => setGender(ev.target.checked ? "Female" : "")}
                         className="border-2 border-gray-300 rounded-md px-2 py-2"
                     />
+                    <label htmlFor="female">Female</label>
                 </div>
                 <label>Work</label>
                 <input

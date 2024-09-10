@@ -67,11 +67,11 @@ export default function Home() {
         setErrorClient(null);
         setErrorMessage(null);
         if (clientA === clientB) {
-            setErrorClient("You can't choose the same client");
+            setErrorClient("Please select two different clients.");
             return
         }
         if (!isClientASelected || !isClientBSelected || !firstDate || !secondDate) {
-            setErrorMessage("Clients are not correctly selected");
+            setErrorMessage("Please select two clients.");
             return;
         }
         const firstMonth = parseInt(firstDate.split("-")[1], 10);
@@ -85,7 +85,7 @@ export default function Home() {
 
     return (
         <Layout>
-            <div className="w-full flex-col items-center justify-center bg-white">
+            <div className="w-full  bg-white">
                 <div className="min-w-max  pt-11 mx-10 mt-10">
                     <div className="mb-4">
                         <h1 className="mt-2 mb-4 text-left text-5xl font-bold leading-9 tracking-tight text-gray-900">
@@ -95,26 +95,26 @@ export default function Home() {
                     <div className="w-full h-0.5 bg-black mb-4 mt-2"/>
                 </div>
 
-                <div className="m-10 max-w-[500px]">
+                <div className="m-10  flex-col items-center justify-center">
                         <div className="pt-4">
                             <div className="flex flex-row justify-between items-start">
                                 <div className="w-full flex flex-col items-center text-center">
                                     <Dropdown onSelectionChange={handleSelectionChange1} label="Client A"/>
                                         {isClientASelected ? (
                                             <>
-                                                <p className="mt-4 border-2 border-black p-2">
+                                                <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
                                                     {firstName} {firstSurname}
                                                 </p>
-                                                <p className="mt-4 border-2 border-black p-2">
+                                                <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
                                                     {firstAstro}
                                                 </p>
                                             </>
                                         ) : (
                                             <>
-                                                <p className="mt-4 border-2 border-black p-2">
+                                                <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
                                                     {""}
                                                 </p>
-                                                <p className="mt-4 border-2 border-black p-2">
+                                                <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
                                                     {""}
                                                 </p>
                                             </>
@@ -123,7 +123,7 @@ export default function Home() {
 
                                 <div className="pt-[5.4rem] flex items-center justify-center w-full">
                                     <div className="relative">
-                                        <FontAwesomeIcon icon={faArrowsAltH}/>
+                                        <FontAwesomeIcon icon={faArrowsAltH} className="size-10"/>
                                     </div>
                                 </div>
 
@@ -131,21 +131,21 @@ export default function Home() {
                                     <Dropdown onSelectionChange={handleSelectionChange2} label="Client B"/>
                                     {isClientBSelected ? (
                                         <>
-                                            <p className="mt-4 border-2 border-black p-2">
+                                            <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
                                                 {secondName} {secondSurname}
                                             </p>
-                                            <p className="mt-4 border-2 border-black p-2">
+                                            <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
                                                 {secondAstro}
                                             </p>
                                         </>
                                     ) : (
                                         <>
-                                        <p className="mt-4 border-2 border-black p-2">
-                                            {""}
-                                        </p>
-                                        <p className="mt-4 border-2 border-black p-2">
-                                            {""}
-                                        </p>
+                                            <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
+                                                {""}
+                                            </p>
+                                            <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
+                                                {""}
+                                            </p>
                                         </>
                                     )}
                                 </div>
