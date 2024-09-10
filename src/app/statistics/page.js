@@ -86,6 +86,7 @@ export default function Home() {
     const [selectedCoachIds, setSelectedCoachIds] = useState([]);
     const [encountersYearStats, setEncountersYearStats] = useState([]);
     const [ratingYearStats, setRatingYearStats] = useState([]);
+    const [zodiacCoaches, setZodiacCoaches] = useState([]);
 
     useEffect(() => {
         axios.get('/api/customers').then(response => {
@@ -135,6 +136,7 @@ export default function Home() {
             }
             setRatingYearStats(ratingYearStats)
             setEncountersYearStats(encountersYearArray);
+            setZodiacCoaches(zodiacSignsArray)
         }
     }, [selectedCoachIds]);
 
@@ -150,8 +152,6 @@ export default function Home() {
         }).catch(err => {console.error(err)});
         axios.get('http://localhost:3000/api/customers/group_customer_by_age').then(response => {
             setCustoAge(response.data);
-        }).catch(err => {console.error(err)});
-        axios.get('http://localhost:3000/api/encounters/count_encounters').then(response => {
         }).catch(err => {console.error(err)});
         axios.get('http://localhost:3000/api/encounters/encounters_rating_numbers').then(response => {
             setRating(response.data);
@@ -214,7 +214,7 @@ export default function Home() {
                                 series={[
                                     {
                                         data: [
-                                            { id: 0, value: nbMenVsWomen[1], label: 'Women' },
+                                            { id: 0, value: nbMenVsWomen[1], label: 'Women'},
                                             { id: 1, value: nbMenVsWomen[0], label: 'Men' },
                                         ],
                                     },
@@ -279,6 +279,37 @@ export default function Home() {
                                 <p>Please select a coach</p>
                             )}
                         </div>
+
+                        <div className="mt-10 flex justify-center border border-gray-300 p-4 rounded-lg shadow-lg">
+                        </div>
+                    </div>
+                    <div className="mt-10 flex justify-center border border-gray-300 p-4 rounded-lg shadow-lg">
+                    {ratingYearStats.length > 0 && ratingYearStats[0].length > 0 ? (
+                            <PieChart
+                                    series={[
+                                        {
+                                        data: [
+                                            { id: 0, value: zodiacCoaches[0], label: 'Aries' },
+                                            { id: 1, value: zodiacCoaches[1], label: 'Taurus' },
+                                            { id: 2, value: zodiacCoaches[2], label: 'Gemini' },
+                                            { id: 3, value: zodiacCoaches[3], label: 'Cancer' },
+                                            { id: 4, value: zodiacCoaches[4], label: 'Leo' },
+                                            { id: 5, value: zodiacCoaches[5], label: 'Virgo' },
+                                            { id: 6, value: zodiacCoaches[6], label: 'Libra' },
+                                            { id: 7, value: zodiacCoaches[7], label: 'Scorpio' },
+                                            { id: 8, value: zodiacCoaches[8], label: 'Sagittarius' },
+                                            { id: 9, value: zodiacCoaches[9], label: 'Capricorn' },
+                                            { id: 10, value: zodiacCoaches[10], label: 'Aquarius' },
+                                            { id: 11, value: zodiacCoaches[11], label: 'Pisces' }
+                                        ],
+                                        },
+                                    ]}
+                                    width={900}
+                                    height={300}
+                            />
+                        ) : (
+                            <p>Please select a coach</p>
+                        )}
                     </div>
                 </div>
             </main>
