@@ -13,8 +13,6 @@ export async function POST(req) {
             const body = await req.json();
             const {_email, _name, _surname, _birth_date, _gender, _work, _image} = body;
 
-            console.log(_image);
-
             let _id_employee;
             let _ids_employees = [];
             try {
