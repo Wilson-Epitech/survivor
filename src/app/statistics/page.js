@@ -44,7 +44,7 @@ export default function Home() {
     return (
         <Layout>
             <main className="min-h-screen w-full flex-col items-center justify-items-stretch bg-white">
-                <div className="h-full flex-row pt-7 mx-10 mb-48">
+                <div className="h-full flex-row mx-10 pt-20">
                     <div className="mb-4">
                         <h1 className="mt-2 mb-4 text-left text-5xl font-bold leading-9 tracking-tight text-gray-900">
                             Statistics
@@ -52,9 +52,12 @@ export default function Home() {
                     </div>
                     <div className="w-full h-0.5 bg-black mb-4"></div>
 
-                    <div className="flex justify-between items-start">
-                        <div className="ml-10 mt-10 border border-gray-300 p-4 rounded-lg shadow-lg">
-                            <div className="justify-center mb-3"><h2 className="ml-20">Encounters' rating</h2></div>
+                    <div className="flex flex-col md:flex-col lg:flex-row lg:justify-between items-center lg:items-start">
+
+                        <div className="ml-10 mr-10 lg:mr-0 mt-10 border border-gray-300 p-4 rounded-lg shadow-lg">
+                            <div className="justify-center mb-3">
+                                <h2 className="ml-20">Encounters' rating</h2>
+                            </div>
                             <PieChart
                                 series={[
                                     {
@@ -72,8 +75,10 @@ export default function Home() {
                             />
                         </div>
 
-                        <div className="mt-10 border border-gray-300 p-4 rounded-lg shadow-lg">
-                        <div className="justify-center mb-3 ml-20"><h2 className="mr-0">Coaches Vs Customers</h2></div>
+                        <div className="mt-10 ml-10 mr-10 lg:mr-0 lg:ml-0 border border-gray-300 p-4 rounded-lg shadow-lg">
+                            <div className="justify-center mb-3 ml-20">
+                                <h2 className="mr-0">Coaches Vs Customers</h2>
+                            </div>
                             <PieChart
                                 series={[
                                     {
@@ -88,8 +93,10 @@ export default function Home() {
                             />
                         </div>
 
-                        <div className="mt-10 border border-gray-300 p-4 rounded-lg shadow-lg">
-                        <div className="justify-center mb-3 ml-20"><h2 className="mr-20">Women vs Men</h2></div>
+                        <div className="mt-10 ml-10 mr-10 lg:mr-0 lg:ml-0 border border-gray-300 p-4 rounded-lg shadow-lg">
+                            <div className="justify-center mb-3 ml-20">
+                                <h2 className="mr-20">Women vs Men</h2>
+                            </div>
                             <PieChart
                                 series={[
                                     {
@@ -103,19 +110,18 @@ export default function Home() {
                                 height={200}
                             />
                         </div>
+
                     </div>
 
                     <div className="mt-10 flex justify-center border border-gray-300 p-4 rounded-lg shadow-lg">
-                    <BarChart
-                          width={500}
-                          height={300}
-                          series={[
-                            { data: customerAge, label: 'Number of Customer', id: 'uvId' },
-                          ]}
-                          xAxis={[{ data: xLabels, scaleType: 'band' }]}
+                        <BarChart
+                            width={500}
+                            height={300}
+                            series={[
+                                { data: customerAge, label: 'Number of Customer', id: 'uvId' },]}
+                            xAxis={[{ data: xLabels, scaleType: 'band' }]}
                         />
                     </div>
-
                 </div>
             </main>
         </Layout>
