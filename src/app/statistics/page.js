@@ -10,13 +10,26 @@ import DropdownStatisticsCoachs from "@/components/DropdownCoachs"
 const lastYear = [{year: "2023", month: "10"}, {year: "2023", month: "11"}, {year: "2023", month: "12"},
     {year: "2024", month: "01"}, {year: "2024", month: "02"}, {year: "2024", month: "03"},
     {year: "2024", month: "04"}, {year: "2024", month: "05"}, {year: "2024", month: "06"},
-    {year: "2024", month: "07"}, {year: "2024", month: "08"}, {year: "2024", month: "09"},
-]
+    {year: "2024", month: "07"}, {year: "2024", month: "08"}, {year: "2024", month: "09"}]
+
+const zodiacSigns = [{sign:"Aries"}, {sign:"Taurus"}, {sign:"Gemini"},
+    {sign:"Cancer"}, {sign:"Leo"}, {sign:"Virgo"}, {sign:"Libra"}, {sign:"Scorpio"},
+    {sign:"Sagittarius"}, {sign:"Capricorn"}, {sign:"Aquarius"}, {sign:"Pisces"}];
 
 function fillRatingStats(rating, ratingArray)
 {
     ratingArray[rating - 1]++;
     return ratingArray;
+}
+
+function fillZodiacSigns(zodiacSign, zodiacSignsArray)
+{
+    for (let i = 0; i < zodiacSignsArray.length; i++) {
+        if (zodiacSign == zodiacSigns[i].sign) {
+            zodiacSignsArray[i]++;
+        }
+    }
+    return zodiacSignsArray;
 }
 
 function fillRatingYearStats(year, month, rating, yearArray)
@@ -88,6 +101,7 @@ export default function Home() {
         let encountersYearArray = Array.from({ length: 12 }, () => 0);
         let ratingArray = Array.from({ length: 5 }, () => 0);
         let ratingYearStats = Array.from({ length: 12 }, () => [...ratingArray]);
+        let zodiacSignsArray = Array.from({ length: 12 }, () => 0);
 
         const lastSelectedId = selectedCoachIds.at(selectedCoachIds.length - 1);
 
@@ -102,16 +116,22 @@ export default function Home() {
                 axios.get(`/api/encounters?customer_id=${coachUsers[i]._id_customer}`).then(response => {
                 const data = response.data;
 
-                data.forEach((userData) => {
-                    const date = userData._date;
-                    const rating = userData._rating;
+                data.forEach((userEncounter) => {
+                    const date = userEncounter._date;
+                    const rating = userEncounter._rating;
                     const dateCut = date.split("-");
                     encountersYearArray = fillYearStats(dateCut[0], dateCut[1], encountersYearArray);
                     ratingYearStats = fillRatingYearStats(dateCut[0], dateCut[1], rating, ratingYearStats);
                 })
-
                 }).catch(err => {console.error(err)});
 
+                axios.get(`/api/customers/customer_astro?id=${coachUsers[i]._id_customer}`).then(response => {
+                const data = response.data;
+                data.forEach((user) => {
+                    const zodiacSign = user._astrological_sign;
+                    zodiacSignsArray = fillZodiacSigns(zodiacSign, zodiacSignsArray);
+                })
+                }).catch(err => {console.error(err)});
             }
             setRatingYearStats(ratingYearStats)
             setEncountersYearStats(encountersYearArray);
@@ -132,7 +152,6 @@ export default function Home() {
             setCustoAge(response.data);
         }).catch(err => {console.error(err)});
         axios.get('http://localhost:3000/api/encounters/count_encounters').then(response => {
-            console.log("nb of encounters:" + response.data);
         }).catch(err => {console.error(err)});
         axios.get('http://localhost:3000/api/encounters/encounters_rating_numbers').then(response => {
             setRating(response.data);
