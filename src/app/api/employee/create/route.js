@@ -18,8 +18,7 @@ export async function POST(req) {
             let _id_employee;
             let _ids_employees = [];
             try {
-                const response = await axios.get(`http://localhost:3000/api/employee/get_id`);
-                const employees = response.data;
+                const employees = await employee.find({}, { _id_employee: 1 });
                 _ids_employees = employees.map(employee => employee._id_employee);
                 const maxId = Math.max(..._ids_employees);
                 _id_employee = maxId + 1;

@@ -1,7 +1,8 @@
-"use client";
+"use client"
 
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axios from 'axios';
+
 import {
   TEDropdown,
   TEDropdownToggle,
@@ -9,19 +10,44 @@ import {
   TEDropdownItem,
 } from "tw-elements-react";
 
-const DropdownCustomers = ({onSelectionChange, label }) => {
-  const [users, setUsers] = useState([]);
-  useEffect(() => {
-    axios
-      .get("/api/customers")
-      .then((response) => {
-        console.log(response.data);
-        setUsers(response.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, []);
+const DropdownCustomers = ({ onSelectionChange, label }) => {
+    const [tmpUsers, setTmpUsers] = useState([]);
+    const [users, setUsers] = useState([]);
+    const [employeeRole, setEmployeeRole] = useState(0);
+    const [employeeID, setEmployeeID] = useState(0);
+
+    useEffect(() => {
+        axios.get('/api/customers').then(response => {
+            setTmpUsers(response.data);
+        }).catch(err => {console.error(err)});
+    }, []);
+
+    useEffect(() => {
+        axios.get('http://localhost:3000/api/employee/role').then(response => {
+            setEmployeeRole(response.data);
+        }).catch(err => {console.error(err)});
+    }, []);
+
+    useEffect(() => {
+        axios.get('http://localhost:3000/api/employee/id').then(response => {
+            setEmployeeID(response.data);
+        }).catch(err => {console.error(err)});
+    }, []);
+
+    useEffect(() => {
+        if (employeeRole && employeeID) {
+            let assignedUsers = [];
+            if (employeeRole === "Coach") {
+                tmpUsers.forEach((user) => {
+                    if (user._coach == employeeID)
+                        assignedUsers.push(user);
+                });
+                setUsers(assignedUsers);
+            } else {
+                setUsers(tmpUsers);
+            }
+        }
+    },[employeeRole, employeeID, tmpUsers]);
 
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
 

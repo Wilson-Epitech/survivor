@@ -13,5 +13,4 @@ const CustomerSchema = new Schema ({
     _coach: {type: Number},
   }, { collection: 'customers' });
 
-
 export const customer = models.customer || model('customer', CustomerSchema);
