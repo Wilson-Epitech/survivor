@@ -72,6 +72,7 @@ export default function Home() {
     const [coachUsers, setCoachUsers] = useState([]);
     const [selectedCoachIds, setSelectedCoachIds] = useState([]);
     const [encountersYearStats, setEncountersYearStats] = useState([]);
+    const [ratingYearStats, setRatingYearStats] = useState([]);
 
     useEffect(() => {
         axios.get('/api/customers').then(response => {
@@ -112,6 +113,7 @@ export default function Home() {
                 }).catch(err => {console.error(err)});
 
             }
+            setRatingYearStats(ratingYearStats)
             setEncountersYearStats(encountersYearArray);
         }
     }, [selectedCoachIds]);
@@ -216,7 +218,7 @@ export default function Home() {
 
                         <div className="mt-10 flex justify-center border border-gray-300 p-4 rounded-lg shadow-lg">
                             <BarChart
-                                width={500}
+                                width={400}
                                 height={300}
                                 series={
                                     [
@@ -226,6 +228,24 @@ export default function Home() {
                                 yAxis={[{ scaleType: 'band', data: yMonthes }]}
                                 layout="horizontal"
                             />
+                        </div>
+                        <div className="mt-10 flex justify-center border border-gray-300 p-4 rounded-lg shadow-lg">
+                            {ratingYearStats.length > 0 && ratingYearStats[0].length > 0 ? (
+                                <BarChart
+                                    xAxis={[{ scaleType: 'band', data: ['10/23', '11/23', '12/23', '01/24', '02/24', '03/24', '04/24', '05/24', '06/24', '07/24', '08/24', '09/24', '10/24', '11/24', '12/24'] }]}
+                                    series={[
+                                        { data: [ratingYearStats[0][0], ratingYearStats[1][0], ratingYearStats[2][0], ratingYearStats[3][0], ratingYearStats[4][0], ratingYearStats[5][0], ratingYearStats[6][0], ratingYearStats[7][0], ratingYearStats[8][0], ratingYearStats[9][0], ratingYearStats[10][0], ratingYearStats[11][0]], label: '1', id: 'Rating 1'},
+                                        { data: [ratingYearStats[0][1], ratingYearStats[1][1], ratingYearStats[2][1], ratingYearStats[3][1], ratingYearStats[4][1], ratingYearStats[5][1], ratingYearStats[6][1], ratingYearStats[7][1], ratingYearStats[8][1], ratingYearStats[9][1], ratingYearStats[10][1], ratingYearStats[11][1]], label: '2', id: 'Rating 2'},
+                                        { data: [ratingYearStats[0][2], ratingYearStats[1][2], ratingYearStats[2][2], ratingYearStats[3][2], ratingYearStats[4][2], ratingYearStats[5][2], ratingYearStats[6][2], ratingYearStats[7][2], ratingYearStats[8][2], ratingYearStats[9][2], ratingYearStats[10][2], ratingYearStats[11][2]], label: '3', id: 'Rating 3'},
+                                        { data: [ratingYearStats[0][3], ratingYearStats[1][3], ratingYearStats[2][3], ratingYearStats[3][3], ratingYearStats[4][3], ratingYearStats[5][3], ratingYearStats[6][3], ratingYearStats[7][3], ratingYearStats[8][3], ratingYearStats[9][3], ratingYearStats[10][3], ratingYearStats[11][3]], label: '4', id: 'Rating 4'},
+                                        { data: [ratingYearStats[0][4], ratingYearStats[1][4], ratingYearStats[2][4], ratingYearStats[3][4], ratingYearStats[4][4], ratingYearStats[5][4], ratingYearStats[6][4], ratingYearStats[7][4], ratingYearStats[8][4], ratingYearStats[9][4], ratingYearStats[10][4], ratingYearStats[11][4]], label: '5', id: 'Rating 5'}
+                                    ]}
+                                    width={400}
+                                    height={300}
+                                />
+                            ) : (
+                                <p>Loading ratings data...</p>
+                            )}
                         </div>
                     </div>
                 </div>
