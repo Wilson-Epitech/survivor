@@ -1,7 +1,6 @@
 "use client"
 
 import axios from 'axios';
-// const { default: axios } = require("axios");
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from "react";
 
@@ -17,27 +16,52 @@ export default function EmployeeForm
     image:exisitingImage,
 }) {
 
-    // const [_id_employee, setIdEmployee] = useState(exisitingId || '');
     const [_name, setName] = useState(existingName || '');
     const [_email, setEmail] = useState(existingEmail || '');
     const [_surname, setSurname] = useState(existingSurname || '');
     const [_birth_date, setDate] = useState(existingDate || '');
     const [_gender, setGender] = useState(existingGender || '');
     const [_work, setWork] = useState(existingWork || '');
-    const [_image, setImage] = useState(exisitingImage || '');
+    const [_image, setImage] = useState(null);
     const [goToEmployees, setGoToEmployees] = useState(false);
     const router = useRouter();
 
-    const SaveEmployee = async (event) => {
+    const uploadImage = async () => {
+        const formData = new FormData();
+        formData.append("file", _image);
+
+        try {
+            const response = await axios.post('/api/employee/image/upload', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            return response.data;
+        } catch (error) {
+            console.error('Failed to upload image:', error);
+            return null;
+        }
+    };
+
+    const SaveEmployee = async (event) =>
+    {
         event.preventDefault();
-        const data = {_email, _name, _surname, _birth_date, _gender, _work, _image};
+        let image_link = '';
+
+        if (_image) {
+            image_link = await uploadImage();
+        }
+        console.log("image ici: ", _image);
+
+        event.preventDefault();
+        const data = {_email, _name, _surname, _birth_date, _gender, _work, _image: image_link};
 
         try {
             axios.post('/api/employee/create', data);
+            setGoToEmployees(true);
         } catch (error) {
-            console.error('Failed to save product:', error);
+            console.error('Failed to create employee:', error);
         }
-        setGoToEmployees(true);
     };
 
     useEffect(() => {
@@ -55,6 +79,7 @@ export default function EmployeeForm
                     value={_name}
                     onChange={ev => setName(ev.target.value)}
                     className="border-2 border-gray-300 rounded-md px-1 w-full"
+                    required
                 />
                 <label>Surname</label>
                 <textarea
@@ -62,42 +87,56 @@ export default function EmployeeForm
                     value={_surname}
                     onChange={ev => setSurname(ev.target.value)}
                     className="border-2 border-gray-300 rounded-md px-1 w-full"
+                    required
                 />
                 <label>Email</label>
                 <input
                     placeholder="email"
                     value={_email}
                     onChange={ev => setEmail(ev.target.value)}
-                    className="border-2 border-gray-300 rounded-md px-1 w-full"
+                    className="border-2 border-gray-300 rounded-md px-1 py-2 w-full"
+                    required
                 />
                 <label>Birth Date</label>
                 <input
                     placeholder="birth date"
                     value={_birth_date}
                     onChange={ev => setDate(ev.target.value)}
-                    className="border-2 border-gray-300 rounded-md px-1 w-full"
+                    className="border-2 border-gray-300 rounded-md px-1 py-2 w-full"
+                    required
                 />
                 <label>Gender</label>
                 <input
                     placeholder="gender"
                     value={_gender}
                     onChange={ev => setGender(ev.target.value)}
-                    className="border-2 border-gray-300 rounded-md px-1 w-full"
+                    className="border-2 border-gray-300 rounded-md px-1 py-2 w-full"
+                    required
                 />
                 <label>Work</label>
                 <input
                     placeholder="work"
                     value={_work}
                     onChange={ev => setWork(ev.target.value)}
-                    className="border-2 border-gray-300 rounded-md px-1 w-full"
+                    className="border-2 border-gray-300 rounded-md px-1 py-2 w-full"
+                    required
                 />
-                <label>Image</label>
-                <input
-                    placeholder="image"
-                    value={_image}
-                    onChange={ev => setImage(ev.target.value)}
-                    className="border-2 border-gray-300 rounded-md px-1 w-full"
-                />
+                <label className="w-24 h-24 mt-2 cursor-pointer text-center flex items-center justify-center text-sm gap-1 text-gray-500 rounded-lg bg-gray-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
+                    </svg>
+                    <div>
+                        Upload
+                    </div>
+                    <input
+                        type="file"
+                        onChange={ev => setImage(ev.target.files[0])}
+                        className='hidden'
+                        accept="image/*"
+                        multiple={false}
+                        required>
+                    </input>
+                </label>
                 <button type="submit" className="mt-2 bg-[#2D84B9] text-white px-4 py-1">Save</button>
             </form>
         </div>

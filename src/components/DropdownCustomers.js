@@ -9,7 +9,7 @@ import {
   TEDropdownItem,
 } from "tw-elements-react";
 
-const DropdownCustomers = ({ onSelectionChange, label }) => {
+const DropdownCustomers = ({onSelectionChange, label }) => {
   const [users, setUsers] = useState([]);
   useEffect(() => {
     axios

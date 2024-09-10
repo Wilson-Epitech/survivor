@@ -13,6 +13,8 @@ export async function POST(req) {
             const body = await req.json();
             const {_email, _name, _surname, _birth_date, _gender, _work, _image} = body;
 
+            console.log(_image);
+
             let _id_employee;
             let _ids_employees = [];
             try {
@@ -24,7 +26,6 @@ export async function POST(req) {
             } catch (error) {
                 return NextResponse.json({ error: 'Failed to get employees ID' }, { status: 500 });
             }
-
 
             const result = await employee.create({_id_employee, _email, _name, _surname, _birth_date, _gender, _work, _image});
             return NextResponse.json(result);
