@@ -4,7 +4,6 @@ import mime from 'mime-types';
 
 export async function POST(req)
 {
-
     const client = new S3Client({
         region: 'eu-north-1',
         credentials: {
