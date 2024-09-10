@@ -40,7 +40,7 @@ export default function Home() {
                     </div>
 
                     <div className="mt-8">
-                        <button type="submit" className="flex w-full justify-center rounded-md bg-[#2E84B9] px-4 py-2 text-mb font-semibold leading-6 text-white shadow-sm hover:bg-[#2E84B9] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
+                        <button type="submit" className="flex w-full justify-center rounded-md bg-[#2E84B9] px-4 py-2 text-mb font-semibold leading-6 text-white shadow-sm hover:bg-[#5197c3] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
                     </div>
                 </form>
                 {formState?.message && (<p className="text-red-500 text-sm text-center mt-4">{formState.message}</p>)}

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import axios from 'axios';
+import { logout } from "@/app/logout/logout";
 
 const Statistics = () =>
 {
@@ -134,6 +135,9 @@ const Navbar = () =>
                             </a>
                         </li>
                     </ul>
+                    <div className="absolute bottom-0 pb-2">
+                        <button type="submit" onClick={() => {logout()}} className="flex w-full justify-center rounded-md bg-[#878787] px-4 py-2 text-mb font-semibold leading-6 text-white shadow-sm hover:bg-[#b6b6b6] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Log out</button>
+                    </div>
                 </div>
             </nav>
         </aside>
