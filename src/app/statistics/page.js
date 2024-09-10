@@ -182,8 +182,8 @@ export default function Home() {
 
     return (
         <Layout>
-            <main className="min-h-screen w-full flex-col items-center justify-items-stretch bg-white">
-                <div className="h-full flex-row pt-7 mx-10 mb-48">
+            <main className="min-h-screen w-full flex-col items-center justify-items-stretch bg-white pb-10">
+                <div className="h-full flex-row pt-20 mx-10">
                     <div className="mb-4">
                         <h1 className="mt-2 mb-4 text-left text-5xl font-bold leading-9 tracking-tight text-gray-900">
                             Statistics
@@ -191,11 +191,12 @@ export default function Home() {
                     </div>
                     <div className="w-full h-0.5 bg-black mb-4"></div>
 
-                    <div className="flex justify-center">
+                    <div className="flex flex-col md:flex-col lg:flex-row lg:justify-between items-center lg:items-start">
                         <h2 className="text-3xl">Global Statistics</h2>
                     </div>
-                    <div className="flex justify-between items-start">
-                        <div className="ml-10 mt-10 border border-gray-300 p-4 rounded-lg shadow-lg">
+                    <div className="flex flex-col md:flex-col lg:flex-row lg:justify-between items-center lg:items-start">
+
+                        <div className="ml-10 mr-10 lg:mr-0 mt-10 border border-gray-300 p-4 rounded-lg shadow-lg">
                             <div className="justify-center mb-3"><h2 className="ml-20">Encounters' rating</h2></div>
                             <PieChart
                                 series={[
@@ -247,15 +248,19 @@ export default function Home() {
                         </div>
                     </div>
                     <div className="mt-10 flex justify-center border border-gray-300 p-4 rounded-lg shadow-lg">
+                        <div className="flex flex-col">
+                            <div className="mb-3"><h2 className="text-center">Customers' average age group</h2></div>
                             <BarChart
-                                width={500}
+                                width={400}
                                 height={300}
                                 series={[
                                     { data: customerAge, label: 'Number of Customer', id: 'uvId' },
                                 ]}
                                 xAxis={[{ data: xLabels, scaleType: 'band' }]}
                             />
+                        </div>
                     </div>
+
                     <div className="justify-center">
                         <div className="w-full h-0.5 bg-black mb-4 mt-20"></div>
                         <div className="flex justify-center">
@@ -265,9 +270,11 @@ export default function Home() {
                             <DropdownStatisticsCoachs onSelectionChange={handleSelectionChange} label="Coach Selection"/>
                         </div>
                     </div>
-                    <div className="flex justify-between items-start">
+                    <div className="flex flex-col md:flex-col lg:flex-row lg:justify-between items-center lg:items-start">
                         <div className="mt-10 flex justify-center border border-gray-300 p-4 rounded-lg shadow-lg">
                             {selectedCoachIds > 0 ? (
+                                <div className="flex flex-col">
+                                    <div className="mb-3"><h2 className="text-center font-bold">Number of dates per month</h2></div>
                                 <BarChart
                                     width={400}
                                     height={300}
@@ -279,12 +286,15 @@ export default function Home() {
                                     yAxis={[{ scaleType: 'band', data: yMonthes }]}
                                     layout="horizontal"
                                 />
+                                </div>
                             ) : (
                                 <p>Please select a coach</p>
                             )}
                         </div>
                         <div className="mt-10 flex justify-center border border-gray-300 p-4 rounded-lg shadow-lg">
                             {selectedCoachIds > 0 ? (
+                                <div className="flex flex-col">
+                                    <div className="mb-3"><h2 className="text-center font-bold">Dates' rating per month</h2></div>
                                 <BarChart
                                     xAxis={[{ scaleType: 'band', data: ['10/23', '11/23', '12/23', '01/24', '02/24', '03/24', '04/24', '05/24', '06/24', '07/24', '08/24', '09/24', '10/24', '11/24', '12/24'] }]}
                                     series={[
@@ -297,60 +307,69 @@ export default function Home() {
                                     width={400}
                                     height={300}
                                 />
+                                </div>
                             ) : (
                                 <p>Please select a coach</p>
                             )}
                         </div>
+
                         <div className="mt-10 flex justify-center border border-gray-300 p-4 rounded-lg shadow-lg">
-                            {selectedCoachIds > 0 ? (
-                                <Stack direction={{ xs: 'column', md: 'row' }} spacing={{ xs: 1, md: 3 }}>
-                                    <Gauge width={400} height={300} value={totalSumSale} startAngle={-90} endAngle={90} valueMax={2000} sx={{
-                                        [`& .${gaugeClasses.valueText}`]: {
-                                            fontSize: 30,
-                                            transform: 'translate(0px, 0px)',
-                                        },
-                                        }}
-                                        text={
-                                            ({ value, valueMax }) => `${value}$ / ${valueMax}$`
-                                        }
-                                 />
-                                </Stack>
-                            ) : (
-                                <p>Please select a coach</p>
-                            )}
+                                {ratingYearStats.length > 0 && ratingYearStats[0].length > 0 ? (
+                                <div className="flex flex-col">
+                                    <div className="mb-3"><h2 className="text-center font-bold">Income brought by coach vs goal</h2></div>
+                                    <Stack direction={{ xs: 'column', md: 'row' }} spacing={{ xs: 1, md: 3 }}>
+                                        <Gauge width={400} height={300} value={totalSumSale} startAngle={-90} endAngle={90} valueMax={2000} sx={{
+                                            [`& .${gaugeClasses.valueText}`]: {
+                                                fontSize: 30,
+                                                transform: 'translate(0px, 0px)',
+                                            },
+                                            }}
+                                            text={
+                                                ({ value, valueMax }) => `${value}$ / ${valueMax}$`
+                                            }
+                                    />
+                                    </Stack>
+                                </div>
+                                ) : (
+                                    <p>Please select a coach</p>
+                                )}
                         </div>
                     </div>
-                    <div className="mt-10 flex justify-center border border-gray-300 p-4 rounded-lg shadow-lg">
-                    {selectedCoachIds > 0 ? (
-                            <PieChart
-                                    series={[
-                                        {
-                                        data: [
-                                            { id: 0, value: zodiacCoaches[0], label: 'Aries' },
-                                            { id: 1, value: zodiacCoaches[1], label: 'Taurus' },
-                                            { id: 2, value: zodiacCoaches[2], label: 'Gemini' },
-                                            { id: 3, value: zodiacCoaches[3], label: 'Cancer' },
-                                            { id: 4, value: zodiacCoaches[4], label: 'Leo' },
-                                            { id: 5, value: zodiacCoaches[5], label: 'Virgo' },
-                                            { id: 6, value: zodiacCoaches[6], label: 'Libra' },
-                                            { id: 7, value: zodiacCoaches[7], label: 'Scorpio' },
-                                            { id: 8, value: zodiacCoaches[8], label: 'Sagittarius' },
-                                            { id: 9, value: zodiacCoaches[9], label: 'Capricorn' },
-                                            { id: 10, value: zodiacCoaches[10], label: 'Aquarius' },
-                                            { id: 11, value: zodiacCoaches[11], label: 'Pisces' }
-                                        ],
-                                        },
-                                    ]}
-                                    width={900}
-                                    height={300}
-                            />
-                        ) : (
-                            <p>Please select a coach</p>
-                        )}
+                    <div className="w-full flex justify-center overflow-auto">
+                        <div className="mt-10 w-fit flex border border-gray-300 p-4 rounded-lg shadow-lg">
+                            {selectedCoachIds > 0 ? (
+                                <div className="flex flex-col">
+                                    <div className="mb-3"><h2 className="text-center font-bold">Clients' astrological sign</h2></div>
+                                    <PieChart
+                                        series={[
+                                            {
+                                            data: [
+                                                { id: 0, value: zodiacCoaches[0], label: 'Aries' },
+                                                { id: 1, value: zodiacCoaches[1], label: 'Taurus' },
+                                                { id: 2, value: zodiacCoaches[2], label: 'Gemini' },
+                                                { id: 3, value: zodiacCoaches[3], label: 'Cancer' },
+                                                { id: 4, value: zodiacCoaches[4], label: 'Leo' },
+                                                { id: 5, value: zodiacCoaches[5], label: 'Virgo' },
+                                                { id: 6, value: zodiacCoaches[6], label: 'Libra' },
+                                                { id: 7, value: zodiacCoaches[7], label: 'Scorpio' },
+                                                { id: 8, value: zodiacCoaches[8], label: 'Sagittarius' },
+                                                { id: 9, value: zodiacCoaches[9], label: 'Capricorn' },
+                                                { id: 10, value: zodiacCoaches[10], label: 'Aquarius' },
+                                                { id: 11, value: zodiacCoaches[11], label: 'Pisces' }
+                                            ],
+                                            },
+                                        ]}
+                                        width={700}
+                                        height={300}
+                                    />
+                                </div>
+                            ) : (
+                                <p>Please select a coach</p>
+                            )}
+                        </div>
                     </div>
                 </div>
             </main>
         </Layout>
-
     );
 }
