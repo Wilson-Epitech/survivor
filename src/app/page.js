@@ -3,6 +3,7 @@
 import Layout from "@/components/Layout";
 import axios from 'axios';
 import { useEffect, useState } from "react";
+import { PieChart } from '@mui/x-charts/PieChart';
 
 export default function Home()
 {
@@ -10,6 +11,9 @@ export default function Home()
   const [numberCustomer, setCustoNb] = useState(0);
   const [numberDate, setDateNb] = useState(0);
   const [numberEvent, setEventNb] = useState(0);
+
+  const [numberRating, setRating] = useState([]);
+  const [nbMenVsWomen, setGenderDisp] = useState([]);
 
   useEffect(() => {
     axios.get('http://localhost:3000/api/employee/count_coachs').then(response => {
@@ -24,6 +28,12 @@ export default function Home()
     axios.get('http://localhost:3000/api/events/count_events').then(response => {
       setEventNb(response.data);
     }).catch(err => {console.error(err)});
+    axios.get('http://localhost:3000/api/encounters/encounters_rating_numbers').then(response => {
+      setRating(response.data);
+  }).catch(err => {console.error(err)});
+  axios.get('http://localhost:3000/api/customers/count_customers_by_gender').then(response => {
+    setGenderDisp(response.data);
+}).catch(err => {console.error(err)});
   }, []);
 
   return (
@@ -59,11 +69,65 @@ export default function Home()
               </div>
             </div>
 
-            <div className="mb-4 flex flex-row items-center justify-center mt-28">
-              <p className="lg:text-9xl md:text-8xl text-7xl text-green-300">23.975,43$</p>
-            </div>
-            <div className="mb-4 flex flex-row items-center justify-center mt-5">
-              <p className="lg:text-5xl md:text-4xl text-4xl text-black">Sales Revenue</p>
+            <div className="flex flex-col md:flex-col lg:flex-row lg:justify-between items-center lg:items-start">
+
+              <div className="ml-10 mr-10 lg:mr-0 mt-10 border border-gray-300 p-4 rounded-lg shadow-lg">
+                  <div className="justify-center mb-3">
+                      <h2 className="ml-20">Encounters' rating</h2>
+                  </div>
+                  <PieChart
+                      series={[
+                          {
+                              data: [
+                                  { id: 0, value: numberRating[0], label: '1 Star' },
+                                  { id: 1, value: numberRating[1], label: '2 Star' },
+                                  { id: 3, value: numberRating[2], label: '3 Star' },
+                                  { id: 4, value: numberRating[3], label: '4 Star' },
+                                  { id: 5, value: numberRating[4], label: '5 Star' },
+                              ],
+                          },
+                      ]}
+                      width={400}
+                      height={200}
+                  />
+              </div>
+
+              <div className="mt-10 ml-10 mr-10 lg:mr-0 lg:ml-0 border border-gray-300 p-4 rounded-lg shadow-lg">
+                  <div className="justify-center mb-3 ml-20">
+                      <h2 className="mr-0">Coaches Vs Customers</h2>
+                  </div>
+                  <PieChart
+                      series={[
+                          {
+                              data: [
+                                  { id: 0, value: numberCoach, label: 'Coaches' },
+                                  { id: 1, value: numberCustomer, label: 'Customer' },
+                              ],
+                          },
+                      ]}
+                      width={400}
+                      height={200}
+                  />
+              </div>
+
+              <div className="mt-10 ml-10 mr-10 lg:mr-0 lg:ml-0 border border-gray-300 p-4 rounded-lg shadow-lg">
+                  <div className="justify-center mb-3 ml-20">
+                      <h2 className="mr-20">Women vs Men</h2>
+                  </div>
+                  <PieChart
+                      series={[
+                          {
+                              data: [
+                                  { id: 0, value: nbMenVsWomen[1], label: 'Women' },
+                                  { id: 1, value: nbMenVsWomen[0], label: 'Men' },
+                              ],
+                          },
+                      ]}
+                      width={400}
+                      height={200}
+                  />
+              </div>
+
             </div>
 
           </div>
