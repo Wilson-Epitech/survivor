@@ -57,101 +57,105 @@ export default function Home()
 
     return (
         <Layout>
-        <main className="min-h-screen w-fit flex-col items-center grid justify-items-stretch bg-white">
-            <div className="h-4/6 flex-row pt-7 mx-10 mb-48">
+            <main className="w-full bg-white px-4 py-5 sm:px-6 lg:px-8">
                 <div className="mb-4">
-                    <h1 className="mt-2 mb-4 text-left text-5xl font-bold leading-9 tracking-tight text-gray-900">
+                    <h1 className="mt-2 mb-4 text-left text-3xl sm:text-4xl lg:text-5xl font-bold leading-9 tracking-tight text-gray-900">
                         Customers
                     </h1>
                 </div>
-                <div className="w-full h-0.5 bg-black mb-4"></div>
-                <div className="w-full flex flex-row h-fit">
-                    <div className="w-3/4 h-fit">
-                        <div className="w-full h-12">
-                            <Dropdown onSelectionChange={handleSelectionChange} label={(users._name) ? ("Customer : ") + users._name : ("Customer : ")} />
+                <div className="w-full h-px bg-black mb-4"></div>
+
+                <div className="w-full flex flex-col lg:flex-row lg:items-start mb-6">
+                    <div className="w-full lg:w-3/4 lg:pr-4">
+                        <div className="w-full mb-4">
+                            <Dropdown onSelectionChange={handleSelectionChange} label={users._name ? `Customer : ${users._name}` : "Customer : "} />
                         </div>
-                        <div className="w-full h-12 flex items-center">
-                        <img className="w-[1.5rem] h-[1.5rem] ml-0.5 mr-2" src="/Happy.ico" alt="Happy icon" />
-                            <p className="mt-2 mb-2 text-left text-3xl font-bold leading-9 tracking-tight text-gray-900">
-                                {(users.find(user => user._id_customer === selectedCustomerIds.at(selectedCustomerIds.length - 1))?._name)} {(users.find(user => user._id_customer === selectedCustomerIds.at(selectedCustomerIds.length - 1))?._surname)}
+                        <div className="w-full mb-4 flex items-center">
+                            <img className="w-6 h-6 mr-2 sm:w-7 sm:h-7" src="/Happy.ico" alt="Happy icon" />
+                            <p className="text-lg sm:text-xl lg:text-3xl font-bold text-gray-900">
+                                {users.find(user => user._id_customer === selectedCustomerIds.at(-1))?._name} {users.find(user => user._id_customer === selectedCustomerIds.at(-1))?._surname}
                             </p>
                         </div>
-                        <div className="w-full h-12 flex items-center">
-                            <img className="w-[1.5rem] h-[1.5rem] mr-2" src="/Birth.ico" alt="Happy icon" />
-                            <p className="text-left text-2xl leading-9 tracking-tight text-gray-900">
-                                {(userBirthdate.find(user => user._id_customer === selectedCustomerIds.at(selectedCustomerIds.length - 1))?._birth_date)}
+                        <div className="w-full mb-4 flex items-center">
+                            <img className="w-6 h-6 mr-2 sm:w-7 sm:h-7" src="/Birth.ico" alt="Birth icon" />
+                            <p className="text-base sm:text-lg lg:text-2xl text-gray-900">
+                                {userBirthdate.find(user => user._id_customer === selectedCustomerIds.at(-1))?._birth_date}
                             </p>
                         </div>
-                        <div className="w-full h-12 flex items-center">
-                            <img className="w-[1.4rem] h-[1.7rem] ml-1 mr-2" src="/Location.ico" alt="Happy icon" />
-                            <p className="text-left text-2xl leading-9 tracking-tight text-gray-900">
-                                {(userAddress.find(user => user._id_customer === selectedCustomerIds.at(selectedCustomerIds.length - 1))?._address)}
+                        <div className="w-full mb-4 flex items-center">
+                            <img className="w-6 h-6 mr-2 sm:w-7 sm:h-7" src="/Location.ico" alt="Location icon" />
+                            <p className="text-base sm:text-lg lg:text-2xl text-gray-900">
+                                {userAddress.find(user => user._id_customer === selectedCustomerIds.at(-1))?._address}
                             </p>
                         </div>
                     </div>
-                    <div className="w-1/4 flex-none mb-4">
-                        <img className="object-contain w-full h-36" src={`data:image/jpeg;base64, ${img}`}></img>
+                    <div className="w-full lg:w-1/4 flex justify-start lg:justify-end">
+                        {img ? (
+                            <img className="object-contain w-24 h-24 sm:w-32 sm:h-32 lg:w-36 lg:h-36" src={`data:image/jpeg;base64,${img}`} alt="Customer Photo" />
+                        ) : (
+                            <div className="w-24 h-24 sm:w-32 sm:h-32 lg:w-36 lg:h-36 bg-gray-200 flex items-center justify-center">
+                                <span className="text-gray-500">No Image</span>
+                            </div>
+                        )}
                     </div>
                 </div>
-                <div className="w-full h-0.5 bg-black mb-4 mt-4"></div>
-                <div className="flex flex-row gap-6">
-                    <div className="w-fit sm:-mx-6 lg:-mx-8">
-                        <div className="inline-block w-full py-2 sm:px-12 lg:px-8">
-                            <div className="overflow-hidden">
-                                <h2 className="font-bold  text-2xl mb-4">Payments</h2>
+                <div className="w-full h-px bg-black mb-4"></div>
+
+                <div className="flex flex-col lg:flex-row gap-4 w-full">
+                    <div className="w-full lg:w-1/2 px-2 sm:px-4 lg:px-2">
+                        <div className="py-2">
+                            <h2 className="font-bold text-xl sm:text-2xl lg:text-2xl mb-4">Payments</h2>
+                            <div className="overflow-x-auto">
                                 <table className="min-w-full text-left text-sm font-light">
-                                    <thead
-                                        className="border-2 border-black bg-[#2C84B9] font-medium dark:border-neutral-500 dark:bg-neutral-600">
+                                    <thead className="bg-[#2C84B9] text-white">
                                         <tr>
-                                            <th scope="col" className="px-12 py-4 border-2 border-black text-white">Date</th>
-                                            <th scope="col" className="px-12 py-4 border-2 border-black text-white">Amount</th>
-                                            <th scope="col" className="px-12 py-4 border-2 border-black text-white">Comment</th>
+                                            <th scope="col" className="px-4 py-2 border-2 border-black whitespace-nowrap">Date</th>
+                                            <th scope="col" className="px-4 py-2 border-2 border-black whitespace-nowrap">Amount</th>
+                                            <th scope="col" className="px-4 py-2 whitespace-nowrap border-2 border-black">Comment</th>
                                         </tr>
                                     </thead>
-                                    {userPayement.map((user) => (
-                                        <tbody>
-                                            <tr className="border-2 border-black bg-neutral-100 dark:border-neutral-500 dark:bg-neutral-700">
-                                                <td className="whitespace-nowrap border-2 border-black px-4 py-2">{user._date}</td>
-                                                <td className="whitespace-nowrap border-2 border-black px-4 py-2">{user._amount}</td>
-                                                <td className="whitespace-nowrap border-2 border-black px-4 py-2">{user._comment}</td>
+                                    <tbody>
+                                        {userPayement.map((payment) => (
+                                            <tr key={payment._id} className="bg-neutral-100 border-b border-black">
+                                                <td className="whitespace-nowrap px-4 py-2 border-2 border-black">{payment._date}</td>
+                                                <td className="whitespace-nowrap px-4 py-2 border-2 border-black">{payment._amount}</td>
+                                                <td className="whitespace-nowrap px-4 py-2 border-2 border-black">{payment._comment}</td>
                                             </tr>
-                                        </tbody>
-                                    ))}
+                                        ))}
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-                    <div className="w-fit sm:-mx-6 lg:-mx-8">
-                        <div className="inline-block w-full py-2 sm:px-12 lg:px-8">
-                            <div className="overflow-hidden">
-                                <h2 className="font-bold  text-2xl mb-4">Meetings</h2>
+                    <div className="w-full lg:w-1/2 px-2 sm:px-4 lg:px-2">
+                        <div className="py-2">
+                            <h2 className="font-bold text-xl sm:text-2xl lg:text-2xl mb-4">Meetings</h2>
+                            <div className="overflow-x-auto">
                                 <table className="min-w-full text-left text-sm font-light">
-                                    <thead
-                                        className="border-2 border-black bg-[#2C84B9] font-medium dark:border-neutral-500 dark:bg-neutral-600">
+                                    <thead className="bg-[#2C84B9] text-white">
                                         <tr>
-                                            <th scope="col" className="px-12 py-4 border-2 border-black text-white">Date</th>
-                                            <th scope="col" className="px-12 py-4 border-2 border-black text-white">Rating</th>
-                                            <th scope="col" className="px-12 py-4 border-2 border-black text-white">Report</th>
-                                            <th scope="col" className="px-12 py-4 border-2 border-black text-white">Source</th>
+                                            <th scope="col" className="px-4 py-2 border-2 border-black whitespace-nowrap">Date</th>
+                                            <th scope="col" className="px-4 py-2 border-2 border-black whitespace-nowrap">Rating</th>
+                                            <th scope="col" className="px-4 py-2 border-2 border-black whitespace-nowrap">Report</th>
+                                            <th scope="col" className="px-4 py-2 whitespace-nowrap border-2 border-black">Source</th>
                                         </tr>
                                     </thead>
-                                    {userDate.map((user) => (
-                                        <tbody>
-                                            <tr className="border-2 border-black bg-neutral-100 dark:border-neutral-500 dark:bg-neutral-700">
-                                                <td className="whitespace-nowrap border-2 border-black px-4 py-2">{user._date}</td>
-                                                <td className="whitespace-nowrap border-2 border-black px-4 py-2">{user._rating}</td>
-                                                <td className="whitespace-nowrap border-2 border-black px-4 py-2">{user._comment}</td>
-                                                <td className="whitespace-nowrap border-2 border-black px-4 py-2">{user._source}</td>
+                                    <tbody>
+                                        {userDate.map((meeting) => (
+                                            <tr key={meeting._id} className="bg-neutral-100 border-b border-black">
+                                                <td className="whitespace-nowrap px-4 py-2 border-2 border-black">{meeting._date}</td>
+                                                <td className="whitespace-nowrap px-4 py-2 border-2 border-black">{meeting._rating}</td>
+                                                <td className="whitespace-nowrap px-4 py-2 border-2 border-black">{meeting._comment}</td>
+                                                <td className="whitespace-nowrap px-4 py-2 border-2 border-black">{meeting._source}</td>
                                             </tr>
-                                        </tbody>
-                                    ))}
+                                        ))}
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </main>
+            </main>
         </Layout>
     );
 }
