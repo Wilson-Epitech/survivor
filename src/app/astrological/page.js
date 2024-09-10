@@ -166,7 +166,7 @@ export default function Home() {
                                 )}
                                 <button
                                     type="submit"
-                                    className="px-4 py-2 bg-[#2D84B9] text-white items-center"
+                                    className="px-4 py-2 bg-[#2D84B9] hover:bg-[#5197c3] text-white items-center"
                                     onClick={calculateCompatibility}
                                 >
                                     Submit
