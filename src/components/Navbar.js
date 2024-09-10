@@ -48,6 +48,21 @@ const DisplayStatistics = ({role}) =>
 const Navbar = () =>
 {
     const [employeeRole, setEmployeeRole] = useState(0);
+    const [isHamburger, setIsHamburger] = useState(0);
+
+    const changeHamburger = () => {
+        setIsHamburger(() => {
+            if (isHamburger === 1)
+                return 0;
+            return 1;
+        });
+    };
+
+    const resetHamburger = () => {
+        setIsHamburger(() => {
+            return 0;
+        });
+    };
 
     useEffect(() => {
         axios.get('http://localhost:3000/api/employee/role').then(response => {
@@ -55,11 +70,32 @@ const Navbar = () =>
         }).catch(err => {console.error(err)});
     }, []);
 
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth >= 1024) {
+                resetHamburger();
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+        handleResize();
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
     return (
-        <aside className="sm:w-0 md:w-0 lg:w-1/6 w-1/6 mt-10 mb-10 border-r-2 border-r-black hidden sm:block">
+        <aside className={`lg:w-56 w-0 mt-10 mb-10 lg:border-r-2 lg:border-r-black ${isHamburger === 0 ? '' : 'bg-white h-full w-56 min-w-56 group-hover:visible absolute border-b-2 border-r-2 border-black'}`}>
             <nav className="flex flex-col gap-2">
-                <div className="mt-10 overflow-y-auto py-5 px-3 h-full bg-white dark:bg-gray-800 dark:border-gray-700">
-                    <ul className="p-1 mb-2 text-3xl font-medium">
+            <div className="flex pl-4 w-full lg:hidden group-hover:visible absolute">
+                        <button onClick={() => changeHamburger()}>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                            </svg>
+                        </button>
+                    </div>
+                <div className="mt-10 overflow-y-auto py-5 lg:px-3 h-full bg-white dark:bg-gray-800 dark:border-gray-700">
+                    <ul className={`p-1 mb-2 text-3xl font-medium lg:block lg:w-full w-0 ${isHamburger === 0 ? 'hidden' : 'w-full block'}`}>
                         <li className="flex flex-col pb-3">
                             <a href={'/'} className="cursor-pointer hover:bg-[#878787] p-1">
                                 Home

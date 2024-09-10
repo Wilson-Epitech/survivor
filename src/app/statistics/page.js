@@ -143,7 +143,6 @@ export default function Home() {
                         zodiacSignsArray = fillZodiacSigns(zodiacSign, zodiacSignsArray);
                     })
                 }).catch(err => {console.error(err)});
-
                 axios.get(`/api/orders?id=${coachUsers[i]._id_customer}`).then(response => {
 
                     const data = response.data;
@@ -215,8 +214,10 @@ export default function Home() {
                             />
                         </div>
 
-                        <div className="mt-10 border border-gray-300 p-4 rounded-lg shadow-lg">
-                        <div className="justify-center mb-3 ml-20"><h2 className="mr-0">Coaches Vs Customers</h2></div>
+                        <div className="mt-10 ml-10 mr-10 lg:mr-0 lg:ml-0 border border-gray-300 p-4 rounded-lg shadow-lg">
+                            <div className="justify-center mb-3 ml-20">
+                                <h2 className="mr-0">Coaches Vs Customers</h2>
+                            </div>
                             <PieChart
                                 series={[
                                     {
@@ -231,8 +232,10 @@ export default function Home() {
                             />
                         </div>
 
-                        <div className="mt-10 border border-gray-300 p-4 rounded-lg shadow-lg">
-                        <div className="justify-center mb-3 ml-20"><h2 className="mr-20">Women vs Men</h2></div>
+                        <div className="mt-10 ml-10 mr-10 lg:mr-0 lg:ml-0 border border-gray-300 p-4 rounded-lg shadow-lg">
+                            <div className="justify-center mb-3 ml-20">
+                                <h2 className="mr-20">Women vs Men</h2>
+                            </div>
                             <PieChart
                                 series={[
                                     {
@@ -246,6 +249,7 @@ export default function Home() {
                                 height={200}
                             />
                         </div>
+
                     </div>
                     <div className="mt-10 flex justify-center border border-gray-300 p-4 rounded-lg shadow-lg">
                         <div className="flex flex-col">
@@ -314,11 +318,11 @@ export default function Home() {
                         </div>
 
                         <div className="mt-10 flex justify-center border border-gray-300 p-4 rounded-lg shadow-lg">
-                                {ratingYearStats.length > 0 && ratingYearStats[0].length > 0 ? (
+                                {selectedCoachIds > 0  ? (
                                 <div className="flex flex-col">
                                     <div className="mb-3"><h2 className="text-center font-bold">Income brought by coach vs goal</h2></div>
                                     <Stack direction={{ xs: 'column', md: 'row' }} spacing={{ xs: 1, md: 3 }}>
-                                        <Gauge width={400} height={300} value={totalSumSale} startAngle={-90} endAngle={90} valueMax={2000} sx={{
+                                        <Gauge width={400} height={300} value={Math.ceil(totalSumSale)} startAngle={-90} endAngle={90} valueMax={2000} sx={{
                                             [`& .${gaugeClasses.valueText}`]: {
                                                 fontSize: 30,
                                                 transform: 'translate(0px, 0px)',

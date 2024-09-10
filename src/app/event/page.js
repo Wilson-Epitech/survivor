@@ -34,7 +34,7 @@ export default function Home() {
 
     return (
         <Layout>
-            <main className="h-screen w-full flex-col items-center bg-white">
+            <main className="h-screen w-full flex-col items-center bg-white block">
                 <div className="mx-10 mt-24 h-4/5">
                     <div className="mb-4">
                         <h1 className="mt-2 mb-4 text-left text-5xl font-bold leading-9 tracking-tight text-gray-900">
@@ -42,8 +42,8 @@ export default function Home() {
                         </h1>
                     </div>
                     <div className="w-full h-0.5 bg-black mb-4 mt-4"></div>
-                    <div className="flex flex-row h-full w-full gap-6">
-                        <div className="h-full w-1/2">
+                    <div className="flex lg:flex-row md:flex-col flex-col h-full gap-6">
+                        <div className="h-full lg:w-1/2 md:w-full w-full">
                             <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY}>
                                 <Map
                                     defaultZoom={15}
@@ -59,14 +59,16 @@ export default function Home() {
                                 </Map>
                             </APIProvider>
                         </div>
-                        <div className="w-1/2 h-full overflow-auto">
+                        <div className="lg:w-1/2 md:w-full sm:w-full h-full overflow-auto">
                             {events.map(user => (
                                 <div className={`border-2 w-11/12 h-fit mt-4 ${selected_event === user._id_event ? 'border-blue-500' : 'border-black'}`}>
                                     <button className="w-full h-full" onClick={() => (handleChange(set_selected_x, user._location_x), handleChange(set_selected_y, user._location_y), handleChange(set_selected_event, user._id_event))}>
+
                                         <div className="flex flex-row w-full">
                                             <h1 className="w-full ml-2 text-2xl font-bold text-left">{user._name}</h1>
                                             <h1 className="text-right w-full mr-2 text-2xl font-bold">{user._date}</h1>
                                         </div>
+
                                         <div className="flex flex-row w-full">
                                             <svg xmlns="http://www.w3.org/2000/svg" className="mt-1 size-7" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                               <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
@@ -74,6 +76,7 @@ export default function Home() {
                                             </svg>
                                             <p className="text-2xl text-left">{user._location_name}</p>
                                         </div>
+
                                         <p className="ml-2 text-2xl text-left">Max participants: {user._max_participants}</p>
                                     </button>
                                 </div>

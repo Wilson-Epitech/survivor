@@ -29,7 +29,7 @@ export default function Home()
   return (
     <>
       <Layout>
-        <div className="min-h-screen w-full flex-col items-center justify-center bg-white">
+        <div className="min-h-full w-full flex-col items-center justify-center bg-white">
           <div className="h-4/6 pt-11 mx-10 mt-10">
 
             <div className="mb-4 flex flex-col items-center justify-center">
@@ -39,26 +39,31 @@ export default function Home()
             <div className="w-full h-0.5 bg-black mb-4 mt-2"></div>
 
             <div className="ml-10 mt-10 border border-gray-300 p-4 rounded-lg shadow-lg">
-              <div className="mb-4 flex flex-row items-center justify-between">
-                <p className="text-9xl text-blue-300">{numberCoach}</p>
-                <p className="text-9xl text-blue-400">{numberCustomer}</p>
-                <p className="text-9xl text-blue-500">{numberDate}</p>
-                <p className="text-9xl text-blue-600">{numberEvent}</p>
-              </div>
-
-              <div className="mb-4 flex flex-row items-center justify-between">
-              <p className="text-5xl">Coaches</p>
-                <p className="text-5xl">Customers</p>
-                <p className="text-5xl mr-24">Dates</p>
-                <p className="text-5xl mr-[4.7rem]">Events</p>
+              <div className="mb-4 flex lg:flex-row md:flex-col flex-col items-center justify-between gap-8">
+                <div className="flex flex-col">
+                  <p className="text-9xl text-blue-300">{numberCoach}</p>
+                  <p className="text-5xl">Coaches</p>
+                </div>
+                <div className="flex flex-col">
+                  <p className="text-9xl text-blue-400">{numberCustomer}</p>
+                  <p className="text-5xl">Customers</p>
+                </div>
+                <div className="flex flex-col">
+                  <p className="text-9xl text-blue-500">{numberDate}</p>
+                  <p className="text-5xl mr-24">Dates</p>
+                </div>
+                <div className="flex flex-col">
+                  <p className="text-9xl text-blue-600">{numberEvent}</p>
+                  <p className="text-5xl mr-[4.7rem]">Events</p>
+                </div>
               </div>
             </div>
 
             <div className="mb-4 flex flex-row items-center justify-center mt-28">
-              <p className="text-9xl text-green-300">23.975,43$</p>
+              <p className="lg:text-9xl md:text-8xl text-7xl text-green-300">23.975,43$</p>
             </div>
             <div className="mb-4 flex flex-row items-center justify-center mt-5">
-              <p className="text-5xl text-black">Sales Revenue</p>
+              <p className="lg:text-5xl md:text-4xl text-4xl text-black">Sales Revenue</p>
             </div>
 
           </div>
