@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowsAltH } from '@fortawesome/free-solid-svg-icons';
+import { set } from "mongoose";
 
 export default function Home() {
     const [firstDate, setFirstDate] = useState(null);
@@ -22,10 +23,14 @@ export default function Home() {
     const [isClientASelected, setIsClientASelected] = useState(true);
     const [isClientBSelected, setIsClientBSelected] = useState(true);
     const [errorMessage, setErrorMessage] = useState(null);
+    const [errorClient, setErrorClient] = useState(null);
+    const [clientA, setClientA] = useState(null);
+    const [clientB, setClientB] = useState(null);
     const router = useRouter();
 
     const handleSelectionChange1 = (ids) => {
         const id = ids[0];
+        setClientA(id);
         if (!id) {
             setIsClientASelected(false);
             return;
@@ -42,6 +47,7 @@ export default function Home() {
 
     const handleSelectionChange2 = (ids) => {
         const id = ids[0];
+        setClientB(id);
         if (!id) {
             setIsClientBSelected(false);
             return;
@@ -58,13 +64,14 @@ export default function Home() {
 
     const calculateCompatibility = () =>
     {
+        setErrorClient(null);
+        setErrorMessage(null);
+        if (clientA === clientB) {
+            setErrorClient("You can't choose the same client");
+            return
+        }
         if (!isClientASelected || !isClientBSelected || !firstDate || !secondDate) {
-            setErrorMessage("customers are not correctly selected");
-
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000);
-
+            setErrorMessage("Clients are not correctly selected");
             return;
         }
         const firstMonth = parseInt(firstDate.split("-")[1], 10);
@@ -145,7 +152,10 @@ export default function Home() {
                             </div>
 
                             {errorMessage && (
-                                <p className="mt-4 text-red-600 text-center">Clients are not correctly selected</p>
+                                <p className="mt-4 text-red-600 text-center">{errorMessage}</p>
+                            )}
+                            {errorClient && (
+                                <p className="mt-4 text-red-600 text-center">{errorClient}</p>
                             )}
 
                             <div className="mt-6 flex flex-col items-center">
