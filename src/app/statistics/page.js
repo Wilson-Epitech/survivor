@@ -162,7 +162,6 @@ export default function Home() {
         <Layout>
             <main className="min-h-screen w-full flex-col items-center justify-items-stretch bg-white">
                 <div className="h-full flex-row pt-7 mx-10 mb-48">
-             <DropdownStatisticsCoachs onSelectionChange={handleSelectionChange} label="enorme"/>
                     <div className="mb-4">
                         <h1 className="mt-2 mb-4 text-left text-5xl font-bold leading-9 tracking-tight text-gray-900">
                             Statistics
@@ -170,6 +169,9 @@ export default function Home() {
                     </div>
                     <div className="w-full h-0.5 bg-black mb-4"></div>
 
+                    <div className="flex justify-center">
+                        <h2 className="text-3xl">Global Statistics</h2>
+                    </div>
                     <div className="flex justify-between items-start">
                         <div className="ml-10 mt-10 border border-gray-300 p-4 rounded-lg shadow-lg">
                             <div className="justify-center mb-3"><h2 className="ml-20">Encounters' rating</h2></div>
@@ -222,9 +224,7 @@ export default function Home() {
                             />
                         </div>
                     </div>
-
-                    <div className="flex justify-between items-start">
-                        <div className="mt-10 flex justify-center border border-gray-300 p-4 rounded-lg shadow-lg">
+                    <div className="mt-10 flex justify-center border border-gray-300 p-4 rounded-lg shadow-lg">
                             <BarChart
                                 width={500}
                                 height={300}
@@ -233,20 +233,33 @@ export default function Home() {
                                 ]}
                                 xAxis={[{ data: xLabels, scaleType: 'band' }]}
                             />
+                    </div>
+                    <div className="justify-center">
+                        <div className="w-full h-0.5 bg-black mb-4 mt-20"></div>
+                        <div className="flex justify-center">
+                            <h2 className="text-3xl">Coach Statistics</h2>
                         </div>
-
+                        <div className="flex justify-center mt-6">
+                            <DropdownStatisticsCoachs onSelectionChange={handleSelectionChange} label="Coach Selection"/>
+                        </div>
+                    </div>
+                    <div className="flex justify-between items-start">
                         <div className="mt-10 flex justify-center border border-gray-300 p-4 rounded-lg shadow-lg">
-                            <BarChart
-                                width={400}
-                                height={300}
-                                series={
-                                    [
-                                        {data: encountersYearStats, label: 'Number of Dates', id: 'uvId'},
-                                    ]
-                                }
-                                yAxis={[{ scaleType: 'band', data: yMonthes }]}
-                                layout="horizontal"
-                            />
+                            {encountersYearStats.length > 0? (
+                                <BarChart
+                                    width={400}
+                                    height={300}
+                                    series={
+                                        [
+                                            {data: encountersYearStats, label: 'Number of Dates', id: 'uvId'},
+                                        ]
+                                    }
+                                    yAxis={[{ scaleType: 'band', data: yMonthes }]}
+                                    layout="horizontal"
+                                />
+                            ) : (
+                                <p>Please select a coach</p>
+                            )}
                         </div>
                         <div className="mt-10 flex justify-center border border-gray-300 p-4 rounded-lg shadow-lg">
                             {ratingYearStats.length > 0 && ratingYearStats[0].length > 0 ? (
@@ -263,7 +276,7 @@ export default function Home() {
                                     height={300}
                                 />
                             ) : (
-                                <p>Loading ratings data...</p>
+                                <p>Please select a coach</p>
                             )}
                         </div>
                     </div>
