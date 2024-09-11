@@ -1,6 +1,5 @@
 "use client";
 import Layout from "@/components/Layout";
-import Dropdown from "@/components/DropdownCustomers";
 
 import { useEffect, useState } from "react";
 import axios from 'axios';
@@ -11,7 +10,7 @@ export default function Home() {
         axios.get('/api/tips').then(response => {
             console.log(response.data);
             setUsers(response.data);
-        });
+        }).catch(err => {console.error(err)});
     }, []);
     return (
         <Layout>

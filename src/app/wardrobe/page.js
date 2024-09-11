@@ -2,7 +2,6 @@
 
 import Layout from "@/components/Layout";
 import Dropdown from "@/components/DropdownCustomers";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from 'axios';
 
@@ -30,8 +29,15 @@ export default function Home() {
 
     const handleChange = (setSelectedChange, selectedChange, nb) => {
         setSelectedChange(() => {
-            const newSelectedShoes = selectedChange + nb;
-            return newSelectedShoes;
+            const newSelected = selectedChange + nb;
+            return newSelected;
+        });
+    };
+
+    const setSelectedToZero = (setSelectedChange) => {
+        setSelectedChange(() => {
+            const newSelected = 0;
+            return newSelected;
         });
     };
 
@@ -41,13 +47,28 @@ export default function Home() {
         for (; clothes.length > 0;) {
             clothes.pop();
         }
-        const lastId = selectedCustomerIds.at(selectedCustomerIds.length - 1);
-        for (; selectedCustomerIds.length > 0;) {
-            selectedCustomerIds.pop();
+
+        for (; clothes_img_hat.length > 0;) {
+            clothes_img_hat.pop();
         }
-        selectedCustomerIds.push(lastId);
+
+        for (; clothes_img_top.length > 0;) {
+            clothes_img_top.pop();
+        }
+
+        for (; clothes_img_bottom.length > 0;) {
+            clothes_img_bottom.pop();
+        }
+
+        for (; clothes_img_shoes.length > 0;) {
+            clothes_img_shoes.pop();
+        }
 
         if (lastSelectedId) {
+            setSelectedToZero(setSelectedHat)
+            setSelectedToZero(setSelectedTop)
+            setSelectedToZero(setSelectedBottom)
+            setSelectedToZero(setSelectedShoes)
             axios.get(`/api/customers_clothe?id=${lastSelectedId}`).then(response => {
                 setClothes(response.data);
                 handleChange(setSelectedHat, selectedHat, 1)
@@ -67,7 +88,6 @@ export default function Home() {
             }).catch(error => {
                 console.error("Failed to fetch clothes", error);
             });
-            console.log("pass useEffect image")
         }
     }, [selectedHat]);
 
@@ -78,7 +98,6 @@ export default function Home() {
             }).catch(error => {
                 console.error("Failed to fetch clothes", error);
             });
-            console.log("pass useEffect image")
         }
     }, [selectedTop]);
 
@@ -89,7 +108,6 @@ export default function Home() {
             }).catch(error => {
                 console.error("Failed to fetch clothes", error);
             });
-            console.log("pass useEffect image")
         }
     }, [selectedBottom]);
 
@@ -100,7 +118,6 @@ export default function Home() {
             }).catch(error => {
                 console.error("Failed to fetch clothes", error);
             });
-            console.log("pass useEffect image")
         }
     }, [selectedShoes]);
 
@@ -111,9 +128,12 @@ export default function Home() {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18" />
                 </svg>
             </button>
-            {clothe_img.map(user => (
-                <img className="object-contain w-full h-36" src={`data:image/jpeg;base64, ${user._image}`}/>
-            ))}
+            {clothe_img.length < 1 ?
+                <img className="object-contain w-full h-36" src={`https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg`}/> :
+                clothe_img.map(user => (
+                    <img className="object-contain w-full h-36" src={`data:image/jpeg;base64, ${user._image}`}/>
+                ))
+            }
             <button className="mb-2 w-full h-full grid justify-items-start items-center" onClick={() => handleChange(setSelectedImg, selectedImg, 1)}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-12">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
@@ -128,12 +148,13 @@ export default function Home() {
                 <div className="h-4/6 pt-11 mx-10 mt-10">
                     <div className="mb-4">
                         <h1 className="mt-2 mb-4 text-left text-5xl font-bold leading-9 tracking-tight text-gray-900">
-                            Wardrobe
+                            Clothing
                         </h1>
                     </div>
+
                     <div className="w-full h-0.5 bg-black mb-4 mt-2"></div>
                     <div className="flex justify-center">
-                        <Dropdown onSelectionChange={handleSelectionChange}/>
+                        <Dropdown onSelectionChange={handleSelectionChange} label="Customer : " />
                     </div>
                     <div className="w-full h-0.5 bg-black mb-4 mt-4"></div>
 
