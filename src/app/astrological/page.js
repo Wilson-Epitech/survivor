@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowsAltH } from '@fortawesome/free-solid-svg-icons';
+import { set } from "mongoose";
 
 export default function Home() {
     const [firstDate, setFirstDate] = useState(null);
@@ -22,10 +23,14 @@ export default function Home() {
     const [isClientASelected, setIsClientASelected] = useState(true);
     const [isClientBSelected, setIsClientBSelected] = useState(true);
     const [errorMessage, setErrorMessage] = useState(null);
+    const [errorClient, setErrorClient] = useState(null);
+    const [clientA, setClientA] = useState(null);
+    const [clientB, setClientB] = useState(null);
     const router = useRouter();
 
     const handleSelectionChange1 = (ids) => {
         const id = ids[0];
+        setClientA(id);
         if (!id) {
             setIsClientASelected(false);
             return;
@@ -42,6 +47,7 @@ export default function Home() {
 
     const handleSelectionChange2 = (ids) => {
         const id = ids[0];
+        setClientB(id);
         if (!id) {
             setIsClientBSelected(false);
             return;
@@ -58,13 +64,14 @@ export default function Home() {
 
     const calculateCompatibility = () =>
     {
+        setErrorClient(null);
+        setErrorMessage(null);
+        if (clientA === clientB) {
+            setErrorClient("Please select two different clients.");
+            return
+        }
         if (!isClientASelected || !isClientBSelected || !firstDate || !secondDate) {
-            setErrorMessage("customers are not correctly selected");
-
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000);
-
+            setErrorMessage("Please select two clients.");
             return;
         }
         const firstMonth = parseInt(firstDate.split("-")[1], 10);
@@ -78,7 +85,7 @@ export default function Home() {
 
     return (
         <Layout>
-            <div className="w-full flex-col items-center justify-center bg-white">
+            <div className="w-full  bg-white">
                 <div className="min-w-max  pt-11 mx-10 mt-10">
                     <div className="mb-4">
                         <h1 className="mt-2 mb-4 text-left text-5xl font-bold leading-9 tracking-tight text-gray-900">
@@ -88,26 +95,26 @@ export default function Home() {
                     <div className="w-full h-0.5 bg-black mb-4 mt-2"/>
                 </div>
 
-                <div className="m-10 max-w-[500px]">
+                <div className="m-10  flex-col items-center justify-center">
                         <div className="pt-4">
                             <div className="flex flex-row justify-between items-start">
                                 <div className="w-full flex flex-col items-center text-center">
                                     <Dropdown onSelectionChange={handleSelectionChange1} label="Client A"/>
                                         {isClientASelected ? (
                                             <>
-                                                <p className="mt-4 border-2 border-black p-2">
+                                                <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
                                                     {firstName} {firstSurname}
                                                 </p>
-                                                <p className="mt-4 border-2 border-black p-2">
+                                                <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
                                                     {firstAstro}
                                                 </p>
                                             </>
                                         ) : (
                                             <>
-                                                <p className="mt-4 border-2 border-black p-2">
+                                                <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
                                                     {""}
                                                 </p>
-                                                <p className="mt-4 border-2 border-black p-2">
+                                                <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
                                                     {""}
                                                 </p>
                                             </>
@@ -116,7 +123,7 @@ export default function Home() {
 
                                 <div className="pt-[5.4rem] flex items-center justify-center w-full">
                                     <div className="relative">
-                                        <FontAwesomeIcon icon={faArrowsAltH}/>
+                                        <FontAwesomeIcon icon={faArrowsAltH} className="size-10"/>
                                     </div>
                                 </div>
 
@@ -124,28 +131,31 @@ export default function Home() {
                                     <Dropdown onSelectionChange={handleSelectionChange2} label="Client B"/>
                                     {isClientBSelected ? (
                                         <>
-                                            <p className="mt-4 border-2 border-black p-2">
+                                            <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
                                                 {secondName} {secondSurname}
                                             </p>
-                                            <p className="mt-4 border-2 border-black p-2">
+                                            <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
                                                 {secondAstro}
                                             </p>
                                         </>
                                     ) : (
                                         <>
-                                        <p className="mt-4 border-2 border-black p-2">
-                                            {""}
-                                        </p>
-                                        <p className="mt-4 border-2 border-black p-2">
-                                            {""}
-                                        </p>
+                                            <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
+                                                {""}
+                                            </p>
+                                            <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
+                                                {""}
+                                            </p>
                                         </>
                                     )}
                                 </div>
                             </div>
 
                             {errorMessage && (
-                                <p className="mt-4 text-red-600 text-center">Clients are not correctly selected</p>
+                                <p className="mt-4 text-red-600 text-center">{errorMessage}</p>
+                            )}
+                            {errorClient && (
+                                <p className="mt-4 text-red-600 text-center">{errorClient}</p>
                             )}
 
                             <div className="mt-6 flex flex-col items-center">
@@ -156,7 +166,7 @@ export default function Home() {
                                 )}
                                 <button
                                     type="submit"
-                                    className="px-4 py-2 bg-[#2D84B9] text-white items-center"
+                                    className="px-4 py-2 bg-[#2D84B9] hover:bg-[#5197c3] text-white items-center"
                                     onClick={calculateCompatibility}
                                 >
                                     Submit
