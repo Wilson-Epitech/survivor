@@ -42,7 +42,7 @@ export default function Home()
             axios.get(`/api/encounters/get_encounter_clientpage?id=${search}`).then(response => {
                 setUserDate(response.data);
             }).catch(err => {console.error(err)});
-            axios.get(`/api/employee/getEmpoyeeById?id=${search}`).then(response => {
+            axios.get(`/api/employee/getEmployeeById?id=${search}`).then(response => {
                 setCoach(response.data);
             }).catch(err => {console.error(err)});
     }}, []);
@@ -121,9 +121,11 @@ export default function Home()
                                     <p className="text-sm text-[#8B9FB7]">
                                         Coach:
                                     </p>
-                                    <p className="text-sm text-[#2D425C]">
-                                        {userAddress.find(user => user._id_customer === search)?._address}
-                                    </p>
+                                    {coach.map(user => (
+                                        <p className="text-sm text-[#2D425C]">
+                                            {user._name} {user._surname}
+                                        </p>
+                                    ))}
                                 </div>
                             </div>
                         </div>
