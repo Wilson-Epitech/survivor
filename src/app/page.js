@@ -29,16 +29,15 @@ export default function Home()
   return (
     <>
       <Layout>
-        <div className="min-h-full w-full flex-col items-center justify-center bg-white">
+        <div className="w-full h-screen bg-[#F5F6FA] px-4 py-5 sm:px-6 lg:px-8 pt-16">
+          <div className="mb-4">
+            <h1 className="mt-2 mb-4 text-left text-4xl font-bold leading-9 tracking-tight text-gray-900">
+              Dashboard
+            </h1>
+          </div>
           <div className="h-4/6 pt-11 mx-10 mt-10">
 
-            <div className="mb-4 flex flex-col items-center justify-center">
-              <h1 className="items-center justify-center text-4xl font-bold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-whiten">Soul Connection</h1>
-              <h3 className="mt-5 items-center justify-center text-3xl font-bold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-3xl dark:text-whiten">Dashboard</h3>
-            </div>
-            <div className="w-full h-0.5 bg-black mb-4 mt-2"></div>
-
-            <div className="ml-10 mt-10 border border-gray-300 p-4 rounded-lg shadow-lg">
+            <div className="ml-10 mt-10 rounded-sm border-2 border-[#E4E6EF] bg-white py-4 px-4">
               <div className="mb-4 flex lg:flex-row md:flex-col flex-col items-center justify-between gap-8">
                 <div className="flex flex-col">
                   <p className="text-9xl text-blue-300">{numberCoach}</p>
@@ -59,11 +58,11 @@ export default function Home()
               </div>
             </div>
 
-            <div className="mb-4 flex flex-row items-center justify-center mt-28">
-              <p className="lg:text-9xl md:text-8xl text-7xl text-green-300">23.975,43$</p>
-            </div>
-            <div className="mb-4 flex flex-row items-center justify-center mt-5">
-              <p className="lg:text-5xl md:text-4xl text-4xl text-black">Sales Revenue</p>
+            <div className="w-full flex justify-center">
+              <div className="mb-4 flex flex-col w-fit items-center justify-center mt-28 rounded-sm border-2 border-[#E4E6EF] bg-white py-4 px-4">
+                <p className="lg:text-9xl md:text-8xl text-7xl text-green-300">23.975,43$</p>
+                <p className="lg:text-5xl md:text-4xl text-4xl text-black">Sales Revenue</p>
+              </div>
             </div>
 
           </div>

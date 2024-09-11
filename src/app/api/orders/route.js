@@ -11,7 +11,7 @@ export async function GET(req)
 
     try {
         const query = id ? { _id_client: id } : {};
-        const res = await order.find(query, '_amount _date _comment').exec();
+        const res = await order.find(query, '_amount _date _comment _payment_method').exec();
         return NextResponse.json(res);
     } catch (error) {
         return NextResponse.json({ error: 'Failed to get payment' }, { status: 404 });

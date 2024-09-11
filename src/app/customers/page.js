@@ -56,15 +56,15 @@ export default function Home()
 
     return (
         <Layout>
-            <main className="w-full bg-white px-4 py-5 sm:px-6 lg:px-8">
+            <main className="w-full h-screen bg-[#F5F6FA] px-4 py-5 sm:px-6 lg:px-8 pt-16">
                 <div className="mb-4">
                     <h1 className="mt-2 mb-4 text-left text-3xl sm:text-4xl lg:text-5xl font-bold leading-9 tracking-tight text-gray-900">
-                        Customers
+                        Customer Details
                     </h1>
                 </div>
                 <div className="w-full h-px bg-black mb-4"></div>
 
-                <div className="w-full flex flex-col lg:flex-row lg:items-start mb-6">
+                <div className="w-full flex flex-col lg:flex-row lg:items-start mb-6 rounded-sm border-2 border-[#E4E6EF] bg-white py-2 px-2 ">
                     <div className="w-full lg:w-3/4 lg:pr-4">
                         <div className="w-full mb-4">
                             <Dropdown onSelectionChange={handleSelectionChange} label={users._name ? `Customer : ${users._name}` : "Customer : "} />
@@ -100,25 +100,27 @@ export default function Home()
                 </div>
                 <div className="w-full h-px bg-black mb-4"></div>
 
-                <div className="flex flex-col lg:flex-row gap-4 w-full">
+                <div className="flex flex-col lg:flex-row gap-4 w-full rounded-sm border-2 border-[#E4E6EF] bg-white py-2 px-2 ">
                     <div className="w-full lg:w-1/2 px-2 sm:px-4 lg:px-2">
                         <div className="py-2">
-                            <h2 className="font-bold text-xl sm:text-2xl lg:text-2xl mb-4">Payments</h2>
+                            <h2 className="font-bold text-xl sm:text-2xl lg:text-2xl mb-4">Payments history</h2>
                             <div className="overflow-x-auto">
                                 <table className="min-w-full text-left text-sm font-light">
-                                    <thead className="bg-[#2C84B9] text-white">
+                                <thead className="bg-white text-[#8B9FB7]">
                                         <tr>
-                                            <th scope="col" className="px-4 py-2 border-2 border-black whitespace-nowrap">Date</th>
-                                            <th scope="col" className="px-4 py-2 border-2 border-black whitespace-nowrap">Amount</th>
-                                            <th scope="col" className="px-4 py-2 whitespace-nowrap border-2 border-black">Comment</th>
+                                            <th scope="col" className="px-4 py-2 border-2 border-[#E4E6EF] whitespace-nowrap">Date</th>
+                                            <th scope="col" className="px-4 py-2 border-2 border-[#E4E6EF] whitespace-nowrap">Payment Method</th>
+                                            <th scope="col" className="px-4 py-2 border-2 border-[#E4E6EF] whitespace-nowrap">Amount</th>
+                                            <th scope="col" className="px-4 py-2 whitespace-nowrap border-2 border-[#E4E6EF]">Comment</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {userPayement.map((payment) => (
-                                            <tr key={payment._id} className="bg-neutral-100 border-b border-black">
-                                                <td className="whitespace-nowrap px-4 py-2 border-2 border-black">{payment._date}</td>
-                                                <td className="whitespace-nowrap px-4 py-2 border-2 border-black">{payment._amount}</td>
-                                                <td className="whitespace-nowrap px-4 py-2 border-2 border-black">{payment._comment}</td>
+                                            <tr key={payment._id} className="bg-white border-b border-[#E4E6EF]">
+                                                <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF] text-blue-600 font-bold">{payment._date}</td>
+                                                <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF]">{payment._payment_method}</td>
+                                                <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF] font-bold">{payment._amount}</td>
+                                                <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF] text-[#8B9FB7]">{payment._comment}</td>
                                             </tr>
                                         ))}
                                     </tbody>
@@ -128,24 +130,24 @@ export default function Home()
                     </div>
                     <div className="w-full lg:w-1/2 px-2 sm:px-4 lg:px-2">
                         <div className="py-2">
-                            <h2 className="font-bold text-xl sm:text-2xl lg:text-2xl mb-4">Meetings</h2>
+                            <h2 className="font-bold text-xl sm:text-2xl lg:text-2xl mb-4">Recent Meetings</h2>
                             <div className="overflow-x-auto">
                                 <table className="min-w-full text-left text-sm font-light">
-                                    <thead className="bg-[#2C84B9] text-white">
+                                    <thead className="bg-white text-gray-400">
                                         <tr>
-                                            <th scope="col" className="px-4 py-2 border-2 border-black whitespace-nowrap">Date</th>
-                                            <th scope="col" className="px-4 py-2 border-2 border-black whitespace-nowrap">Rating</th>
-                                            <th scope="col" className="px-4 py-2 border-2 border-black whitespace-nowrap">Report</th>
-                                            <th scope="col" className="px-4 py-2 whitespace-nowrap border-2 border-black">Source</th>
+                                            <th scope="col" className="px-4 py-2 border-2 border-[#E4E6EF] whitespace-nowrap">Date</th>
+                                            <th scope="col" className="px-4 py-2 border-2 border-[#E4E6EF] whitespace-nowrap">Rating</th>
+                                            <th scope="col" className="px-4 py-2 border-2 border-[#E4E6EF] whitespace-nowrap">Report</th>
+                                            <th scope="col" className="px-4 py-2 whitespace-nowrap border-2 border-[#E4E6EF]">Source</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {userDate.map((meeting) => (
-                                            <tr key={meeting._id} className="bg-neutral-100 border-b border-black">
-                                                <td className="whitespace-nowrap px-4 py-2 border-2 border-black">{meeting._date}</td>
-                                                <td className="whitespace-nowrap px-4 py-2 border-2 border-black">{meeting._rating}</td>
-                                                <td className="whitespace-nowrap px-4 py-2 border-2 border-black">{meeting._comment}</td>
-                                                <td className="whitespace-nowrap px-4 py-2 border-2 border-black">{meeting._source}</td>
+                                            <tr key={meeting._id} className="bg-white border-b border-[#E4E6EF]">
+                                                <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF] text-blue-600 font-bold">{meeting._date}</td>
+                                                <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF]">{meeting._rating}</td>
+                                                <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF] text-gray-400">{meeting._comment}</td>
+                                                <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF]">{meeting._source}</td>
                                             </tr>
                                         ))}
                                     </tbody>
