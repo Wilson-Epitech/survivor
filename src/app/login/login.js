@@ -57,4 +57,4 @@ export async function logUser(message, formData) {
     await setCookies(data.access_token, employeeData.work, employeeData.id);
     await updateEmployeeTimestamp(employeeData.id)
     redirect('/');
-  }
+}
