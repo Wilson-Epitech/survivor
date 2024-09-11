@@ -5,156 +5,80 @@ import axios from 'axios';
 import Layout from "@/components/Layout";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import Dropdown from "@/components/DropdownCustomers";
+import { useRouter } from 'next/navigation';
 
-export default function Home()
-{
-    const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
-
-    const handleSelectionChange = (ids) => {
-        setSelectedCustomerIds(ids);
-    };
-
+export default function Home() {
     const [users, setUsers] = useState([]);
-    const [userBirthdate, setUserBirthdate] = useState([]);
-    const [userAddress, setUserAddress] = useState([]);
-    const [userPhoto, setUserPhoto] = useState([]);
-    const [userPayement, setUserPayement] = useState([]);
-    const [userDate, setUserDate] = useState([]);
+    const router = useRouter();
+    // const [userPayement, setUserPayement] = useState([]);
 
     useEffect(() => {
-        axios.get('/api/customers').then(response => {
-            setUsers(response.data);
-        }).catch(err => {console.error(err)});
-        axios.get('/api/customers/customer_birth').then(response => {
-            setUserBirthdate(response.data);
-        }).catch(err => {console.error(err)});
-        axios.get('/api/customers/customer_address').then(response => {
-            setUserAddress(response.data);
-        }).catch(err => {console.error(err)});
+        axios.get('/api/customers')
+            .then(response => setUsers(response.data))
+            .catch(err => console.error(err));
+    }, []);
 
-        const lastSelectedId = selectedCustomerIds.at(selectedCustomerIds.length - 1);
-        const lastId = selectedCustomerIds.at(selectedCustomerIds.length - 1);
+    let route;
 
-        while (selectedCustomerIds.length > 0) {
-            selectedCustomerIds.pop();
-        }
-        selectedCustomerIds.push(lastId);
+    const handleClick = (e) => {
+        e.preventDefault()
+        router.prefetch(route, 20, 40)
+        router.push(route)
+      }
 
-        if (lastSelectedId) {
-            axios.get(`/api/customers/customer_photo?id=${lastSelectedId}`).then(response => {
-                setUserPhoto(response.data);
-            }).catch(err => {console.error(err)});
-            axios.get(`/api/orders?id=${lastSelectedId}`).then(response => {
-                setUserPayement(response.data);
-            }).catch(err => {console.error(err)});
-            axios.get(`/api/encounters/get_encounter_clientpage?id=${lastSelectedId}`).then(response => {
-                setUserDate(response.data);
-            }).catch(err => {console.error(err)});
-    }}, [selectedCustomerIds]);
+    // useEffect(() => {
+    //     users.forEach((thisUsers) => {
+    //         const isAlreadyInList = userPayement.some(payment => payment._id_client === thisUsers._id_customer);
 
-    let img = userPhoto.length > 0 ? userPhoto[0]._image : null
+    //         if (!isAlreadyInList) {
+    //             axios.get(`/api/orders?id=${thisUsers._id_customer}`)
+    //                 .then(response => {
+    //                     setUserPayement(prev => [...prev, response.data]);
+    //                 })
+    //                 .catch(error => {
+    //                     console.error("Failed to fetch customers", error);
+    //                 });
+    //         }
+    //     });
+    // }, [users]);
+
+    // console.log(userPayement)
 
     return (
         <Layout>
-            <main className="w-full h-screen bg-[#F5F6FA] px-4 py-5 sm:px-6 lg:px-8 pt-16">
+            <main className="w-full min-h-screen h-full bg-[#F5F6FA] px-4 py-5 sm:px-6 lg:px-8 pt-16">
                 <div className="mb-4">
-                    <h1 className="mt-2 mb-4 text-left text-3xl sm:text-4xl lg:text-5xl font-bold leading-9 tracking-tight text-gray-900">
-                        Customer Details
+                    <h1 className="mt-2 mb-4 text-left text-4xl font-bold leading-9 tracking-tight text-gray-900">
+                        Customers List
                     </h1>
+                    <p className="text-[#889DB9] text-sm">You have total {users.length} customers.</p>
                 </div>
-                <div className="w-full h-px bg-black mb-4"></div>
-
-                <div className="w-full flex flex-col lg:flex-row lg:items-start mb-6 rounded-sm border-2 border-[#E4E6EF] bg-white py-2 px-2 ">
-                    <div className="w-full lg:w-3/4 lg:pr-4">
-                        <div className="w-full mb-4">
-                            <Dropdown onSelectionChange={handleSelectionChange} label={users._name ? `Customer : ${users._name}` : "Customer : "} />
-                        </div>
-                        <div className="w-full mb-4 flex items-center">
-                            <img className="w-6 h-6 mr-2 sm:w-7 sm:h-7" src="/Happy.ico" alt="Happy icon" />
-                            <p className="text-lg sm:text-xl lg:text-3xl font-bold text-gray-900">
-                                {users.find(user => user._id_customer === selectedCustomerIds.at(-1))?._name} {users.find(user => user._id_customer === selectedCustomerIds.at(-1))?._surname}
-                            </p>
-                        </div>
-                        <div className="w-full mb-4 flex items-center">
-                            <img className="w-6 h-6 mr-2 sm:w-7 sm:h-7" src="/Birth.ico" alt="Birth icon" />
-                            <p className="text-base sm:text-lg lg:text-2xl text-gray-900">
-                                {userBirthdate.find(user => user._id_customer === selectedCustomerIds.at(-1))?._birth_date}
-                            </p>
-                        </div>
-                        <div className="w-full mb-4 flex items-center">
-                            <img className="w-6 h-6 mr-2 sm:w-7 sm:h-7" src="/Location.ico" alt="Location icon" />
-                            <p className="text-base sm:text-lg lg:text-2xl text-gray-900">
-                                {userAddress.find(user => user._id_customer === selectedCustomerIds.at(-1))?._address}
-                            </p>
-                        </div>
-                    </div>
-                    <div className="w-full lg:w-1/4 flex justify-start lg:justify-end">
-                        {img ? (
-                            <img className="object-contain w-24 h-24 sm:w-32 sm:h-32 lg:w-36 lg:h-36" src={`data:image/jpeg;base64,${img}`} alt="Customer Photo" />
-                        ) : (
-                            <div className="w-24 h-24 sm:w-32 sm:h-32 lg:w-36 lg:h-36 bg-gray-200 flex items-center justify-center">
-                                <span className="text-gray-500">No Image</span>
-                            </div>
-                        )}
-                    </div>
-                </div>
-                <div className="w-full h-px bg-black mb-4"></div>
-
-                <div className="flex flex-col lg:flex-row gap-4 w-full rounded-sm border-2 border-[#E4E6EF] bg-white py-2 px-2 ">
-                    <div className="w-full lg:w-1/2 px-2 sm:px-4 lg:px-2">
-                        <div className="py-2">
-                            <h2 className="font-bold text-xl sm:text-2xl lg:text-2xl mb-4">Payments history</h2>
-                            <div className="overflow-x-auto">
-                                <table className="min-w-full text-left text-sm font-light">
-                                <thead className="bg-white text-[#8B9FB7]">
-                                        <tr>
-                                            <th scope="col" className="px-4 py-2 border-2 border-[#E4E6EF] whitespace-nowrap">Date</th>
-                                            <th scope="col" className="px-4 py-2 border-2 border-[#E4E6EF] whitespace-nowrap">Payment Method</th>
-                                            <th scope="col" className="px-4 py-2 border-2 border-[#E4E6EF] whitespace-nowrap">Amount</th>
-                                            <th scope="col" className="px-4 py-2 whitespace-nowrap border-2 border-[#E4E6EF]">Comment</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {userPayement.map((payment) => (
-                                            <tr key={payment._id} className="bg-white border-b border-[#E4E6EF]">
-                                                <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF] text-blue-600 font-bold">{payment._date}</td>
-                                                <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF]">{payment._payment_method}</td>
-                                                <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF] font-bold">{payment._amount}</td>
-                                                <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF] text-[#8B9FB7]">{payment._comment}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="w-full lg:w-1/2 px-2 sm:px-4 lg:px-2">
-                        <div className="py-2">
-                            <h2 className="font-bold text-xl sm:text-2xl lg:text-2xl mb-4">Recent Meetings</h2>
-                            <div className="overflow-x-auto">
-                                <table className="min-w-full text-left text-sm font-light">
-                                    <thead className="bg-white text-gray-400">
-                                        <tr>
-                                            <th scope="col" className="px-4 py-2 border-2 border-[#E4E6EF] whitespace-nowrap">Date</th>
-                                            <th scope="col" className="px-4 py-2 border-2 border-[#E4E6EF] whitespace-nowrap">Rating</th>
-                                            <th scope="col" className="px-4 py-2 border-2 border-[#E4E6EF] whitespace-nowrap">Report</th>
-                                            <th scope="col" className="px-4 py-2 whitespace-nowrap border-2 border-[#E4E6EF]">Source</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {userDate.map((meeting) => (
-                                            <tr key={meeting._id} className="bg-white border-b border-[#E4E6EF]">
-                                                <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF] text-blue-600 font-bold">{meeting._date}</td>
-                                                <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF]">{meeting._rating}</td>
-                                                <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF] text-gray-400">{meeting._comment}</td>
-                                                <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF]">{meeting._source}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+                <div className="flex flex-row gap-6 w-full h-full rounded-sm bg-white py-4 px-4">
+                    <table className="table-auto w-full text-left text-sm">
+                        <thead className="border-y-2 bg-white text-[#889DB9]">
+                            <tr>
+                                <th scope="col" className="px-4 py-2 flex gap-4"><input type="checkbox" disabled /> Customer</th>
+                                <th scope="col" className="px-4 py-2">Email</th>
+                                <th scope="col" className="px-4 py-2">Phone</th>
+                                {/* <th scope="col" className="px-4 py-2 border-2 border-[#E4E6EF]">Payment Methods</th> */}
+                            </tr>
+                        </thead>
+                        {users.map((user, index) => (
+                            <tbody>
+                                <tr className="border-y-2 border-[#E4E6EF] bg-white ">
+                                    <td className="whitespace-nowrap px-4 py-2 flex gap-4">
+                                        <input type="checkbox" className="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800" id="hs-checked-checkbox" 
+                                        onChange={handleClick}
+                                        onClick={() => route = `/customers/customer_info?id=${user._id_customer}`}/>
+                                        {user._name} {user._surname}
+                                    </td>
+                                    <td className="whitespace-nowrap px-4 py-2 text-[#889DB9]">{user._email}</td>
+                                    <td className="whitespace-nowrap px-4 py-2 text-[#889DB9]">{user._phone_number}</td>
+                                    {/* <td className="whitespace-nowrap border-2 border-[#E4E6EF] px-4 py-2">{userPayement.find(payment => payment._id_client === user._id_employee)?._payment_method}</td> */}
+                                </tr>
+                            </tbody>
+                        ))}
+                    </table>
                 </div>
             </main>
         </Layout>
