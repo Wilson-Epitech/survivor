@@ -25,3 +25,12 @@ export async function setCookies(token, employeeWork, employeeID) {
   setSecureCookie('employeeRole', encryptedEmployeeRole);
   setSecureCookie('employeeID', encryptedEmployeeID);
 }
+
+export async function deleteCookies()
+{
+  const cookieStore = cookies();
+
+  cookieStore.getAll().forEach((cookie) => {
+      cookieStore.delete(cookie.name);
+  });
+}

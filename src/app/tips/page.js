@@ -1,6 +1,5 @@
 "use client";
 import Layout from "@/components/Layout";
-import Dropdown from "@/components/DropdownCustomers";
 
 import { useEffect, useState } from "react";
 import axios from 'axios';

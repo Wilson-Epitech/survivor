@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import axios from 'axios';
 import Layout from "@/components/Layout";
 import Dropdown_coach from "@/components/dropdown_customers_coach";
+import Link from "next/link";
 
 export default function Home() {
     const [coach, setCoach] = useState([]);
@@ -24,10 +25,18 @@ export default function Home() {
         <Layout>
             <main className="h-screen sm:w-fit md:w-fit lg:w-full flex-col items-center bg-white">
                 <div className="mx-10 mt-24 h-4/5">
-                    <div className="mb-4">
+                    <div className="mb-4 flex items-end justify-between">
                         <h1 className="mt-2 mb-4 text-left text-5xl font-bold leading-9 tracking-tight text-gray-900">
                             Coaches
                         </h1>
+                        <Link
+                            href='/coaches/create_employee'
+                            className="flex flex-row text-white bg-[#2C84B9] hover:bg-[#5197c3] p-1 text-md rounded-md py-1.5 px-2.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="mt-0.5 mr-1 size-5">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                            New Employee
+                        </Link>
                     </div>
                     <div className="w-full h-0.5 bg-black mb-4 mt-4"></div>
 

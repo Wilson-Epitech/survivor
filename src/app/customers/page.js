@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useEffect, useState } from "react";
 import axios from 'axios';
@@ -22,7 +22,6 @@ export default function Home()
     const [userDate, setUserDate] = useState([]);
 
     useEffect(() => {
-
         axios.get('/api/customers').then(response => {
             setUsers(response.data);
         }).catch(err => {console.error(err)});
