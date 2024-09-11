@@ -74,6 +74,20 @@ const Navbar = () =>
                                     Events
                                 </a>
                             </li>
+                            <li>
+                                <a
+                                    href="/wardrobe"
+                                    className={pathname === '/events' ? activeLink : inactiveLink}>
+                                    Wardrobe
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    href="/astrological"
+                                    className={pathname === '/events' ? activeLink : inactiveLink}>
+                                    Astrological
+                                </a>
+                            </li>
                     </ul>
                 </div>
             </div>
