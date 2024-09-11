@@ -25,8 +25,8 @@ async function clothesToDatabase() {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "X-Group-Authorization": "***REMOVED***",
-                Authorization: `Bearer ***REMOVED***`
+                "X-Group-Authorization": process.env.X_GROUP_KEY,
+                Authorization: `Bearer ${process.env.ADMIN_BEARER_TOKEN}`
             }
         });
 
@@ -40,8 +40,8 @@ async function clothesToDatabase() {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
-                    "X-Group-Authorization": "***REMOVED***",
-                    Authorization: `Bearer ***REMOVED***`
+                    "X-Group-Authorization": process.env.X_GROUP_KEY,
+                    Authorization: `Bearer ${process.env.ADMIN_BEARER_TOKEN}`
                 }
             });
 
@@ -60,8 +60,8 @@ async function clothesToDatabase() {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
-                        "X-Group-Authorization": "***REMOVED***",
-                        Authorization: `Bearer ***REMOVED***`
+                        "X-Group-Authorization": process.env.X_GROUP_KEY,
+                        Authorization: `Bearer ${process.env.ADMIN_BEARER_TOKEN}`
                     }
                 });
 
