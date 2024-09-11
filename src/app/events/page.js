@@ -22,7 +22,7 @@ export default function Home() {
     useEffect(() => {
         axios.get('/api/events/get_events').then(response => {
             set_events(response.data);
-        });
+        }).catch(err => {console.error(err)});;
     }, []);
 
     const handleChange = (set_selected_change, nb) => {

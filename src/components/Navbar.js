@@ -1,97 +1,94 @@
 "use client"
 
 import Link from "next/link"
-import MaxWidthWrapper from "./MaxWidthWrapper"
 import { usePathname } from "next/navigation";
-// import { Poppins } from "next/font/google";
 
-// const poppins = Poppins({
-//     subsets: ['latin'],
-//     weight: ['400', '700'],
-// });
-
-const Navbar = () =>
-{
-    const inactiveLink = 'block py-2 text-[#30445E] text-sm';
-    // const activeLink = 'block py-2 text-[#2D6EB8] text-sm';
-    const activeLink = 'block py-2 text-[#2D6EB8] text-sm border-b-2 border-[#2D6EB8]';
+const Navbar = () => {
+    const inactiveLink = 'relative block py-2 text-[#30445E] text-sm';
+    const activeLink = 'relative block py-2 text-[#2D6EB8] text-sm';
     const pathname = usePathname();
 
     return (
         <nav className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200">
-            {/* <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2"> */}
-            <div className="max-w-screen-xl flex flex-wrap items-center justify-between ml-2 p-2">
-                <Link href='/' className="flex z-40 mr-[6rem] text-[#30445E] text-lg font-semibold">
+            <div className="flex items-center justify-between w-full p-2">
+
+                <Link href='/' className="text-[#30445E] text-lg font-semibold ml-2">
                     Soul Connection
                 </Link>
-                <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+
+                <div className="flex-1 flex justify-center">
+                    <ul className="flex space-x-8">
+                        <li>
+                            <a href="/" className={pathname === '/' ? activeLink : inactiveLink}>
+                                Dashboard
+                                {pathname === '/' && (
+                                    <span className="absolute left-0 right-0 bottom-[-8px] h-[3px] bg-[#2D6EB8] w-full"></span>
+                                )}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/coaches" className={pathname === '/coaches' ? activeLink : inactiveLink}>
+                                Coaches
+                                {pathname === '/coaches' && (
+                                    <span className="absolute left-0 right-0 bottom-[-8px] h-[3px] bg-[#2D6EB8] w-full"></span>
+                                )}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/customers" className={pathname === '/customers' ? activeLink : inactiveLink}>
+                                Customers
+                                {pathname === '/customers' && (
+                                    <span className="absolute left-0 right-0 bottom-[-8px] h-[3px] bg-[#2D6EB8] w-full"></span>
+                                )}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/tips" className={pathname === '/tips' ? activeLink : inactiveLink}>
+                                Tips
+                                {pathname === '/tips' && (
+                                    <span className="absolute left-0 right-0 bottom-[-8px] h-[3px] bg-[#2D6EB8] w-full"></span>
+                                )}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/events" className={pathname === '/events' ? activeLink : inactiveLink}>
+                                Events
+                                {pathname === '/events' && (
+                                    <span className="absolute left-0 right-0 bottom-[-8px] h-[3px] bg-[#2D6EB8] w-full"></span>
+                                )}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/wardrobe" className={pathname === '/wardrobe' ? activeLink : inactiveLink}>
+                                Wardrobe
+                                {pathname === '/wardrobe' && (
+                                    <span className="absolute left-0 right-0 bottom-[-8px] h-[3px] bg-[#2D6EB8] w-full"></span>
+                                )}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/astrological" className={pathname === '/astrological' ? activeLink : inactiveLink}>
+                                Astrological
+                                {pathname === '/astrological' && (
+                                    <span className="absolute left-0 right-0 bottom-[-8px] h-[3px] bg-[#2D6EB8] w-full"></span>
+                                )}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div className="ml-auto">
                     <button
+                        href=""
                         type="button"
-                        className="text-white bg-[#2D6EB8] hover:bg-[#4c7db5] focus:ring-4 focus:outline-none
-                        focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center">
+                        className="text-white bg-[#2D6EB8] hover:bg-[#4c7db5] font-medium rounded-lg text-sm px-4
+                        py-2 text-center mr-2">
                         Logout
                     </button>
                 </div>
-                <div
-                    className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1 border-">
-                    <ul
-                        className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100
-                        rounded-lgbg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0
-                        md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-                            <li>
-                                <a
-                                    href="/"
-                                    className={pathname === '/' ? activeLink : inactiveLink}>
-                                    Dashboard
-                                    {/* {pathname === '/' && <span className="absolute bottom-0 left-0 w-full h-[2px] bg-[#2D6EB8]"></span>} */}
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href="/coaches"
-                                    className={pathname === '/coaches' ? activeLink : inactiveLink}>
-                                    Coaches
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href="/customers"
-                                    className={pathname === '/customers' ? activeLink : inactiveLink}>
-                                    Customers
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href="/tips"
-                                    className={pathname === '/tips' ? activeLink : inactiveLink}>
-                                    Tips
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href="/events"
-                                    className={pathname === '/events' ? activeLink : inactiveLink}>
-                                    Events
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href="/wardrobe"
-                                    className={pathname === '/events' ? activeLink : inactiveLink}>
-                                    Wardrobe
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href="/astrological"
-                                    className={pathname === '/events' ? activeLink : inactiveLink}>
-                                    Astrological
-                                </a>
-                            </li>
-                    </ul>
-                </div>
             </div>
         </nav>
-    )
-}
-export default Navbar
+    );
+};
+
+export default Navbar;
