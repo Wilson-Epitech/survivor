@@ -9,7 +9,8 @@ const employeeSchema = new mongoose.Schema ({
     _birth_date: {type: String, required: true},
     _gender: {type: String, required: true},
     _work: {type: String, required: true},
-    _image: {type: String, required: true}
+    _image: {type: String, required: true},
+    _last_connexion: {type: String}
 });
 
 const employee = mongoose.model('employee', employeeSchema);
@@ -87,7 +88,8 @@ async function employeesToDatabase()  {
                     _birth_date: employeeData.birth_date,
                     _gender: employeeData.gender,
                     _work: employeeData.work,
-                    _image: imageBase64
+                    _image: imageBase64,
+                    _last_connexion: ""
                 })
                 console.log(`Customer ${employeeData.id} inserted into the database.`);
             } catch (error) {
