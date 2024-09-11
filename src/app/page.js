@@ -15,6 +15,9 @@ export default function Home()
   const [numberRating, setRating] = useState([]);
   const [nbMenVsWomen, setGenderDisp] = useState([]);
 
+  const [lastMeetings, setLastMeetings] = useState([]);
+  const [ratingYearStats, setRatingYearStats] = useState([]);
+
   useEffect(() => {
     axios.get('http://localhost:3000/api/employee/count_coachs').then(response => {
       setCoachNb(response.data);
@@ -31,10 +34,48 @@ export default function Home()
     axios.get('http://localhost:3000/api/encounters/encounters_rating_numbers').then(response => {
       setRating(response.data);
   }).catch(err => {console.error(err)});
-  axios.get('http://localhost:3000/api/customers/count_customers_by_gender').then(response => {
-    setGenderDisp(response.data);
-}).catch(err => {console.error(err)});
+    axios.get('http://localhost:3000/api/customers/count_customers_by_gender').then(response => {
+      setGenderDisp(response.data);
+  }).catch(err => {console.error(err)});
+    axios.get('http://localhost:3000/api/events/getIdEvent').then(response => {
+      setLastMeetings(response.data);
+    }).catch(err => {console.error(err)});
   }, []);
+
+  let result = 0;
+  for (let index = 0; index < lastMeetings.length; index++) {
+    if (result < lastMeetings[index]._id_event)
+      result = lastMeetings[index]._id_event;
+  }
+
+
+  useEffect(() => {
+
+    let arrayEvents = [null, null];
+    let ratingYearStatsTmp = Array.from({ length: 5 }, () => [...arrayEvents]);
+
+    if (result == 0)
+      return
+    for (let index = 0; index < 5; index++) {
+        let idRef = result - index;
+
+        axios.get(`api/events/eventById?id=${idRef}`).then(response => {
+
+          let data = response.data;
+
+          let name = data[0]._name;
+          let date = data[0]._date;
+          let location = data[0]._location_name;
+          let maxParticipants = data[0]._max_participants;
+
+          ratingYearStatsTmp[index] = [name, date, location, maxParticipants]
+        }).catch(err => {console.error(err)});
+
+      }
+      setRatingYearStats(ratingYearStatsTmp)
+    }, [lastMeetings]);
+
+    console.log(i)
 
   return (
     <>
@@ -128,6 +169,9 @@ export default function Home()
                   />
               </div>
 
+            </div>
+            <div>
+               {/* <p>{ratingYearStats._name}</p> */}
             </div>
 
           </div>
