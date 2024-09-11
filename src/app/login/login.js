@@ -2,6 +2,8 @@
 
 import { redirect } from 'next/navigation';
 import { setCookies } from '@/app/login/manageCookies'
+import { employee } from '@/models/employee_schema';
+import { mongooseConnect } from '@/lib/mongoose';
 
 async function getEmployeeData(access_token) {
   let response = await fetch('https://soul-connection.fr/api/employees/me',{
@@ -12,6 +14,21 @@ async function getEmployeeData(access_token) {
       Authorization: `Bearer ${access_token}`
     }})
   return await response.json();
+}
+
+async function updateEmployeeTimestamp(employeeId)
+{
+  await mongooseConnect();
+
+  const currentDate = new Date().toString();
+  const findLoggedEmployee = { _id_employee: employeeId };
+  const updateTimestamp = { _last_connexion: currentDate };
+
+  try {
+    await employee.updateMany(findLoggedEmployee, updateTimestamp);
+  } catch(err) {
+    console.error(err);
+  }
 }
 
 export async function logUser(message, formData) {
@@ -38,5 +55,6 @@ export async function logUser(message, formData) {
 
     const employeeData = await getEmployeeData(data.access_token);
     await setCookies(data.access_token, employeeData.work, employeeData.id);
+    await updateEmployeeTimestamp(employeeData.id)
     redirect('/');
-}
+  }
