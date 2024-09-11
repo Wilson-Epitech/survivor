@@ -29,7 +29,7 @@ export default function Home() {
                                 {({ open }) => (
                                     <div className={`border-2 border-[#E4E6EF] rounded-sm bg-white`}>
                                         <DisclosureButton className="w-full flex justify-between items-center p-4 text-left">
-                                            <h1 className="font-bold">{user._title || "vide"}</h1>
+                                            <h1 className="font-bold">{user._title || ""}</h1>
                                             {open ? (
                                                 <ChevronUpIcon className="w-6 h-6 text-gray-500" />
                                             ) : (
@@ -37,7 +37,7 @@ export default function Home() {
                                             )}
                                         </DisclosureButton>
                                         <DisclosurePanel className={`p-4 transition-all duration-300 ${open ? 'block' : 'hidden'}`}>
-                                            <p>{user._tip || "vide"}</p>
+                                            <p>{user._tip || ""}</p>
                                         </DisclosurePanel>
                                     </div>
                                 )}
