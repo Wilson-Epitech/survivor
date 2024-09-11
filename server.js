@@ -16,7 +16,6 @@ const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
   const server = express();
-
   cron.schedule('0 */2 * * *', async () => {
     await SaveTips();
     await SaveOrders();

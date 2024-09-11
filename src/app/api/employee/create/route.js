@@ -1,7 +1,5 @@
 import { mongooseConnect } from '@/lib/mongoose';
 import { employee } from '@/models/employee_schema';
-import axios from 'axios';
-import { set } from 'mongoose';
 import { NextResponse } from 'next/server';
 
 export async function POST(req) {
@@ -11,7 +9,7 @@ export async function POST(req) {
     if (method === 'POST') {
         try {
             const body = await req.json();
-            const {_email, _name, _surname, _birth_date, _gender, _work, _image} = body;
+            const {_email, _name, _surname, _birth_date, _gender, _work, _image, _last_connexion} = body;
 
             let _id_employee;
             let _ids_employees = [];
@@ -24,7 +22,7 @@ export async function POST(req) {
                 return NextResponse.json({ error: 'Failed to get employees ID' }, { status: 500 });
             }
 
-            const result = await employee.create({_id_employee, _email, _name, _surname, _birth_date, _gender, _work, _image});
+            const result = await employee.create({_id_employee, _email, _name, _surname, _birth_date, _gender, _work, _image, _last_connexion});
             return NextResponse.json(result);
         } catch (error) {
             if (error instanceof Error) {
