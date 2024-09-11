@@ -1,7 +1,7 @@
 'use server'
 
 import { redirect } from 'next/navigation';
-import { setCookies } from '@/app/login/setCookies'
+import { setCookies } from '@/app/login/manageCookies'
 
 async function getEmployeeData(access_token) {
   let response = await fetch('https://soul-connection.fr/api/employees/me',{
