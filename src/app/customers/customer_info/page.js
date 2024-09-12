@@ -117,14 +117,10 @@ export default function Home()
 
     return (
         <Layout>
-<<<<<<< HEAD
-            <main className="w-full h-full min-h-screen px-4 py-5 sm:px-6 lg:px-8 pt-16">
-=======
             <Suspense fallback={<div>Loading...</div>}>
                 <CustomerSearchParams setSearch={setSearch} />
             </Suspense>
             <main className="w-full h-full min-h-screen bg-[#F5F6FA] px-4 py-5 sm:px-6 lg:px-8 pt-16">
->>>>>>> 6662cadf7047eee077383eeda1e0e8faf44121dc
                 <div className="mb-4 flex flx-row gap-4">
                     <h1 className="mt-2 mb-4 text-left text-4xl font-bold leading-9 tracking-tight w-1/2 text-gray-900">
                         Customer Details
