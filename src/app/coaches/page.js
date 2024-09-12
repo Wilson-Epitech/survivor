@@ -30,8 +30,6 @@ export default function Home() {
                     .catch(error => {
                         console.error("Failed to fetch customers", error);
                     });
-            } else {
-                console.log("nop");
             }
         });
     }, [coach]);
