@@ -31,7 +31,10 @@ async function tipsToDatabase() {
 
     const tipData = await data.json();
 
-    for (let tip_i = 0; tip_i <= tipData.length; tip_i++) {
+    for (let tip_i = 0; tip_i < tipData.length; tip_i++) {
+
+      if (!tipData[tip_i].id || !tipData[tip_i].id)
+        return
 
       const existingTip = await Tip.findOne({ _id_tip: tipData[tip_i].id});
 
@@ -47,6 +50,7 @@ async function tipsToDatabase() {
       } catch (error) {
         console.error(`Error inserting tip ${tipData[tip_i].id}:`, error);
       }
+
     }
   } catch (error) {
     console.error('Error fetching tips:', error);

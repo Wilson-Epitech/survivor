@@ -34,7 +34,7 @@ async function ordersToDatabase() {
 
     const customerData = await data.json()
 
-    for (let i = 0; i <= customerData.length; i++) {
+    for (let i = 0; i < customerData.length; i++) {
 
       let url = `https://soul-connection.fr/api/customers/${customerData[i].id}/payments_history`;
       const data = await fetch(url, {

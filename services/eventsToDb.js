@@ -38,7 +38,7 @@ async function eventsToDatabase() {
 
     const eventsNbr = await data.json();
 
-    for (let i = 0; i <= eventsNbr.length; i++) {
+    for (let i = 0; i < eventsNbr.length; i++) {
 
       const existingEvents = await event.findOne({ _id_event: eventsNbr[i].id});
 
