@@ -33,7 +33,6 @@ async function clothesToDatabase() {
         const customersFromApi = await data.json();
 
         for (let i = 0; i <= customersFromApi.length; i++) {
-
             let url = `https://soul-connection.fr/api/customers/${customersFromApi[i].id}/clothes`;
 
             const data = await fetch(url, {
