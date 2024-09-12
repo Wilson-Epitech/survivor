@@ -1,71 +1,181 @@
-"use client"
+"use client";
 
 import Layout from "@/components/Layout";
 import axios from 'axios';
 import { useEffect, useState } from "react";
+import { PieChart } from '@mui/x-charts/PieChart';
 
-export default function Home()
-{
+export default function Home() {
   const [numberCoach, setCoachNb] = useState(0);
   const [numberCustomer, setCustoNb] = useState(0);
   const [numberDate, setDateNb] = useState(0);
   const [numberEvent, setEventNb] = useState(0);
 
+  const [numberRating, setRating] = useState([]);
+  const [nbMenVsWomen, setGenderDisp] = useState([]);
+
+  const [lastMeetings, setLastMeetings] = useState([]);
+  const [ratingYearStats, setRatingYearStats] = useState([]);
+
   useEffect(() => {
     axios.get('http://localhost:3000/api/employee/count_coachs').then(response => {
       setCoachNb(response.data);
-    }).catch(err => {console.error(err)});
+    }).catch(err => console.error(err));
+
     axios.get('http://localhost:3000/api/customers/count_customers').then(response => {
       setCustoNb(response.data);
-    }).catch(err => {console.error(err)});
+    }).catch(err => console.error(err));
+
     axios.get('http://localhost:3000/api/encounters/count_encounters').then(response => {
       setDateNb(response.data);
-    }).catch(err => {console.error(err)});
+    }).catch(err => console.error(err));
+
     axios.get('http://localhost:3000/api/events/count_events').then(response => {
       setEventNb(response.data);
-    }).catch(err => {console.error(err)});
+    }).catch(err => console.error(err));
+
+    axios.get('http://localhost:3000/api/encounters/encounters_rating_numbers').then(response => {
+      setRating(response.data);
+    }).catch(err => console.error(err));
+
+    axios.get('http://localhost:3000/api/customers/count_customers_by_gender').then(response => {
+      setGenderDisp(response.data);
+    }).catch(err => console.error(err));
+
+    axios.get('http://localhost:3000/api/events/getIdEvent').then(response => {
+      setLastMeetings(response.data);
+    }).catch(err => console.error(err));
   }, []);
+
+  useEffect(() => {
+    if (lastMeetings.length === 0)
+      return;
+
+    let result = Math.max(...lastMeetings.map(meeting => meeting._id_event));
+
+    if (result === 0)
+      return;
+
+    const getMeetingStats = async () => {
+      let arrayEvents = [null, null, null, 0];
+      let ratingYearStatsTmp = Array.from({ length: 5 }, () => [...arrayEvents]);
+
+      for (let index = 0; index < 5; index++) {
+        let idRef = result - index;
+
+        try {
+          const response = await axios.get(`api/events/eventById?id=${idRef}`);
+          let data = response.data[0];
+
+          if (data) {
+            ratingYearStatsTmp[index] = {
+              name: data._name,
+              date: data._date,
+              location: data._location_name,
+              maxParticipants: data._max_participants
+            };
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      }
+      setRatingYearStats(ratingYearStatsTmp);
+    };
+
+    getMeetingStats();
+  }, [lastMeetings]);
 
   return (
     <>
       <Layout>
         <div className="min-h-full w-full flex-col items-center justify-center bg-white">
           <div className="h-4/6 pt-11 mx-10 mt-10">
-
             <div className="mb-4 flex flex-col items-center justify-center">
-              <h1 className="items-center justify-center text-4xl font-bold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-whiten">Soul Connection</h1>
-              <h3 className="mt-5 items-center justify-center text-3xl font-bold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-3xl dark:text-whiten">Dashboard</h3>
+              <h1 className="text-4xl font-bold tracking-tight text-gray-900">Soul Connection</h1>
+              <h3 className="mt-5 text-3xl font-bold tracking-tight text-gray-900">Dashboard</h3>
             </div>
             <div className="w-full h-0.5 bg-black mb-4 mt-2"></div>
 
             <div className="ml-10 mt-10 border border-gray-300 p-4 rounded-lg shadow-lg">
-              <div className="mb-4 flex lg:flex-row md:flex-col flex-col items-center justify-between gap-8">
-                <div className="flex flex-col">
+              <div className="flex flex-wrap items-center justify-between gap-8">
+                <div className="flex flex-col items-center">
                   <p className="text-9xl text-blue-300">{numberCoach}</p>
                   <p className="text-5xl">Coaches</p>
                 </div>
-                <div className="flex flex-col">
+                <div className="flex flex-col items-center">
                   <p className="text-9xl text-blue-400">{numberCustomer}</p>
                   <p className="text-5xl">Customers</p>
                 </div>
-                <div className="flex flex-col">
+                <div className="flex flex-col items-center">
                   <p className="text-9xl text-blue-500">{numberDate}</p>
-                  <p className="text-5xl mr-24">Dates</p>
+                  <p className="text-5xl">Dates</p>
                 </div>
-                <div className="flex flex-col">
+                <div className="flex flex-col items-center">
                   <p className="text-9xl text-blue-600">{numberEvent}</p>
-                  <p className="text-5xl mr-[4.7rem]">Events</p>
+                  <p className="text-5xl">Events</p>
                 </div>
               </div>
             </div>
 
-            <div className="mb-4 flex flex-row items-center justify-center mt-28">
-              <p className="lg:text-9xl md:text-8xl text-7xl text-green-300">23.975,43$</p>
-            </div>
-            <div className="mb-4 flex flex-row items-center justify-center mt-5">
-              <p className="lg:text-5xl md:text-4xl text-4xl text-black">Sales Revenue</p>
+            <div className="flex flex-wrap justify-between mt-10">
+              <div className="border border-gray-300 p-4 rounded-lg shadow-lg">
+                <h2 className="text-center">Encounters' rating</h2>
+                <PieChart
+                  series={[{ data: numberRating.map((val, idx) => ({ id: idx, value: val, label: `${idx + 1} Star` })) }]}
+                  width={400}
+                  height={200}
+                />
+              </div>
+
+              <div className="border border-gray-300 p-4 rounded-lg shadow-lg">
+                <h2 className="text-center">Coaches Vs Customers</h2>
+                <PieChart
+                  series={[{ data: [{ id: 0, value: numberCoach, label: 'Coaches' }, { id: 1, value: numberCustomer, label: 'Customers' }] }]}
+                  width={400}
+                  height={200}
+                />
+              </div>
+
+              <div className="border border-gray-300 p-4 rounded-lg shadow-lg">
+                <h2 className="text-center">Women vs Men</h2>
+                <PieChart
+                  series={[{ data: [{ id: 0, value: nbMenVsWomen[1], label: 'Women' }, { id: 1, value: nbMenVsWomen[0], label: 'Men' }] }]}
+                  width={400}
+                  height={200}
+                />
+              </div>
             </div>
 
+            <div className="mt-10 p-4 rounded-lg bg-white shadow-lg">
+              <table className="table-auto w-full text-left text-sm">
+                <thead className="border-y-2 bg-white text-[#889DB9]">
+                  <tr>
+                    <th className="px-4 py-2">#</th>
+                    <th className="px-4 py-2">Name</th>
+                    <th className="px-4 py-2">Date</th>
+                    <th className="px-4 py-2">Location</th>
+                    <th className="px-4 py-2">Max Participants</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {ratingYearStats.length > 0 ? (
+                    ratingYearStats.map((meeting, index) => (
+                      <tr key={index} className="border-y-2 border-[#E4E6EF] bg-white">
+                        <td className="px-4 py-2">{index + 1}</td>
+                        <td className="px-4 py-2">{meeting.name}</td>
+                        <td className="px-4 py-2 text-[#889DB9]">{meeting.date}</td>
+                        <td className="px-4 py-2 text-[#889DB9]">{meeting.location}</td>
+                        <td className="px-4 py-2 text-[#889DB9]">{meeting.maxParticipants}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td className="px-4 py-2" colSpan="5">No events available.</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </Layout>
