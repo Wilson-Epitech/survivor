@@ -53,10 +53,15 @@ export default function Home() {
         }
     },[employeeRole, employeeID, tmpUsers]);
 
+
     const [inputValue, setInputValue] = useState('');
+    const [firstInputValue, setFirstInputValue] = useState('');
+    const [secondInputValue, setsecondInputValue] = useState('');
 
     const handleInputChange = (event) => {
-        setInputValue(event.target.value);
+        setInputValue(event.target.value)
+        let input = inputValue.split(" ");
+        input.length > 1 ? (setFirstInputValue(input[0]), setsecondInputValue(input[1])) : (setFirstInputValue(event.target.value), setsecondInputValue(""))
     };
 
     return (
@@ -93,7 +98,10 @@ export default function Home() {
                                 <th scope="col" className="px-4 py-2">Phone</th>
                             </tr>
                         </thead>
-                        {users.filter(item => item._name.toLowerCase().includes(inputValue.toLowerCase())).map((user, index) => (
+                        {users.filter(
+                            item => item._name.toLowerCase().includes(firstInputValue.toLowerCase()) && item._surname.toLowerCase().includes(secondInputValue.toLowerCase()) ||
+                            item._name.toLowerCase().includes(secondInputValue.toLowerCase()) && item._surname.toLowerCase().includes(firstInputValue.toLowerCase())
+                        ).map((user, index) => (
                             <tbody>
                                 <tr className="border-y-2 border-[#E4E6EF] bg-white ">
                                     <td className="whitespace-nowrap px-4 py-2 flex gap-4">

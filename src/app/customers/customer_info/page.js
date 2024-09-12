@@ -19,7 +19,8 @@ function CustomerSearchParams({ setSearch }) {
     return null;
 }
 
-export default function Home() {
+export default function Home()
+{
     const [coachCustomersId, setCoachCustomersId] = useState([]);
     const [employeeRole, setEmployeeRole] = useState(0);
     const [employeeID, setEmployeeID] = useState(0);
