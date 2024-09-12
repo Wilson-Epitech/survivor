@@ -84,27 +84,59 @@ export default function Home() {
     };
 
     return (
-        <Layout>
-            <div className="w-full h-screen bg-[#F5F6FA] px-4 py-5 sm:px-6 lg:px-8 pt-16">
-                <div className="mb-4">
-                    <h1 className="text-left text-2xl font-semibold leading-9 tracking-tight text-[#2D425C] mb-1">
-                        Astrological
-                    </h1>
-                </div>
+            <Layout>
+                <main className="w-full min-h-screen h-full bg-[#F5F6FA] px-4 py-5 sm:px-6 lg:px-8 pt-16">
+                    <div className="mb-4 flex justify-between items-center">
+                        <div className="flex flex-col">
+                            <h1 className="text-left text-2xl font-semibold leading-9 tracking-tight text-[#2D425C] mb-1">
+                            Astrological
+                            </h1>
+                            <p className="text-[#889DB9] text-sm mb-2">compatibility between two customers</p>
+                        </div>
+                    </div>
 
-                <div className="h-fit w-full pt-0 flex justify-center ">
-                    <div className="m-10 max-w-[500px] w-full rounded-sm border-2 border-[#E4E6EF] bg-white py-2 px-2">
-                        <div className="pt-4">
-                            <div className="flex flex-row justify-between items-start">
-                                <div className="w-full flex flex-col items-center text-center">
-                                    <Dropdown onSelectionChange={handleSelectionChange1} label="Client A"/>
-                                        {isClientASelected ? (
+                    <div className="h-fit w-full pt-0 flex justify-center ">
+                        <div className="m-10 max-w-[500px] w-full rounded-sm border-2 border-[#E4E6EF] bg-white py-2 px-2">
+                            <div className="pt-4">
+                                <div className="flex flex-row justify-between items-start">
+                                    <div className="w-full flex flex-col items-center text-center">
+                                        <Dropdown onSelectionChange={handleSelectionChange1} label="Client A"/>
+                                            {isClientASelected ? (
+                                                <>
+                                                    <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
+                                                        {firstName} {firstSurname}
+                                                    </p>
+                                                    <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
+                                                        {firstAstro}
+                                                    </p>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
+                                                        {""}
+                                                    </p>
+                                                    <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
+                                                        {""}
+                                                    </p>
+                                                </>
+                                            )}
+                                    </div>
+
+                                    <div className="pt-[5.4rem] flex items-center justify-center w-full">
+                                        <div className="relative">
+                                            <FontAwesomeIcon icon={faArrowsAltH} className="size-10"/>
+                                        </div>
+                                    </div>
+
+                                    <div className="w-full flex flex-col items-center text-center">
+                                        <Dropdown onSelectionChange={handleSelectionChange2} label="Client B"/>
+                                        {isClientBSelected ? (
                                             <>
                                                 <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
-                                                    {firstName} {firstSurname}
+                                                    {secondName} {secondSurname}
                                                 </p>
                                                 <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
-                                                    {firstAstro}
+                                                    {secondAstro}
                                                 </p>
                                             </>
                                         ) : (
@@ -117,70 +149,144 @@ export default function Home() {
                                                 </p>
                                             </>
                                         )}
-                                </div>
-
-                                <div className="pt-[5.4rem] flex items-center justify-center w-full">
-                                    <div className="relative">
-                                        <FontAwesomeIcon icon={faArrowsAltH} className="size-10"/>
                                     </div>
                                 </div>
 
-                                <div className="w-full flex flex-col items-center text-center">
-                                    <Dropdown onSelectionChange={handleSelectionChange2} label="Client B"/>
-                                    {isClientBSelected ? (
-                                        <>
-                                            <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
-                                                {secondName} {secondSurname}
+                                {errorMessage && (
+                                    <p className="mt-4 text-red-600 text-center">{errorMessage}</p>
+                                )}
+                                {errorClient && (
+                                    <p className="mt-4 text-red-600 text-center">{errorClient}</p>
+                                )}
+
+                                <div className="mt-6 flex flex-col items-center">
+                                    {showCompatibility && (
+                                            <p className="mt-4 mb-4 text-xl font-bold">
+                                                {compatibility}%
                                             </p>
-                                            <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
-                                                {secondAstro}
-                                            </p>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
-                                                {""}
-                                            </p>
-                                            <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
-                                                {""}
-                                            </p>
-                                        </>
+                                    )}
+                                    <button
+                                        type="submit"
+                                        className="px-4 py-2 bg-[#2D84B9] hover:bg-[#5197c3] text-white items-center"
+                                        onClick={calculateCompatibility}
+                                    >
+                                        Submit
+                                    </button>
+                                    {showCompatibility && (
+                                        <img
+                                            aria-hidden="true"
+                                            src="/coeur.png"
+                                            className="mt-10 select-none hidden size-36 xl:block -left-32 top-1/3"
+                                        />
                                     )}
                                 </div>
                             </div>
-
-                            {errorMessage && (
-                                <p className="mt-4 text-red-600 text-center">{errorMessage}</p>
-                            )}
-                            {errorClient && (
-                                <p className="mt-4 text-red-600 text-center">{errorClient}</p>
-                            )}
-
-                            <div className="mt-6 flex flex-col items-center">
-                                {showCompatibility && (
-                                        <p className="mt-4 mb-4 text-xl font-bold">
-                                            {compatibility}%
-                                        </p>
-                                )}
-                                <button
-                                    type="submit"
-                                    className="px-4 py-2 bg-[#2D84B9] hover:bg-[#5197c3] text-white items-center"
-                                    onClick={calculateCompatibility}
-                                >
-                                    Submit
-                                </button>
-                                {showCompatibility && (
-                                    <img
-                                        aria-hidden="true"
-                                        src="/coeur.png"
-                                        className="mt-10 select-none hidden size-36 xl:block -left-32 top-1/3"
-                                    />
-                                )}
-                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
+            </main>
         </Layout>
     );
 }
+
+
+// return (
+//     <Layout>
+//         <div className="w-full h-screen bg-[#F5F6FA] px-4 py-5 sm:px-6 lg:px-8 pt-16">
+//                 <div className="flex flex-col">
+//                     <h1 className="text-left text-2xl font-semibold leading-9 tracking-tight text-[#2D425C] mb-1">
+//                         Astrological
+//                     </h1>
+//                     <p className="text-[#889DB9] text-sm mb-2">compatibility between two customers</p>
+//                 </div>
+
+//             <div className="h-fit w-full pt-0 flex justify-center ">
+//                 <div className="m-10 max-w-[500px] w-full rounded-sm border-2 border-[#E4E6EF] bg-white py-2 px-2">
+//                     <div className="pt-4">
+//                         <div className="flex flex-row justify-between items-start">
+//                             <div className="w-full flex flex-col items-center text-center">
+//                                 <Dropdown onSelectionChange={handleSelectionChange1} label="Client A"/>
+//                                     {isClientASelected ? (
+//                                         <>
+//                                             <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
+//                                                 {firstName} {firstSurname}
+//                                             </p>
+//                                             <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
+//                                                 {firstAstro}
+//                                             </p>
+//                                         </>
+//                                     ) : (
+//                                         <>
+//                                             <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
+//                                                 {""}
+//                                             </p>
+//                                             <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
+//                                                 {""}
+//                                             </p>
+//                                         </>
+//                                     )}
+//                             </div>
+
+//                             <div className="pt-[5.4rem] flex items-center justify-center w-full">
+//                                 <div className="relative">
+//                                     <FontAwesomeIcon icon={faArrowsAltH} className="size-10"/>
+//                                 </div>
+//                             </div>
+
+//                             <div className="w-full flex flex-col items-center text-center">
+//                                 <Dropdown onSelectionChange={handleSelectionChange2} label="Client B"/>
+//                                 {isClientBSelected ? (
+//                                     <>
+//                                         <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
+//                                             {secondName} {secondSurname}
+//                                         </p>
+//                                         <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
+//                                             {secondAstro}
+//                                         </p>
+//                                     </>
+//                                 ) : (
+//                                     <>
+//                                         <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
+//                                             {""}
+//                                         </p>
+//                                         <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
+//                                             {""}
+//                                         </p>
+//                                     </>
+//                                 )}
+//                             </div>
+//                         </div>
+
+//                         {errorMessage && (
+//                             <p className="mt-4 text-red-600 text-center">{errorMessage}</p>
+//                         )}
+//                         {errorClient && (
+//                             <p className="mt-4 text-red-600 text-center">{errorClient}</p>
+//                         )}
+
+//                         <div className="mt-6 flex flex-col items-center">
+//                             {showCompatibility && (
+//                                     <p className="mt-4 mb-4 text-xl font-bold">
+//                                         {compatibility}%
+//                                     </p>
+//                             )}
+//                             <button
+//                                 type="submit"
+//                                 className="px-4 py-2 bg-[#2D84B9] hover:bg-[#5197c3] text-white items-center"
+//                                 onClick={calculateCompatibility}
+//                             >
+//                                 Submit
+//                             </button>
+//                             {showCompatibility && (
+//                                 <img
+//                                     aria-hidden="true"
+//                                     src="/coeur.png"
+//                                     className="mt-10 select-none hidden size-36 xl:block -left-32 top-1/3"
+//                                 />
+//                             )}
+//                         </div>
+//                     </div>
+//                 </div>
+//             </div>
+//         </div>
+//     </Layout>
+// );
