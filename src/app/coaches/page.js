@@ -1,5 +1,6 @@
 "use client";
 
+import { redirect } from 'next/navigation';
 import { useEffect, useState } from "react";
 import axios from 'axios';
 import Layout from "@/components/Layout";
@@ -10,12 +11,29 @@ export default function Home() {
     const [coach, setCoach] = useState([]);
     const [numberCustomer, setCustoNb] = useState([]);
     const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
+    const [employeeRole, setEmployeeRole] = useState(0);
+    const [loadCoaches, setLoadCoaches] = useState(0);
+
+    useEffect(() => {
+        axios.get('http://localhost:3000/api/employee/role').then(response => {
+            setEmployeeRole(response.data);
+        }).catch(err => {console.error(err)});
+    }, []);
+
+    useEffect(() => {
+        if (employeeRole === "Coach") {
+            window.alert("Unauthorized access");
+            redirect('/');
+        } else {
+            setLoadCoaches(true);
+        }
+    }, [employeeRole]);
 
     useEffect(() => {
         axios.get('/api/employee/coachs')
             .then(response => setCoach(response.data))
             .catch(err => console.error(err));
-    }, []);
+    }, [loadCoaches]);
 
     useEffect(() => {
         coach.forEach((thisCoach) => {

@@ -36,6 +36,7 @@ export default function Home()
             if (tmpSearch === tmpUsers[i]._id_customer)
                 return;
         }
+        window.alert("Unauthorized access");
         redirect('/customers');
     }, [tmpUsers]);
 
@@ -77,6 +78,7 @@ export default function Home()
                 return;
             }
         }
+        window.alert("Unauthorized access");
         redirect('/customers');
     }, [coachCustomersId]);
 
