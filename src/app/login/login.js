@@ -2,6 +2,7 @@
 
 import { redirect } from 'next/navigation';
 import { setCookies } from '@/app/login/manageCookies'
+import { updateEmployeeTimestamp } from '@/lib/updateEmployeeTimestamp';
 
 async function getEmployeeData(access_token) {
   let response = await fetch('https://soul-connection.fr/api/employees/me',{
@@ -38,5 +39,6 @@ export async function logUser(message, formData) {
 
     const employeeData = await getEmployeeData(data.access_token);
     await setCookies(data.access_token, employeeData.work, employeeData.id);
+    await updateEmployeeTimestamp(employeeData.id);
     redirect('/');
 }

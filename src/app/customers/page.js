@@ -48,7 +48,7 @@ export default function Home() {
         <Layout>
             <main className="w-full min-h-screen h-full bg-[#F5F6FA] px-4 py-5 sm:px-6 lg:px-8 pt-16">
                 <div className="mb-4">
-                    <h1 className="mt-2 mb-4 text-left text-4xl font-bold leading-9 tracking-tight text-gray-900">
+                    <h1 className="text-left text-2xl font-semibold leading-9 tracking-tight text-[#2D425C] mb-1">
                         Customers List
                     </h1>
                     <p className="text-[#889DB9] text-sm">You have total {users.length} customers.</p>

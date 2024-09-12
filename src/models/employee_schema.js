@@ -1,4 +1,4 @@
-import mongoose, { mongo, models, model } from 'mongoose';
+import mongoose, { models, model } from 'mongoose';
 
 const employeeSchema = new mongoose.Schema ({
   _id_employee: {type: Number, required: true},
@@ -8,7 +8,8 @@ const employeeSchema = new mongoose.Schema ({
   _birth_date: {type: String, required: true},
   _gender: {type: String, required: true},
   _work: {type: String, required: true},
-  _image: {type: String, required: true}
+  _image: {type: String, required: true},
+  _last_connexion: {type: String}
 },  { collection: 'employees' });
 
 export const employee = models.employee || model('employee', employeeSchema);
