@@ -17,27 +17,27 @@ export default function Home() {
     return (
         <Layout>
             {/* <main className="w-full h-screen bg-[#F5F6FA] px-4 py-5 sm:px-6 lg:px-8 pt-16"> */}
-            <div className="mt-20 w-full ml-4">
-                <div className="mb-4">
-                    <h1 className="mt-2 text-3xl leading-9 tracking-tight text-[#2D425C] font-normal">
+            <div className="mt-[4.5rem] w-full ml-4 mr-4">
+                <div className="mb-[2.5rem]">
+                    <h1 className="mt-2 text-4xl leading-9 tracking-tight text-[#2D425C] font-light">
                         Tips for Coaches
                     </h1>
                 </div>
-                <div className="w-full h-[95%] pt-8 rounded-sm bg-white py-2 pr-4">
+                <div className="w-full h-[95%] rounded-sm border mb-10">
                         {users.map((user, index) => (
                             <Disclosure key={index}>
                                 {({ open }) => (
-                                    <div className={`border-2 border-[#E4E6EF] rounded-sm bg-white`}>
-                                        <DisclosureButton className="w-full flex justify-between items-center p-4 text-left">
-                                            <h1 className="font-bold">{user._title || ""}</h1>
+                                    <div className={`border-b border-[#DEE3ED] rounded-sm bg-white`}>
+                                        <DisclosureButton className="w-full flex justify-between items-center p-3 text-left">
+                                            <h1 className="font-semibold text-[#2D425C] text-sm">{user._title || ""}</h1>
                                             {open ? (
-                                                <ChevronUpIcon className="w-6 h-6 text-gray-500" />
+                                                <ChevronUpIcon className="w-3 h-3 text-[#2D425C]" />
                                             ) : (
-                                                <ChevronDownIcon className="w-6 h-6 text-gray-500" />
+                                                <ChevronDownIcon className="w-3 h-3 text-[#2D425C]" />
                                             )}
                                         </DisclosureButton>
-                                        <DisclosurePanel className={`p-4 transition-all duration-300 ${open ? 'block' : 'hidden'}`}>
-                                            <p>{user._tip || ""}</p>
+                                        <DisclosurePanel className={`p-4 border-t transition-all duration-300 ${open ? 'block' : 'hidden'}`}>
+                                            <p className="text-[13px] font-medium text-[#526889]">{user._tip || ""}</p>
                                         </DisclosurePanel>
                                     </div>
                                 )}
