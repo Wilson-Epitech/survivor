@@ -26,8 +26,8 @@ export default function Home() {
     const [errorClient, setErrorClient] = useState(null);
     const [clientA, setClientA] = useState(null);
     const [clientB, setClientB] = useState(null);
-    const [userPhoto1, setUserPhoto1] = useState([]);
-    const [userPhoto2, setUserPhoto2] = useState([]);
+    const [userPhotoClientA, setUserPhotoClientA] = useState([]);
+    const [userPhotoClientB, setUserPhotoClientB] = useState([]);
     const router = useRouter();
 
     const handleSelectionChange1 = (ids) => {
@@ -46,7 +46,7 @@ export default function Home() {
             setIsClientASelected(true);
         }).catch(err => {console.error(err)});
         axios.get(`/api/customers/customer_photo?id=${id}`).then(response => {
-            setUserPhoto1(response.data);
+            setUserPhotoClientA(response.data);
         }).catch(err => {console.error(err)});
     };
 
@@ -66,7 +66,7 @@ export default function Home() {
             setIsClientBSelected(true);
         }).catch(err => {console.error(err)});
         axios.get(`/api/customers/customer_photo?id=${id}`).then(response => {
-            setUserPhoto2(response.data);
+            setUserPhotoClientB(response.data);
         }).catch(err => {console.error(err)});
     };
 
@@ -91,8 +91,8 @@ export default function Home() {
         setShowCompatibility(true);
     };
 
-    let imgClient1 = userPhoto1.length > 0 ? userPhoto1[0]._image : null
-    let imgClient2 = userPhoto2.length > 0 ? userPhoto2[0]._image : null
+    let imgClientA = userPhotoClientA.length > 0 ? userPhotoClientA[0]._image : null
+    let imgClientB = userPhotoClientB.length > 0 ? userPhotoClientB[0]._image : null
 
     return (
         <Layout>
@@ -117,8 +117,8 @@ export default function Home() {
                                 <Dropdown onSelectionChange={handleSelectionChange1} label="Client A"/>
                                 <div className="w-full h-full flex flex-col items-center">
                                     <div className="w-full flex justify-center pt-8">
-                                        {imgClient1 ? (
-                                            <img className="object-contain w-24 h-24 sm:w-32 sm:h-32 lg:w-36 lg:h-36 rounded-full" src={`data:image/jpeg;base64,${imgClient1}`} alt="Customer Photo" />
+                                        {imgClientA ? (
+                                            <img className="object-contain w-24 h-24 sm:w-32 sm:h-32 lg:w-36 lg:h-36 rounded-full" src={`data:image/jpeg;base64,${imgClientA}`} alt="Customer Photo" />
                                         ) : (
                                             <div className="w-24 h-24 sm:w-32 sm:h-32 lg:w-36 lg:h-36 bg-gray-200 flex items-center justify-center rounded-full">
                                                 <span className="text-gray-500">No Image</span>
@@ -170,8 +170,8 @@ export default function Home() {
                                 <div className="w-full flex flex-col items-center text-center">
                                     <Dropdown onSelectionChange={handleSelectionChange2} label="Client B"/>
                                     <div className="w-full flex justify-center pt-8">
-                                        {imgClient2 ? (
-                                            <img className="object-contain w-24 h-24 sm:w-32 sm:h-32 lg:w-36 lg:h-36 rounded-full" src={`data:image/jpeg;base64,${imgClient2}`} alt="Customer Photo" />
+                                        {imgClientB ? (
+                                            <img className="object-contain w-24 h-24 sm:w-32 sm:h-32 lg:w-36 lg:h-36 rounded-full" src={`data:image/jpeg;base64,${imgClientB}`} alt="Customer Photo" />
                                         ) : (
                                             <div className="w-24 h-24 sm:w-32 sm:h-32 lg:w-36 lg:h-36 bg-gray-200 flex items-center justify-center rounded-full">
                                                 <span className="text-gray-500">No Image</span>
