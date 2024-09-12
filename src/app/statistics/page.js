@@ -91,6 +91,9 @@ export default function Home() {
     const [zodiacCoaches, setZodiacCoaches] = useState([]);
     const [totalSumSale, setTotalSumSale] = useState(0);
 
+    const [allRating, setAllRating] = useState(0);
+
+
     useEffect(() => {
         axios.get('/api/customers').then(response => {
             setUsers(response.data);
@@ -100,66 +103,6 @@ export default function Home() {
     const handleSelectionChange = (ids) => {
         setSelectedCoachIds(ids);
     };
-
-    useEffect(() => {
-        let encountersYearArray = Array.from({ length: 12 }, () => 0);
-        let ratingArray = Array.from({ length: 5 }, () => 0);
-        let ratingYearStats = Array.from({ length: 12 }, () => [...ratingArray]);
-        let zodiacSignsArray = Array.from({ length: 12 }, () => 0);
-        let totalSum = 0;
-
-        setRatingYearStats([]);
-        setEncountersYearStats([]);
-        setZodiacCoaches([]);
-        setTotalSumSale(0);
-
-        const lastSelectedId = selectedCoachIds.at(selectedCoachIds.length - 1);
-
-        if (lastSelectedId) {
-            setCoachUsers([]);
-            users.forEach((user) => {
-                if (user._coach == lastSelectedId)
-                    coachUsers.push(user);
-            })
-
-            for (let i = 0; i < coachUsers.length; i++) {
-
-                axios.get(`/api/encounters?customer_id=${coachUsers[i]._id_customer}`).then(response => {
-                    const data = response.data;
-
-                    data.forEach((userEncounter) => {
-                        const date = userEncounter._date;
-                        const rating = userEncounter._rating;
-                        const dateCut = date.split("-");
-                        encountersYearArray = fillYearStats(dateCut[0], dateCut[1], encountersYearArray);
-                        ratingYearStats = fillRatingYearStats(dateCut[0], dateCut[1], rating, ratingYearStats);
-                    })
-                }).catch(err => {console.error(err)});
-
-                axios.get(`/api/customers/customer_astro?id=${coachUsers[i]._id_customer}`).then(response => {
-                    const data = response.data;
-                    data.forEach((user) => {
-                        const zodiacSign = user._astrological_sign;
-                        zodiacSignsArray = fillZodiacSigns(zodiacSign, zodiacSignsArray);
-                    })
-                }).catch(err => {console.error(err)});
-                axios.get(`/api/orders?id=${coachUsers[i]._id_customer}`).then(response => {
-
-                    const data = response.data;
-
-                    data.forEach((orders) => {
-                        const ordersClient = orders._amount;
-                        totalSum += ordersClient;
-                    })
-                    setTotalSumSale(totalSum)
-                    setRatingYearStats(ratingYearStats)
-                    setEncountersYearStats(encountersYearArray)
-                    setZodiacCoaches(zodiacSignsArray)
-                }).catch(err => {console.error(err)});
-
-            }
-        }
-    }, [selectedCoachIds]);
 
     useEffect(() => {
         axios.get('http://localhost:3000/api/employee/count_coachs').then(response => {
@@ -174,10 +117,33 @@ export default function Home() {
         axios.get('http://localhost:3000/api/customers/group_customer_by_age').then(response => {
             setCustoAge(response.data);
         }).catch(err => {console.error(err)});
-        axios.get('http://localhost:3000/api/encounters/encounters_rating_numbers').then(response => {
+        axios.get('http://localhost:3000/api/encounters/getAllRating').then(response => {
             setRating(response.data);
         }).catch(err => {console.error(err)});
     }, []);
+
+////////////////////////////////////////////////////////////////////////////////////
+
+
+
+    let ratingArray = Array.from({ length: 5 }, () => 0);
+    let ratingYearStatsTmp = Array.from({ length: 12 }, () => [...ratingArray]);
+
+    useEffect(() => {
+        axios.get('http://localhost:3000/api/encounters/getAllRating').then(response => {
+            setAllRating(response.data);
+        }).catch(err => {console.error(err)});
+    }, []);
+
+    useEffect(() => {
+        if (allRating.length > 0) {
+            for (let i = 0; i < allRating.length; i++) {
+                let date = allRating[i]._date.split("-")
+                ratingYearStatsTmp =  fillRatingYearStats(date[0], date[1], allRating[i]._rating, ratingYearStatsTmp);
+                setRatingYearStats(ratingYearStatsTmp);
+            }
+    }
+    }, [allRating])
 
     return (
         <Layout>
@@ -274,7 +240,6 @@ export default function Home() {
                     </div>
                     <div className="pr-10 pl-10 flex flex-col md:flex-col lg:flex-row lg:justify-between items-center lg:items-start">
                         <div className="mt-10 flex justify-center p-4 rounded-sm border-2 border-[#E4E6EF] bg-white py-2 px-2">
-                            {selectedCoachIds > 0 ? (
                                 <div className="flex flex-col">
                                     <div className="mb-3"><h2 className="text-center font-bold">Number of dates per month</h2></div>
                                 <BarChart
@@ -289,12 +254,8 @@ export default function Home() {
                                     layout="horizontal"
                                 />
                                 </div>
-                            ) : (
-                                <p>Please select a coach</p>
-                            )}
                         </div>
                         <div className="mt-10 flex justify-center p-4 rounded-sm border-2 border-[#E4E6EF] bg-white py-2 px-2">
-                            {selectedCoachIds > 0 ? (
                                 <div className="flex flex-col">
                                     <div className="mb-3"><h2 className="text-center font-bold">Dates' rating per month</h2></div>
                                 <BarChart
@@ -310,13 +271,9 @@ export default function Home() {
                                     height={300}
                                 />
                                 </div>
-                            ) : (
-                                <p>Please select a coach</p>
-                            )}
                         </div>
 
                         <div className="mt-10 flex justify-center p-4 rounded-sm border-2 border-[#E4E6EF] bg-white py-2 px-2">
-                                {selectedCoachIds > 0  ? (
                                 <div className="flex flex-col">
                                     <div className="mb-3"><h2 className="text-center font-bold">Income brought by coach vs goal</h2></div>
                                     <Stack direction={{ xs: 'column', md: 'row' }} spacing={{ xs: 1, md: 3 }}>
@@ -332,14 +289,10 @@ export default function Home() {
                                     />
                                     </Stack>
                                 </div>
-                                ) : (
-                                    <p>Please select a coach</p>
-                                )}
                         </div>
                     </div>
                     <div className="flex justify-center overflow-auto">
                         <div className="mt-10 w-full flex justify-center p-4 rounded-sm border-2 border-[#E4E6EF] bg-white py-2 px-2">
-                            {selectedCoachIds > 0 ? (
                                 <div className="flex flex-col">
                                     <div className="mb-3"><h2 className="text-center font-bold">Clients' astrological sign</h2></div>
                                     <PieChart
@@ -365,9 +318,6 @@ export default function Home() {
                                         height={300}
                                     />
                                 </div>
-                            ) : (
-                                <p>Please select a coach</p>
-                            )}
                         </div>
                     </div>
                 </div>
