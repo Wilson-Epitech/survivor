@@ -3,11 +3,44 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation";
 import { logout } from "@/app/logout/logout";
+import { useEffect, useState } from "react";
+import axios from 'axios';
+
+const Coaches = ({pathname, activeLink, inactiveLink}) =>
+{
+    return (
+        <li>
+            <a href="/coaches" className={pathname === '/coaches' ? activeLink : inactiveLink}>
+                Coaches
+                {pathname === '/coaches' && (
+                    <span className="absolute left-0 right-0 bottom-[-8px] h-[3px] bg-[#2D6EB8] w-full"></span>
+                )}
+            </a>
+        </li>
+    )
+}
+
+const DisplayCoaches = ({role, pathname, activeLink, inactiveLink}) =>
+{
+    if (role) {
+        if (role !== "Coach")
+            return <Coaches pathname={pathname} activeLink={activeLink} inactiveLink={inactiveLink} />
+    }
+    return null;
+}
 
 const Navbar = () => {
+    const [employeeRole, setEmployeeRole] = useState(0);
     const inactiveLink = 'relative block py-2 text-[#30445E] text-sm';
     const activeLink = 'relative block py-2 text-[#2D6EB8] text-sm';
     const pathname = usePathname();
+
+
+    useEffect(() => {
+        axios.get('http://localhost:3000/api/employee/role').then(response => {
+            setEmployeeRole(response.data);
+        }).catch(err => {console.error(err)});
+    }, []);
 
     return (
         <nav className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200">
@@ -27,14 +60,7 @@ const Navbar = () => {
                                 )}
                             </a>
                         </li>
-                        <li>
-                            <a href="/coaches" className={pathname === '/coaches' ? activeLink : inactiveLink}>
-                                Coaches
-                                {pathname === '/coaches' && (
-                                    <span className="absolute left-0 right-0 bottom-[-8px] h-[3px] bg-[#2D6EB8] w-full"></span>
-                                )}
-                            </a>
-                        </li>
+                        <DisplayCoaches role={employeeRole} pathname={pathname} activeLink={activeLink} inactiveLink={inactiveLink}/>
                         <li>
                             <a href="/customers" className={pathname === '/customers' ? activeLink : inactiveLink}>
                                 Customers
