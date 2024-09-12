@@ -148,14 +148,16 @@ export default function Home() {
   console.log(ratingYearPayment)
 
   return (
-    <Layout>
-        <div className="w-full min-h-screen h-full bg-[#F5F6FA] px-4 py-5 sm:px-6 lg:px-8 pt-16">
-            <div className="mb-4">
-                <h1 className="text-left text-2xl font-semibold leading-9 tracking-tight text-[#2D425C] mb-1">
-                    Dashboard
-                </h1>
-                <p className="text-[#889DB9] text-sm">Welcome!</p>
-            </div>
+      <Layout>
+          <main className="w-full h-full px-4 py-5 sm:px-6 lg:px-8 pt-16">
+              <div className="h-full flex-row">
+                  <div className="mb-4">
+                    <h1 className="text-left text-2xl font-semibold leading-9 tracking-tight text-[#2D425C] mb-1">
+                        Dashboard
+                    </h1>
+                      <p className="text-[#889DB9] text-sm">Welcome!</p>
+                  </div>
+              </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 w-full h-full">
 
@@ -236,7 +238,7 @@ export default function Home() {
                     </div>
 
             </div>
-        </div>
+        </main>
     </Layout>
   );
 }
