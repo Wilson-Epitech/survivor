@@ -33,6 +33,7 @@ export default function Home()
     const [userDate, setUserDate] = useState([]);
     const [coach, setCoach] = useState([]);
     const [search, setSearch] = useState(0);
+    const [decode, setDecode] = useState(0);
     const [unauthorized, setUnauthorized] = useState(undefined);
 
     const route = useRouter();
@@ -121,6 +122,19 @@ export default function Home()
 
     let img = userPhoto.length > 0 ? userPhoto[0]._image : null
 
+    useEffect(() => {
+        if (!img) {
+            return;
+        }
+
+        if (img.endsWith('.jpeg') || img.endsWith('.png')) {
+            setDecode(false);
+        } else {
+            setDecode(true);
+        }
+    }, [img]);
+
+
     return (
         <Layout>
             <Suspense fallback={<div>Loading...</div>}>
@@ -155,7 +169,7 @@ export default function Home()
                         <div className="w-full ">
                             <div className="w-full flex justify-center">
                                 {img ? (
-                                    <img className="object-contain w-24 h-24 sm:w-32 sm:h-32 lg:w-36 lg:h-36 rounded-full" src={`data:image/jpeg;base64,${img}`} alt="Customer Photo" />
+                                    <img className="object-contain w-24 h-24 sm:w-32 sm:h-32 lg:w-36 lg:h-36 rounded-full" src={decode ? `data:image/jpeg;base64,${img}` : `${img}`} alt="Customer Photo" />
                                 ) : (
                                     <div className="w-24 h-24 sm:w-32 sm:h-32 lg:w-36 lg:h-36 bg-gray-200 flex items-center justify-center">
                                         <span className="text-gray-500">No Image</span>
