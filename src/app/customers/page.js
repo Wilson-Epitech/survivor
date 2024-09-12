@@ -53,7 +53,7 @@ export default function Home() {
                     </h1>
                     <p className="text-[#889DB9] text-sm">You have total {users.length} customers.</p>
                 </div>
-                <div className="flex flex-row gap-6 w-full h-full rounded-sm bg-white py-4 px-4">
+                <div className="flex flex-row gap-6 w-full h-full overflow-x-auto rounded-sm bg-white py-4 px-4">
                     <table className="table-auto w-full text-left text-sm">
                         <thead className="border-y-2 bg-white text-[#889DB9]">
                             <tr>
