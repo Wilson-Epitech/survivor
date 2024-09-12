@@ -122,7 +122,7 @@ export default function Home() {
     }, [selectedShoes]);
 
     const imageSlider = (clothe_img, setSelectedImg, selectedImg) => (
-        <div className="flex flex-row items-center">
+        <div className="flex flex-row items-center rounded-sm border-2 border-[#E4E6EF] bg-white py-2 px-2">
             <button className="mb-2 w-full h-full grid justify-items-end items-center" onClick={() => handleChange(setSelectedImg, selectedImg, -1)}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-12">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18" />
@@ -144,19 +144,16 @@ export default function Home() {
 
     return (
         <Layout>
-            <main className="min-h-screen w-full flex-col items-center justify-center bg-white">
-                <div className="h-4/6 pt-11 mx-10 mt-10">
+            <main className="w-full h-full  px-4 py-5 sm:px-6 lg:px-8 pt-16">
                     <div className="mb-4">
-                        <h1 className="mt-2 mb-4 text-left text-5xl font-bold leading-9 tracking-tight text-gray-900">
+                        <h1 className="text-left text-2xl font-semibold leading-9 tracking-tight text-[#2D425C] mb-1">
                             Clothing
                         </h1>
                     </div>
 
-                    <div className="w-full h-0.5 bg-black mb-4 mt-2"></div>
-                    <div className="flex justify-center">
+                    <div className="flex justify-center pt-4">
                         <Dropdown onSelectionChange={handleSelectionChange} label="Customer : " />
                     </div>
-                    <div className="w-full h-0.5 bg-black mb-4 mt-4"></div>
 
                     {clothes.forEach((car) => car._type === 'hat/cap' ? hat_img_id.push(car._id_clothes) : car._id_clothes)}
                     {clothes.forEach((car) => car._type === 'top' ? top_img_id.push(car._id_clothes) : car._id_clothes)}
@@ -164,7 +161,7 @@ export default function Home() {
                     {clothes.forEach((car) => car._type === 'shoes' ? shoes_img_id.push(car._id_clothes) : car._id_clothes)}
 
 
-                    <div className="w-full grid grid-col gap-6">
+                    <div className="w-full grid grid-col gap-6 pt-8">
                         {/* hat/cap */}
                         {imageSlider(clothes_img_hat, setSelectedHat, selectedHat)}
 
@@ -178,7 +175,6 @@ export default function Home() {
                         {imageSlider(clothes_img_shoes, setSelectedShoes, selectedShoes)}
 
                     </div>
-                </div>
             </main>
         </Layout>
     );

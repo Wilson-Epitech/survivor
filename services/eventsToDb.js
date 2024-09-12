@@ -31,14 +31,14 @@ async function eventsToDatabase() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "X-Group-Authorization": "***REMOVED***",
-        Authorization: `Bearer ***REMOVED***`
+        "X-Group-Authorization": process.env.X_GROUP_KEY,
+        Authorization: `Bearer ${process.env.ADMIN_BEARER_TOKEN}`
       }
     });
 
     const eventsNbr = await data.json();
 
-    for (let i = 0; i <= eventsNbr.length; i++) {
+    for (let i = 0; i < eventsNbr.length; i++) {
 
       const existingEvents = await event.findOne({ _id_event: eventsNbr[i].id});
 
@@ -50,8 +50,8 @@ async function eventsToDatabase() {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "X-Group-Authorization": "***REMOVED***",
-          Authorization: `Bearer ***REMOVED***`
+          "X-Group-Authorization": process.env.X_GROUP_KEY,
+          Authorization: `Bearer ${process.env.ADMIN_BEARER_TOKEN}`
           }
       });
 

@@ -6,14 +6,14 @@ import { useEffect, useState } from "react";
 
 export default function EmployeeForm
 ({
-    id:exisitingId,
+    id:existingId,
     name:existingName,
     email:existingEmail,
     surname:existingSurname,
     birth_date:existingDate,
     gender:existingGender,
     work:existingWork,
-    image:exisitingImage,
+    image:existingImage,
 }) {
 
     const [_name, setName] = useState(existingName || '');
@@ -50,6 +50,7 @@ export default function EmployeeForm
     {
         event.preventDefault();
         let image_link = '';
+        const emptyLastConnexion = "";
 
         if (!_gender || !_image || !_email || !_name || !_surname || !_birth_date || !_work) {
             setErrorMessage(true);
@@ -61,7 +62,7 @@ export default function EmployeeForm
         }
 
         event.preventDefault();
-        const data = {_email, _name, _surname, _birth_date, _gender, _work, _image: image_link};
+        const data = {_email, _name, _surname, _birth_date, _gender, _work, _image: image_link, _last_connexion: emptyLastConnexion};
 
         try {
             axios.post('/api/employee/create', data);
@@ -77,70 +78,66 @@ export default function EmployeeForm
     }, [goToEmployees, router]);
 
     return (
-        <div className="m-10">
-            <form className="absolute left-1/3 max-w-screen-sm translate-x-12" onSubmit={SaveEmployee}>
-                <label>Name</label>
-                <textarea
-                    placeholder="name"
-                    value={_name}
-                    onChange={ev => setName(ev.target.value)}
-                    className="border-2 border-gray-300 rounded-md px-1 w-full"
-                    required
-                />
-                <label>Surname</label>
-                <textarea
-                    placeholder="surname"
-                    value={_surname}
-                    onChange={ev => setSurname(ev.target.value)}
-                    className="border-2 border-gray-300 rounded-md px-1 w-full"
-                    required
-                />
-                <label>Email</label>
-                <input
-                    placeholder="email"
-                    value={_email}
-                    onChange={ev => setEmail(ev.target.value)}
-                    className="border-2 border-gray-300 rounded-md px-1 py-2 w-full"
-                    required
-                />
-                <label>Birth Date</label>
-                <input
-                    type='date'
-                    placeholder="birth date"
-                    value={_birth_date}
-                    onChange={ev => setDate(ev.target.value)}
-                    className="border-2 border-gray-300 rounded-md px-1 py-2 w-full"
-                    required
-                />
-                <label>Gender</label>
-                <div className='flex gap-2'>
-                    <input
-                        type="radio"
-                        value="Male"
-                        name="gender"
-                        onChange={(ev) => setGender(ev.target.checked ? "Male" : "")}
-                        className="border-2 border-gray-300 rounded-md px-2 py-2"
-                    />
-                    <label htmlFor="male">Male</label>
+        <div className="flex min-h-screen flex-col items-center justify-between p-24 bg-gray-100">
+            <div className="flex min-h-full flex-col justify-center px-24 py-12 lg:px-12 rounded-md shadow-2xl bg-white sm:max-w-lg">
+                <form className="space-y-6" onSubmit={SaveEmployee}>
+                    <div className="mb-4">
+                        <h2 className="mt-2 mb-4 text-center text-3xl font-bold leading-9 tracking-tight text-gray-900">
+                            Create new employee
+                        </h2>
+                    </div>
 
-                    <input
-                        type="radio"
-                        value="Female"
-                        name="gender"
-                        onChange={(ev) => setGender(ev.target.checked ? "Female" : "")}
-                        className="border-2 border-gray-300 rounded-md px-2 py-2"
-                    />
-                    <label htmlFor="female">Female</label>
-                </div>
-                <label>Work</label>
-                <input
-                    placeholder="work"
-                    value={_work}
-                    onChange={ev => setWork(ev.target.value)}
-                    className="border-2 border-gray-300 rounded-md px-1 py-2 w-full"
-                    required
-                />
-                <div className="mb-2 flex flex-wrap gap-2">
+                    <div className="mb-2">
+                        <label htmlFor="name" className="block text-mb font-medium leading-6 text-gray-900">Name</label>
+                        <input name="name" type="name" autoComplete="name" required value={_name} onChange={ev => setName(ev.target.value)}
+                        className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 p-3 focus:ring-inset focus:ring-[#2E84B9] sm:text-sm sm:leading-6"/>
+                    </div>
+
+                    <div className="mb-2">
+                        <label htmlFor="surname" className="block text-mb font-medium leading-6 text-gray-900">Surname</label>
+                        <input name="surname" type="surname" autoComplete="surname" required value={_surname} onChange={ev => setSurname(ev.target.value)}
+                        className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 p-3 focus:ring-inset focus:ring-[#2E84B9] sm:text-sm sm:leading-6"/>
+                    </div>
+
+                    <div className="mb-2">
+                        <label htmlFor="email" className="block text-mb font-medium leading-6 text-gray-900">Email</label>
+                        <input  name="email" type="email" autoComplete="email" required value={_email} onChange={ev => setEmail(ev.target.value)}
+                        className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 p-3 focus:ring-inset focus:ring-[#2E84B9] sm:text-sm sm:leading-6"/>
+                    </div>
+
+                    <div className="mb-2">
+                        <label htmlFor="birthdate" className="block text-mb font-medium leading-6 text-gray-900">Birth Date</label>
+                        <input name="birthdate" type="date" autoComplete="birthdate" required value={_birth_date} onChange={ev => setDate(ev.target.value)}
+                        className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 p-3 focus:ring-inset focus:ring-[#2E84B9] sm:text-sm sm:leading-6"/>
+                    </div>
+
+                    <div className="mb-2">
+                        <label htmlFor="work" className="block text-mb font-medium leading-6 text-gray-900">Work</label>
+                        <input name="work" type="work" autoComplete="work" required value={_work} onChange={ev => setWork(ev.target.value)}
+                        className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 p-3 focus:ring-inset focus:ring-[#2E84B9] sm:text-sm sm:leading-6"/>
+                    </div>
+
+                    <div className="flex gap-2 mb-2">
+                            <input
+                            type="radio"
+                            value="Male"
+                            name="gender"
+                            onChange={(ev) => setGender(ev.target.checked ? "Male" : "")}
+                            className="accent-[#FF86D8] border-2 border-gray-300 rounded-md px-2 py-2"
+                        />
+                        <label htmlFor="male">Male</label>
+
+                        <input
+                            type="radio"
+                            value="Female"
+                            name="gender"
+                            onChange={(ev) => setGender(ev.target.checked ? "Female" : "")}
+                            className="accent-[#FF86D8] border-2 border-gray-300 rounded-md px-2 py-2"
+                        />
+                        <label htmlFor="female">Female</label>
+                    </div>
+
+                    <div className="mb-2 flex flex-wrap gap-2">
                     <label className="w-24 h-24 mt-2 cursor-pointer text-center flex items-center justify-center text-sm gap-1 text-gray-500 rounded-lg bg-gray-200">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
@@ -170,8 +167,11 @@ export default function EmployeeForm
                 {errorMessage && (
                     <p className="mt-4 text-red-600 text-center">The fields were incorrectly filled</p>
                 )}
-                <button type="submit" className="mt-2 bg-[#2D84B9] hover:bg-[#5197c3] text-white px-4 py-1">Save</button>
-            </form>
+                    <div className="mt-8">
+                        <button type="submit" className="flex w-full justify-center rounded-md bg-[#ff86d7] hover:bg-[#ffbae8]  px-4 py-2 text-mb font-semibold leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 }
