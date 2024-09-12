@@ -3,20 +3,14 @@
 import { useEffect, useState } from "react";
 import axios from 'axios';
 import Layout from "@/components/Layout";
-import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import Dropdown from "@/components/DropdownCustomers";
 import { useRouter } from 'next/navigation';
 
 export default function Home() {
+    const [tmpUsers, setTmpUsers] = useState([]);
     const [users, setUsers] = useState([]);
+    const [employeeRole, setEmployeeRole] = useState(0);
+    const [employeeID, setEmployeeID] = useState(0);
     const router = useRouter();
-
-    useEffect(() => {
-        axios.get('/api/customers')
-            .then(response => setUsers(response.data))
-            .catch(err => console.error(err));
-    }, []);
-
     let route;
 
     const handleClick = (e) => {
@@ -24,6 +18,39 @@ export default function Home() {
         router.prefetch(route, 20, 40)
         router.push(route)
     }
+
+    useEffect(() => {
+        axios.get('/api/customers')
+            .then(response => setTmpUsers(response.data))
+            .catch(err => console.error(err));
+    }, []);
+
+    useEffect(() => {
+        axios.get('http://localhost:3000/api/employee/role').then(response => {
+            setEmployeeRole(response.data);
+        }).catch(err => {console.error(err)});
+    }, []);
+
+    useEffect(() => {
+        axios.get('http://localhost:3000/api/employee/id').then(response => {
+            setEmployeeID(response.data);
+        }).catch(err => {console.error(err)});
+    }, []);
+
+    useEffect(() => {
+        if (employeeRole && employeeID) {
+            let assignedUsers = [];
+            if (employeeRole === "Coach") {
+                tmpUsers.forEach((user) => {
+                    if (user._coach == employeeID)
+                        assignedUsers.push(user);
+                });
+                setUsers(assignedUsers);
+            } else {
+                setUsers(tmpUsers);
+            }
+        }
+    },[employeeRole, employeeID, tmpUsers]);
 
     return (
         <Layout>

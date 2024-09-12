@@ -35,7 +35,6 @@ const Navbar = () => {
     const activeLink = 'relative block py-2 text-[#2D6EB8] text-sm';
     const pathname = usePathname();
 
-
     useEffect(() => {
         axios.get('http://localhost:3000/api/employee/role').then(response => {
             setEmployeeRole(response.data);
