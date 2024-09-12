@@ -11,7 +11,7 @@ export default function Home() {
     const [formState, formAction] = useFormState(logUser, initialState);
 
     return (
-        <main className="flex min-h-screen flex-col items-center justify-between p-24 bg-gray-100">
+        <div className="flex min-h-screen flex-col items-center justify-between p-24 bg-gray-100">
             <div className="flex min-h-full flex-col justify-center px-24 py-12 lg:px-12 rounded-lg shadow-2xl bg-white sm:max-w-lg">
                 <form className="space-y-6" action={formAction}>
                     <div className="mb-4">
@@ -28,11 +28,6 @@ export default function Home() {
                     <div>
                         <div className="flex items-center justify-between">
                             <label htmlFor="password" className="block text-mb font-medium leading-6 text-gray-900">Password</label>
-                            {/* <div className="text-sm">
-                                <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
-                                    Forgot password?
-                                </a>
-                            </div> */}
                         </div>
                         <div className="mt-2">
                             <input id="password" name="password" type="password" autoComplete="current-password" required className="block w-full rounded-md border-0 p-3 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#2E84B9] sm:text-sm sm:leading-6"/>
@@ -40,17 +35,11 @@ export default function Home() {
                     </div>
 
                     <div className="mt-8">
-                        <button type="submit" className="flex w-full justify-center rounded-md bg-[#2E84B9] px-4 py-2 text-mb font-semibold leading-6 text-white shadow-sm hover:bg-[#5197c3] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
+                        <button type="submit" className="flex w-full justify-center rounded-md bg-[#ff86d7] px-4 py-2 text-mb font-semibold leading-6 text-white shadow-sm hover:bg-[#ffbae8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
                     </div>
                 </form>
                 {formState?.message && (<p className="text-red-500 text-sm text-center mt-4">{formState.message}</p>)}
-                {/* <p className="mt-10 text-center text-sm text-gray-500">
-                        Not a member?
-                        <a href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-                            register now
-                        </a>
-                    </p> */}
             </div>
-        </main>
+        </div>
     );
 }

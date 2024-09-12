@@ -26,7 +26,7 @@ export default function UnauthorizedPopup({link, pageToRedirect}) {
             <div className="flex justify-center mt-4">
               <Link
                 href={link}
-                className="px-4 py-2 bg-[#2D6EB8] text-white text-base font-medium rounded-md shadow-sm hover:bg-[#4c7db5] focus:outline-none focus:ring-2 focus:ring-gray-300"
+                className="px-4 py-2 bg-[#ff86d7] text-white text-base font-medium rounded-md shadow-sm hover:bg-[#ffbae8] selection:focus:outline-none focus:ring-2 focus:ring-gray-300"
               >
                 Return to {pageToRedirect}
               </Link>
