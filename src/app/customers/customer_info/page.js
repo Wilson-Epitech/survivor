@@ -107,7 +107,7 @@ export default function Home()
             axios.get(`/api/encounters/get_encounter_clientpage?id=${search}`).then(response => {
                 setUserDate(response.data);
             }).catch(err => {console.error(err)});
-            axios.get(`/api/employee/getEmployeeById?id=${search}`).then(response => {
+            axios.get(`/api/employee/getEmployeeById?id=${users.find(user => user._id_customer === search)?._coach}`).then(response => {
                 setCoach(response.data);
             }).catch(err => {console.error(err)});
         }
