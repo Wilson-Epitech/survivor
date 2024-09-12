@@ -1,33 +1,88 @@
 "use client";
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams, redirect } from 'next/navigation';
 import { useEffect, useState } from "react";
 import axios from 'axios';
 import Layout from "@/components/Layout";
-import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import Dropdown from "@/components/DropdownCustomers";
 
 export default function Home()
 {
+    const [coachCustomersId, setCoachCustomersId] = useState([]);
+    const [employeeRole, setEmployeeRole] = useState(0);
+    const [employeeID, setEmployeeID] = useState(0);
     const [users, setUsers] = useState([]);
-    const [userBirthdate, setUserBirthdate] = useState([]);
+    const [tmpUsers, setTmpUsers] = useState([]);
     const [userAddress, setUserAddress] = useState([]);
     const [userPhoto, setUserPhoto] = useState([]);
     const [userPayement, setUserPayement] = useState([]);
     const [userDate, setUserDate] = useState([]);
     const [coach, setCoach] = useState([]);
+    const [search, setSearch] = useState(0);
 
-    const customerIdFromURL = useSearchParams()
-    const search = parseInt(customerIdFromURL.get('id'))
+    const customerIdFromURL = useSearchParams();
+    const tmpSearch = parseInt(customerIdFromURL.get('id'));
     const route = useRouter();
 
     useEffect(() => {
         axios.get('/api/customers').then(response => {
-            setUsers(response.data);
+            setTmpUsers(response.data);
         }).catch(err => {console.error(err)});
-        axios.get('/api/customers/customer_birth').then(response => {
-            setUserBirthdate(response.data);
+    }, []);
+
+    useEffect(() => {
+        if (tmpUsers.length === 0)
+            return;
+        for (let i = 0; i < tmpUsers.length; i++) {
+            if (tmpSearch === tmpUsers[i]._id_customer)
+                return;
+        }
+        redirect('/customers');
+    }, [tmpUsers]);
+
+    useEffect(() => {
+        axios.get('http://localhost:3000/api/employee/role').then(response => {
+            setEmployeeRole(response.data);
         }).catch(err => {console.error(err)});
+    }, []);
+
+    useEffect(() => {
+        axios.get('http://localhost:3000/api/employee/id').then(response => {
+            setEmployeeID(response.data);
+        }).catch(err => {console.error(err)});
+    }, []);
+
+    useEffect(() => {
+        if (!employeeRole || !employeeID)
+            return;
+        if (employeeRole !== "Coach") {
+            setUsers(tmpUsers);
+            setSearch(tmpSearch);
+            return;
+        }
+        let tmpCustomersId = [];
+        tmpUsers.forEach((user) => {
+            if (user._coach == employeeID)
+                tmpCustomersId.push(user._id_customer);
+        });
+        setCoachCustomersId(tmpCustomersId);
+    }, [tmpUsers, employeeRole, employeeID]);
+
+    useEffect(() => {
+        if (coachCustomersId.length === 0)
+            return;
+        for (let i = 0; i < coachCustomersId.length; i++) {
+            if (tmpSearch === coachCustomersId[i]) {
+                setSearch(tmpSearch);
+                setUsers(tmpUsers);
+                return;
+            }
+        }
+        redirect('/customers');
+    }, [coachCustomersId]);
+
+    useEffect(() => {
+        if (users.length === 0 || search === 0)
+            return;
         axios.get('/api/customers/customer_address').then(response => {
             setUserAddress(response.data);
         }).catch(err => {console.error(err)});
@@ -45,7 +100,8 @@ export default function Home()
             axios.get(`/api/employee/getEmployeeById?id=${search}`).then(response => {
                 setCoach(response.data);
             }).catch(err => {console.error(err)});
-    }}, []);
+        }
+    }, [users, search]);
 
     let img = userPhoto.length > 0 ? userPhoto[0]._image : null
 

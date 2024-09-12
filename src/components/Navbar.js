@@ -47,6 +47,15 @@ const Navbar = () => {
         }).catch(err => {console.error(err)});
     }, []);
 
+    const [isClient, setIsClient] = useState(false);
+    useEffect(() => {
+      setIsClient(true);
+    }, []);
+
+    if (!isClient) {
+      return null;
+    }
+
     return (
         <nav className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200">
             <div className="flex items-center justify-between w-full p-2">
