@@ -3,8 +3,8 @@
 import { useRouter, redirect } from 'next/navigation';
 import { Suspense, useEffect, useState } from "react";
 import axios from 'axios';
-import { useSearchParams } from 'next/navigation';
 import Layout from "@/components/Layout";
+import { useSearchParams } from 'next/navigation';
 
 function CustomerSearchParams({ setSearch }) {
     const searchParams = useSearchParams();
