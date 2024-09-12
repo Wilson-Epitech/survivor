@@ -43,7 +43,7 @@ export default function Home() {
                 <div className="flex flex-col h-full max-h-[95%] gap-6">
                     <div className="w-full h-full max-h-[400px] overflow-auto rounded-sm border-2 border-[#E4E6EF] bg-white py-4 px-4">
                         {events.map(user => (
-                            <div className={`rounded-sm border-2 w-full h-fit mt-2 ${selected_event === user._id_event ? 'border-blue-500' : 'border-[#E4E6EF]'}`}>
+                            <div className={`rounded-sm border-2 w-full h-fit mt-2 ${selected_event === user._id_event ? 'border-[#eb7bf5]' : 'border-[#E4E6EF]'}`}>
                                 <button className="w-full h-full" onClick={() => (handleChange(set_selected_x, user._location_x), handleChange(set_selected_y, user._location_y), handleChange(set_selected_event, user._id_event))}>
                                     <div className="flex flex-row w-full">
                                         <h1 className="w-full pl-2 text-2xl text-left font-semibold leading-9 tracking-tight text-[#2D425C]">{user._name}</h1>

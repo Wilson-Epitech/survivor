@@ -129,7 +129,7 @@ export default function Home()
             {unauthorized === undefined ? null :
             (unauthorized === true ?
                 <UnauthorizedPopup link={"/customers"} pageToRedirect={"customers"}/> :
-            (<main className="w-full h-full min-h-screen bg-[#F5F6FA] px-4 py-5 sm:px-6 lg:px-8 pt-16">
+            (<main className="w-full h-full min-h-screen px-4 py-5 sm:px-6 lg:px-8 pt-16">
                 <div className="mb-4 flex flx-row gap-4">
                     <h1 className="mt-2 mb-4 text-left text-4xl font-bold leading-9 tracking-tight w-1/2 text-gray-900">
                         Customer Details
@@ -235,7 +235,7 @@ export default function Home()
                                         <tbody>
                                             {userDate.map((meeting) => (
                                                 <tr key={meeting._id} className="bg-white border-b border-[#E4E6EF]">
-                                                    <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF] text-blue-600 font-bold">{meeting._date}</td>
+                                                    <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF] text-pink-500 font-bold">{meeting._date}</td>
                                                     <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF]">{meeting._rating}</td>
                                                     <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF] text-[#8B9FB7]">{meeting._comment}</td>
                                                     <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF]">{meeting._source}</td>
@@ -263,7 +263,7 @@ export default function Home()
                                         <tbody>
                                             {userPayement.map((payment) => (
                                                 <tr key={payment._id} className="bg-white border-b border-[#E4E6EF]">
-                                                    <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF] text-blue-600 font-bold">{payment._date}</td>
+                                                    <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF] text-pink-500 font-bold">{payment._date}</td>
                                                     <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF]">{payment._payment_method}</td>
                                                     <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF] font-bold">{payment._amount}</td>
                                                     <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF] text-[#8B9FB7]">{payment._comment}</td>

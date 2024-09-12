@@ -116,7 +116,7 @@ export default function Home() {
                             <tbody>
                                 <tr className="border-y-2 border-[#E4E6EF] bg-white">
                                     <td className="whitespace-nowrap px-4 py-4 flex gap-4">
-                                        <input type="checkbox" className="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800" id="hs-checked-checkbox" 
+                                        <input type="checkbox" className="shrink-0 mt-0.5 border-gray-200 rounded bg-[#ff86d7] focus:ring-pink-300 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800" id="hs-checked-checkbox" 
                                         onChange={handleClick}
                                         onClick={() => route = `/customers/customer_info?id=${user._id_customer}`}/>
                                         {user._name} {user._surname}
