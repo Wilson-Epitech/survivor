@@ -30,6 +30,16 @@ export default function Home()
     }, []);
 
     useEffect(() => {
+        if (tmpUsers.length === 0)
+            return;
+        for (let i = 0; i < tmpUsers.length; i++) {
+            if (tmpSearch === tmpUsers[i]._id_customer)
+                return;
+        }
+        redirect('/customers');
+    }, [tmpUsers]);
+
+    useEffect(() => {
         axios.get('http://localhost:3000/api/employee/role').then(response => {
             setEmployeeRole(response.data);
         }).catch(err => {console.error(err)});
