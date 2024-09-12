@@ -51,14 +51,6 @@ export default function EmployeeForm
         event.preventDefault();
         let image_link = '';
 
-        console.log("gender: ", _gender);
-        console.log("image: ", _image);
-        console.log("mail: ", _email);
-        console.log("name: ", _name);
-        console.log("surname: ", _surname);
-        console.log("date: ", _birth_date);
-        console.log("work: ", _work);
-
         if (!_gender || !_image || !_email || !_name || !_surname || !_birth_date || !_work) {
             setErrorMessage(true);
             return
