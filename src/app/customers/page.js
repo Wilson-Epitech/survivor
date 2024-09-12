@@ -11,7 +11,7 @@ export default function Home() {
     const [employeeRole, setEmployeeRole] = useState(0);
     const [employeeID, setEmployeeID] = useState(0);
     const router = useRouter();
-    const [showSearchbar, setShowSearchbar] = useState(true);
+    const [showSearchbar, setShowSearchbar] = useState(false);
     let route;
 
     const handleClick = (e) => {

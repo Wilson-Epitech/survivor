@@ -10,7 +10,7 @@ export default function Home() {
     const [coach, setCoach] = useState([]);
     const [numberCustomer, setCustoNb] = useState([]);
     const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
-    const [showSearchbar, setShowSearchbar] = useState(true);
+    const [showSearchbar, setShowSearchbar] = useState(false);
 
     useEffect(() => {
         axios.get('/api/employee/coachs')
