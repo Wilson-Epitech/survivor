@@ -30,9 +30,9 @@ export default function Home() {
                                         <DisclosureButton className="w-full flex justify-between items-center p-3 text-left">
                                             <h1 className="font-semibold text-[#2D425C] text-sm">{user._title || ""}</h1>
                                             {open ? (
-                                                <ChevronUpIcon className="w-3 h-3 text-[#2D425C]" />
+                                                <ChevronUpIcon className="w-3 h-3 text-[#2D425C]" strokeWidth={3} />
                                             ) : (
-                                                <ChevronDownIcon className="w-3 h-3 text-[#2D425C]" />
+                                                <ChevronDownIcon className="w-3 h-3 text-[#2D425C]" strokeWidth={3} />
                                             )}
                                         </DisclosureButton>
                                         <DisclosurePanel className={`p-4 border-t transition-all duration-300 ${open ? 'block' : 'hidden'}`}>
