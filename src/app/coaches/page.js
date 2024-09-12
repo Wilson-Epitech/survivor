@@ -30,8 +30,6 @@ export default function Home() {
                     .catch(error => {
                         console.error("Failed to fetch customers", error);
                     });
-            } else {
-                console.log("nop");
             }
         });
     }, [coach]);
@@ -70,7 +68,7 @@ export default function Home() {
                     </Link>
                 </div>
 
-                <div className="flex flex-col gap-6 w-full h-full rounded-sm bg-white py-4 px-4">
+                <div className="flex flex-col gap-6 w-full h-full overflow-x-auto rounded-sm bg-white py-4 px-4">
 
                     <div className={`h-10 w-full flex flex-row gap-4 ${showSearchbar ? "justify-center" : "justify-end"}`}>
                         {showSearchbar ?
