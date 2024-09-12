@@ -4,18 +4,35 @@ import { useEffect, useState } from "react";
 import axios from 'axios';
 import Layout from "@/components/Layout";
 import Dropdown_coach from "@/components/dropdown_customers_coach";
+import UnauthorizedPopup from "@/components/UnauthorizedPopup"
 import Link from "next/link";
 
 export default function Home() {
     const [coach, setCoach] = useState([]);
     const [numberCustomer, setCustoNb] = useState([]);
     const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
+    const [showSearchbar, setShowSearchbar] = useState(false);
+    const [employeeRole, setEmployeeRole] = useState(0);
+    const [loadCoaches, setLoadCoaches] = useState(0);
+
+    useEffect(() => {
+        axios.get('http://localhost:3000/api/employee/role').then(response => {
+            setEmployeeRole(response.data);
+        }).catch(err => {console.error(err)});
+    }, []);
+
+    useEffect(() => {
+        if (employeeRole) {
+            if (employeeRole !== "Coach")
+                setLoadCoaches(true);
+        }
+    }, [employeeRole]);
 
     useEffect(() => {
         axios.get('/api/employee/coachs')
             .then(response => setCoach(response.data))
             .catch(err => console.error(err));
-    }, []);
+    }, [loadCoaches]);
 
     useEffect(() => {
         coach.forEach((thisCoach) => {
@@ -29,8 +46,6 @@ export default function Home() {
                     .catch(error => {
                         console.error("Failed to fetch customers", error);
                     });
-            } else {
-                console.log("nop");
             }
         });
     }, [coach]);
@@ -39,9 +54,22 @@ export default function Home() {
         setSelectedCustomerIds(ids);
     };
 
-    return (
-        <Layout>
-            <main className="w-full min-h-screen h-full bg-[#F5F6FA] px-4 py-5 sm:px-6 lg:px-8 pt-16">
+    const [inputValue, setInputValue] = useState('');
+    const [firstInputValue, setFirstInputValue] = useState('');
+    const [secondInputValue, setsecondInputValue] = useState('');
+
+    const handleInputChange = (event) => {
+        setInputValue(event.target.value)
+        let input = inputValue.split(" ");
+        input.length > 1 ? (setFirstInputValue(input[0]), setsecondInputValue(input[1])) : (setFirstInputValue(event.target.value), setsecondInputValue(""))
+    };
+
+   return (
+       <Layout>
+        {!employeeRole ? null :
+        (employeeRole === "Coach" ?
+            <UnauthorizedPopup link={"/"} pageToRedirect={"dashboard"}/> :
+            (<main className="w-full min-h-screen h-full px-4 py-5 sm:px-6 lg:px-8 pt-16">
                 <div className="mb-4 flex justify-between items-center">
                     <div className="flex flex-col">
                         <h1 className="text-left text-2xl font-semibold leading-9 tracking-tight text-[#2D425C] mb-1">
@@ -51,7 +79,7 @@ export default function Home() {
                     </div>
                     <Link
                         href='/coaches/create_employee'
-                        className="p-1.5 text-white bg-[#2362B3] hover:bg-[#2361b3e0] text-md rounded-[3px] flex items-center"
+                        className="p-1.5 text-white bg-[#FF86D8] hover:bg-[#ffbae8] text-md rounded-[3px] flex items-center"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="mt-0.5 size-4">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
@@ -59,7 +87,23 @@ export default function Home() {
                     </Link>
                 </div>
 
-                <div className="flex flex-row gap-6 w-full h-full rounded-sm bg-white py-4 px-4">
+                <div className="flex flex-col gap-6 w-full h-full overflow-x-auto rounded-sm bg-white border-2 border-[#E4E6EF]">
+
+                    <div className={`h-10 w-full flex flex-row gap-4 py-4 px-4 ${showSearchbar ? "justify-center" : "justify-end"}`}>
+                        {showSearchbar ?
+                        <div className="w-full">
+                            <input id="search_bar" name="search_bar" type="text" placeholder="Search a coach" value={inputValue} onChange={handleInputChange} className="block w-full rounded-md py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 p-3 sm:text-sm sm:leading-6"/>
+                        </div> : ''
+                        }
+                        <div className="flex justify-center h-full pt-1.5">
+                            <button onClick={() => {setShowSearchbar(!showSearchbar)}}>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
                     <table className="table-auto w-full text-left text-sm">
                         <thead className="border-y-2 bg-white text-[#889DB9]">
                             <tr>
@@ -71,7 +115,10 @@ export default function Home() {
                                 <td scope="col" className="px-4 py-2">Actions</td>
                             </tr>
                         </thead>
-                        {coach.map((user, index) => (
+                        {coach.filter(
+                            item => item._name.toLowerCase().includes(firstInputValue.toLowerCase()) && item._surname.toLowerCase().includes(secondInputValue.toLowerCase()) ||
+                            item._name.toLowerCase().includes(secondInputValue.toLowerCase()) && item._surname.toLowerCase().includes(firstInputValue.toLowerCase())
+                        ).map((user, index) => (
                             <tbody>
                                 <tr className="border-y-2 border-[#E4E6EF] bg-white ">
                                     <td className="whitespace-nowrap px-4 py-2">{user._id_employee}</td>
@@ -85,7 +132,7 @@ export default function Home() {
                         ))}
                     </table>
                 </div>
-            </main>
+            </main>))}
         </Layout>
     );
 }

@@ -16,10 +16,10 @@ const Coaches = ({pathname, activeLink, inactiveLink}) =>
 {
     return (
         <li>
-            <a href="/coaches" className={pathname === '/coaches' ? activeLink : inactiveLink}>
+            <a href="/coaches" className={pathname.startsWith('/coaches') ? activeLink : inactiveLink}>
                 Coaches
-                {pathname === '/coaches' && (
-                    <span className="absolute left-0 right-0 bottom-[-8px] h-[3px] bg-[#2D6EB8] w-full"></span>
+                {pathname.startsWith('/coaches') && (
+                    <span className="absolute left-0 right-0 bottom-[-8px] h-[3px] bg-[#ff86d7] w-full"></span>
                 )}
             </a>
         </li>
@@ -38,7 +38,7 @@ const DisplayCoaches = ({role, pathname, activeLink, inactiveLink}) =>
 const Navbar = () => {
     const [employeeRole, setEmployeeRole] = useState(0);
     const inactiveLink = 'relative block py-2 text-[#30445E] text-sm';
-    const activeLink = 'relative block py-2 text-[#2D6EB8] text-sm';
+    const activeLink = 'relative block py-2 text-[#ff86d7] text-sm';
     const pathname = usePathname();
 
     useEffect(() => {
@@ -70,16 +70,16 @@ const Navbar = () => {
                             <a href="/" className={pathname === '/' ? activeLink : inactiveLink}>
                                 Dashboard
                                 {pathname === '/' && (
-                                    <span className="absolute left-0 right-0 bottom-[-8px] h-[3px] bg-[#2D6EB8] w-full"></span>
+                                    <span className="absolute left-0 right-0 bottom-[-8px] h-[3px] bg-[#ff86d7] w-full"></span>
                                 )}
                             </a>
                         </li>
                         <DisplayCoaches role={employeeRole} pathname={pathname} activeLink={activeLink} inactiveLink={inactiveLink}/>
                         <li>
-                            <a href="/customers" className={pathname === '/customers' ? activeLink : inactiveLink}>
+                            <a href="/customers" className={pathname.startsWith('/customers') ? activeLink : inactiveLink}>
                                 Customers
-                                {pathname === '/customers' && (
-                                    <span className="absolute left-0 right-0 bottom-[-8px] h-[3px] bg-[#2D6EB8] w-full"></span>
+                                {pathname.startsWith('/customers') && (
+                                    <span className="absolute left-0 right-0 bottom-[-8px] h-[3px] bg-[#ff86d7] w-full"></span>
                                 )}
                             </a>
                         </li>
@@ -87,7 +87,7 @@ const Navbar = () => {
                             <a href="/tips" className={pathname === '/tips' ? activeLink : inactiveLink}>
                                 Tips
                                 {pathname === '/tips' && (
-                                    <span className="absolute left-0 right-0 bottom-[-8px] h-[3px] bg-[#2D6EB8] w-full"></span>
+                                    <span className="absolute left-0 right-0 bottom-[-8px] h-[3px] bg-[#ff86d7] w-full"></span>
                                 )}
                             </a>
                         </li>
@@ -95,7 +95,7 @@ const Navbar = () => {
                             <a href="/events" className={pathname === '/events' ? activeLink : inactiveLink}>
                                 Events
                                 {pathname === '/events' && (
-                                    <span className="absolute left-0 right-0 bottom-[-8px] h-[3px] bg-[#2D6EB8] w-full"></span>
+                                    <span className="absolute left-0 right-0 bottom-[-8px] h-[3px] bg-[#ff86d7] w-full"></span>
                                 )}
                             </a>
                         </li>
@@ -103,7 +103,7 @@ const Navbar = () => {
                             <a href="/clothing" className={pathname === '/clothing' ? activeLink : inactiveLink}>
                                 Clothing
                                 {pathname === '/clothing' && (
-                                    <span className="absolute left-0 right-0 bottom-[-8px] h-[3px] bg-[#2D6EB8] w-full"></span>
+                                    <span className="absolute left-0 right-0 bottom-[-8px] h-[3px] bg-[#ff86d7] w-full"></span>
                                 )}
                             </a>
                         </li>
@@ -111,7 +111,7 @@ const Navbar = () => {
                             <a href="/astrological" className={pathname === '/astrological' ? activeLink : inactiveLink}>
                                 Astrological
                                 {pathname === '/astrological' && (
-                                    <span className="absolute left-0 right-0 bottom-[-8px] h-[3px] bg-[#2D6EB8] w-full"></span>
+                                    <span className="absolute left-0 right-0 bottom-[-8px] h-[3px] bg-[#ff86d7] w-full"></span>
                                 )}
                             </a>
                         </li>
@@ -165,7 +165,7 @@ const Navbar = () => {
                                 <button
                                     type="button"
                                     onClick={() => {logout()}}
-                                    className="text-white bg-[#2D6EB8] hover:bg-[#4c7db5] font-medium rounded-lg text-sm px-4
+                                    className="text-white bg-[#ff86d7] hover:bg-[#ffbae8] font-medium rounded-lg text-sm px-4
                                     py-2 text-center w-full mb-2">
                                     Logout
                                 </button>
@@ -179,7 +179,7 @@ const Navbar = () => {
                     <button
                         type="button"
                         onClick={() => {logout()}}
-                        className="text-white bg-[#2D6EB8] hover:bg-[#4c7db5] font-medium rounded-lg text-sm px-4
+                        className="text-white bg-[#ff86d7] hover:bg-[#ffbae8] font-medium rounded-lg text-sm px-4
                         py-2 text-center mr-2">
                         Logout
                     </button>

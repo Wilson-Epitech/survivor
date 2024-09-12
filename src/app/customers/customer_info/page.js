@@ -1,9 +1,24 @@
 "use client";
 
-import { useRouter, useSearchParams, redirect } from 'next/navigation';
-import { useEffect, useState } from "react";
+import { useRouter, redirect } from 'next/navigation';
+import { Suspense, useEffect, useState } from "react";
 import axios from 'axios';
 import Layout from "@/components/Layout";
+import UnauthorizedPopup from "@/components/UnauthorizedPopup"
+import { useSearchParams } from 'next/navigation';
+
+function CustomerSearchParams({ setSearch }) {
+    const searchParams = useSearchParams();
+    const customerIdFromURL = parseInt(searchParams.get('id'));
+
+    useEffect(() => {
+        if (customerIdFromURL) {
+            setSearch(customerIdFromURL);
+        }
+    }, [customerIdFromURL, setSearch]);
+
+    return null;
+}
 
 export default function Home()
 {
@@ -18,9 +33,8 @@ export default function Home()
     const [userDate, setUserDate] = useState([]);
     const [coach, setCoach] = useState([]);
     const [search, setSearch] = useState(0);
+    const [unauthorized, setUnauthorized] = useState(undefined);
 
-    const customerIdFromURL = useSearchParams();
-    const tmpSearch = parseInt(customerIdFromURL.get('id'));
     const route = useRouter();
 
     useEffect(() => {
@@ -28,16 +42,6 @@ export default function Home()
             setTmpUsers(response.data);
         }).catch(err => {console.error(err)});
     }, []);
-
-    useEffect(() => {
-        if (tmpUsers.length === 0)
-            return;
-        for (let i = 0; i < tmpUsers.length; i++) {
-            if (tmpSearch === tmpUsers[i]._id_customer)
-                return;
-        }
-        redirect('/customers');
-    }, [tmpUsers]);
 
     useEffect(() => {
         axios.get('http://localhost:3000/api/employee/role').then(response => {
@@ -56,29 +60,30 @@ export default function Home()
             return;
         if (employeeRole !== "Coach") {
             setUsers(tmpUsers);
-            setSearch(tmpSearch);
+            setUnauthorized(false);
             return;
         }
         let tmpCustomersId = [];
         tmpUsers.forEach((user) => {
-            if (user._coach == employeeID)
+            if (user._coach === employeeID)
                 tmpCustomersId.push(user._id_customer);
         });
         setCoachCustomersId(tmpCustomersId);
     }, [tmpUsers, employeeRole, employeeID]);
 
     useEffect(() => {
-        if (coachCustomersId.length === 0)
+        if (coachCustomersId.length === 0) {
             return;
+        }
         for (let i = 0; i < coachCustomersId.length; i++) {
-            if (tmpSearch === coachCustomersId[i]) {
-                setSearch(tmpSearch);
+            if (search === coachCustomersId[i]) {
                 setUsers(tmpUsers);
+                setUnauthorized(false);
                 return;
             }
         }
-        redirect('/customers');
-    }, [coachCustomersId]);
+        setUnauthorized(true);
+    }, [coachCustomersId, search, tmpUsers]);
 
     useEffect(() => {
         if (users.length === 0 || search === 0)
@@ -97,17 +102,34 @@ export default function Home()
             axios.get(`/api/encounters/get_encounter_clientpage?id=${search}`).then(response => {
                 setUserDate(response.data);
             }).catch(err => {console.error(err)});
-            axios.get(`/api/employee/getEmployeeById?id=${search}`).then(response => {
+            axios.get(`/api/employee/getEmployeeById?id=${users.find(user => user._id_customer === search)?._coach}`).then(response => {
                 setCoach(response.data);
             }).catch(err => {console.error(err)});
         }
     }, [users, search]);
 
+    useEffect(() => {
+        if (tmpUsers.length === 0)
+            return;
+        for (let i = 0; i < tmpUsers.length; i++) {
+            if (search === tmpUsers[i]._id_customer)
+                return;
+        }
+        setUnauthorized(true);
+    }, [tmpUsers, search]);
+
+
     let img = userPhoto.length > 0 ? userPhoto[0]._image : null
 
     return (
         <Layout>
-            <main className="w-full h-full min-h-screen bg-[#F5F6FA] px-4 py-5 sm:px-6 lg:px-8 pt-16">
+            <Suspense fallback={<div>Loading...</div>}>
+                <CustomerSearchParams setSearch={setSearch} />
+            </Suspense>
+            {unauthorized === undefined ? null :
+            (unauthorized === true ?
+                <UnauthorizedPopup link={"/customers"} pageToRedirect={"customers"}/> :
+            (<main className="w-full h-full min-h-screen px-4 py-5 sm:px-6 lg:px-8 pt-16">
                 <div className="mb-4 flex flx-row gap-4">
                     <h1 className="mt-2 mb-4 text-left text-4xl font-bold leading-9 tracking-tight w-1/2 text-gray-900">
                         Customer Details
@@ -186,11 +208,16 @@ export default function Home()
                                     <p className="text-sm text-[#8B9FB7]">
                                         Coach:
                                     </p>
-                                    {coach.map(user => (
-                                        <p className="text-sm text-[#2D425C]">
-                                            {user._name} {user._surname}
-                                        </p>
-                                    ))}
+                                    {coach.length === 1 ?
+                                        coach.map(user => (
+                                            <p className="text-sm text-[#2D425C]">
+                                                {user._name} {user._surname}
+                                            </p>
+                                        )) :
+                                            <p className="text-sm text-[#2D425C]">
+                                                No assigned coach
+                                            </p>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -213,7 +240,7 @@ export default function Home()
                                         <tbody>
                                             {userDate.map((meeting) => (
                                                 <tr key={meeting._id} className="bg-white border-b border-[#E4E6EF]">
-                                                    <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF] text-blue-600 font-bold">{meeting._date}</td>
+                                                    <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF] text-pink-500 font-bold">{meeting._date}</td>
                                                     <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF]">{meeting._rating}</td>
                                                     <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF] text-[#8B9FB7]">{meeting._comment}</td>
                                                     <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF]">{meeting._source}</td>
@@ -241,7 +268,7 @@ export default function Home()
                                         <tbody>
                                             {userPayement.map((payment) => (
                                                 <tr key={payment._id} className="bg-white border-b border-[#E4E6EF]">
-                                                    <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF] text-blue-600 font-bold">{payment._date}</td>
+                                                    <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF] text-pink-500 font-bold">{payment._date}</td>
                                                     <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF]">{payment._payment_method}</td>
                                                     <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF] font-bold">{payment._amount}</td>
                                                     <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF] text-[#8B9FB7]">{payment._comment}</td>
@@ -254,7 +281,7 @@ export default function Home()
                         </div>
                     </div>
                 </div>
-            </main>
+            </main>))}
         </Layout>
     );
 }

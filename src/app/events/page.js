@@ -34,7 +34,7 @@ export default function Home() {
 
     return (
         <Layout>
-            <main className="w-full h-screen bg-[#F5F6FA] px-4 py-5 sm:px-6 lg:px-8 pt-16">
+            <main className="w-full h-screen px-4 py-5 sm:px-6 lg:px-8 pt-16">
                 <div className="mb-4">
                     <h1 className="text-left text-2xl font-semibold leading-9 tracking-tight text-[#2D425C] mb-1">
                         Events
@@ -43,22 +43,16 @@ export default function Home() {
                 <div className="flex flex-col h-full max-h-[95%] gap-6">
                     <div className="w-full h-full max-h-[400px] overflow-auto rounded-sm border-2 border-[#E4E6EF] bg-white py-4 px-4">
                         {events.map(user => (
-                            <div className={`rounded-sm border-2 w-full h-fit mt-2 ${selected_event === user._id_event ? 'border-blue-500' : 'border-[#E4E6EF]'}`}>
+                            <div className={`rounded-sm border-2 w-full h-fit mt-2 ${selected_event === user._id_event ? 'border-[#eb7bf5]' : 'border-[#E4E6EF]'}`}>
                                 <button className="w-full h-full" onClick={() => (handleChange(set_selected_x, user._location_x), handleChange(set_selected_y, user._location_y), handleChange(set_selected_event, user._id_event))}>
                                     <div className="flex flex-row w-full">
-                                        <h1 className="w-full pl-2 text-2xl font-bold text-left">{user._name}</h1>
-                                        <h1 className="text-right w-full pr-2 text-2xl font-bold">{user._date}</h1>
+                                        <h1 className="w-full pl-2 text-2xl text-left font-semibold leading-9 tracking-tight text-[#2D425C]">{user._name}</h1>
+                                        <h1 className="text-2xl text-right pr-2 font-semibold leading-9 tracking-tight text-[#2D425C]">{user._date}</h1>
                                     </div>
 
-                                    <div className="flex flex-row w-full">
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="pt-1 size-7" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                          <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
-                                        </svg>
-                                        <p className="text-2xl text-left">{user._location_name}</p>
-                                    </div>
+                                    <p className="pl-2 text-base text-left text-[#889DB9]">{user._location_name}</p>
 
-                                    <p className="pl-2 text-2xl text-left">Max participants: {user._max_participants}</p>
+                                    <p className="pl-2 text-base text-left text-[#889DB9]">Max participants: {user._max_participants}</p>
                                 </button>
                             </div>
                         ))}

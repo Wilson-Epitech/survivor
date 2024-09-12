@@ -123,7 +123,7 @@ export default function EmployeeForm
                             value="Male"
                             name="gender"
                             onChange={(ev) => setGender(ev.target.checked ? "Male" : "")}
-                            className="border-2 border-gray-300 rounded-md px-2 py-2"
+                            className="accent-[#FF86D8] border-2 border-gray-300 rounded-md px-2 py-2"
                         />
                         <label htmlFor="male">Male</label>
 
@@ -132,7 +132,7 @@ export default function EmployeeForm
                             value="Female"
                             name="gender"
                             onChange={(ev) => setGender(ev.target.checked ? "Female" : "")}
-                            className="border-2 border-gray-300 rounded-md px-2 py-2"
+                            className="accent-[#FF86D8] border-2 border-gray-300 rounded-md px-2 py-2"
                         />
                         <label htmlFor="female">Female</label>
                     </div>
@@ -168,7 +168,7 @@ export default function EmployeeForm
                     <p className="mt-4 text-red-600 text-center">The fields were incorrectly filled</p>
                 )}
                     <div className="mt-8">
-                        <button type="submit" className="flex w-full justify-center rounded-md bg-[#2E84B9] px-4 py-2 text-mb font-semibold leading-6 text-white shadow-sm hover:bg-[#5197c3] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
+                        <button type="submit" className="flex w-full justify-center rounded-md bg-[#ff86d7] hover:bg-[#ffbae8]  px-4 py-2 text-mb font-semibold leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
                     </div>
                 </form>
             </div>
