@@ -139,13 +139,10 @@ export default function Home() {
           for (let i = 0; i < allOrders.length; i++) {
               let date = allOrders[i]._date.split("-")
               orderYearStatTmp =  fillOrderYearStats(date[0], date[1], allOrders[i]._amount, orderYearStatTmp);
-              console.log("TipTop:", orderYearStatTmp)
               setRatingYearPayment(orderYearStatTmp);
           }
       }
   }, [allOrders])
-
-  console.log(ratingYearPayment)
 
   return (
       <Layout>
