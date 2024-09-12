@@ -1,11 +1,10 @@
 "use client";
 
-import { redirect } from 'next/navigation';
 import { useEffect, useState } from "react";
 import axios from 'axios';
 import Layout from "@/components/Layout";
 import Dropdown_coach from "@/components/dropdown_customers_coach";
-import Link from "next/link";
+import UnauthorizedPopup from "@/components/UnauthorizedPopup"
 
 export default function Home() {
     const [coach, setCoach] = useState([]);
@@ -21,11 +20,9 @@ export default function Home() {
     }, []);
 
     useEffect(() => {
-        if (employeeRole === "Coach") {
-            window.alert("Unauthorized access");
-            redirect('/');
-        } else {
-            setLoadCoaches(true);
+        if (employeeRole) {
+            if (employeeRole !== "Coach")
+                setLoadCoaches(true);
         }
     }, [employeeRole]);
 
@@ -57,8 +54,11 @@ export default function Home() {
         setSelectedCustomerIds(ids);
     };
 
-    return (
-        <Layout>
+   return (
+       <Layout>
+            {!employeeRole || employeeRole && employeeRole === "Coach" ? (
+                <UnauthorizedPopup />
+            ):
             <main className="w-full min-h-screen h-full bg-[#F5F6FA] px-4 py-5 sm:px-6 lg:px-8 pt-16">
                 <div className="mb-4 flex justify-between items-center">
                     <div className="flex flex-col">
@@ -103,7 +103,7 @@ export default function Home() {
                         ))}
                     </table>
                 </div>
-            </main>
+            </main>}
         </Layout>
     );
 }
