@@ -87,11 +87,8 @@ export default function Home() {
     const [coachUsers, setCoachUsers] = useState([]);
     const [selectedCoachIds, setSelectedCoachIds] = useState([]);
     const [encountersYearStats, setEncountersYearStats] = useState([]);
-    const [ratingYearStats, setRatingYearStats] = useState([]);
-    const [zodiacCoaches, setZodiacCoaches] = useState([]);
     const [totalSumSale, setTotalSumSale] = useState(0);
 
-    const [allRating, setAllRating] = useState(0);
 
 
     useEffect(() => {
@@ -125,9 +122,14 @@ export default function Home() {
 ////////////////////////////////////////////////////////////////////////////////////
 
 
+    const [allRating, setAllRating] = useState(0);
+    const [allAstro, setAllAstro] = useState([]);
+    const [ratingYearStats, setRatingYearStats] = useState([]);
+    const [allZodiac, setAllZodiac] = useState([]);
 
     let ratingArray = Array.from({ length: 5 }, () => 0);
     let ratingYearStatsTmp = Array.from({ length: 12 }, () => [...ratingArray]);
+    let arrayZodiac = Array.from({ length: 12 }, () => 0);
 
     useEffect(() => {
         axios.get('http://localhost:3000/api/encounters/getAllRating').then(response => {
@@ -142,8 +144,47 @@ export default function Home() {
                 ratingYearStatsTmp =  fillRatingYearStats(date[0], date[1], allRating[i]._rating, ratingYearStatsTmp);
                 setRatingYearStats(ratingYearStatsTmp);
             }
-    }
+        }
     }, [allRating])
+
+/////////////////////////////////////////////////
+
+    useEffect(() => {
+        axios.get('http://localhost:3000/api/customers/allCustomerAstro').then(response => {
+            setAllAstro(response.data);
+        }).catch(err => {console.error(err)});
+    }, []);
+
+    useEffect(() => {
+        if (allAstro.length > 0) {
+            for (let i = 0; i < allAstro.length; i++) {
+                arrayZodiac = fillZodiacSigns(allAstro[i]._astrological_sign, arrayZodiac);
+                setAllZodiac(arrayZodiac)
+            }
+        }
+    }, [allAstro])
+
+/////////////////////////////////////////////////
+
+/////////////////////////////////////////////////
+
+    useEffect(() => {
+        axios.get('http://localhost:3000/api/encounters/getAllRating').then(response => {
+            setAllRating(response.data);
+        }).catch(err => {console.error(err)});
+    }, []);
+
+    useEffect(() => {
+        if (allRating.length > 0) {
+            for (let i = 0; i < allRating.length; i++) {
+                let date = allRating[i]._date.split("-")
+                ratingYearStatsTmp =  fillRatingYearStats(date[0], date[1], allRating[i]._rating, ratingYearStatsTmp);
+                setRatingYearStats(ratingYearStatsTmp);
+            }
+        }
+    }, [allRating])
+
+/////////////////////////////////////////////////
 
     return (
         <Layout>
@@ -299,18 +340,18 @@ export default function Home() {
                                         series={[
                                             {
                                             data: [
-                                                { id: 0, value: zodiacCoaches[0], label: 'Aries' },
-                                                { id: 1, value: zodiacCoaches[1], label: 'Taurus' },
-                                                { id: 2, value: zodiacCoaches[2], label: 'Gemini' },
-                                                { id: 3, value: zodiacCoaches[3], label: 'Cancer' },
-                                                { id: 4, value: zodiacCoaches[4], label: 'Leo' },
-                                                { id: 5, value: zodiacCoaches[5], label: 'Virgo' },
-                                                { id: 6, value: zodiacCoaches[6], label: 'Libra' },
-                                                { id: 7, value: zodiacCoaches[7], label: 'Scorpio' },
-                                                { id: 8, value: zodiacCoaches[8], label: 'Sagittarius' },
-                                                { id: 9, value: zodiacCoaches[9], label: 'Capricorn' },
-                                                { id: 10, value: zodiacCoaches[10], label: 'Aquarius' },
-                                                { id: 11, value: zodiacCoaches[11], label: 'Pisces' }
+                                                { id: 0, value: allZodiac[0], label: 'Aries' },
+                                                { id: 1, value: allZodiac[1], label: 'Taurus' },
+                                                { id: 2, value: allZodiac[2], label: 'Gemini' },
+                                                { id: 3, value: allZodiac[3], label: 'Cancer' },
+                                                { id: 4, value: allZodiac[4], label: 'Leo' },
+                                                { id: 5, value: allZodiac[5], label: 'Virgo' },
+                                                { id: 6, value: allZodiac[6], label: 'Libra' },
+                                                { id: 7, value: allZodiac[7], label: 'Scorpio' },
+                                                { id: 8, value: allZodiac[8], label: 'Sagittarius' },
+                                                { id: 9, value: allZodiac[9], label: 'Capricorn' },
+                                                { id: 10, value: allZodiac[10], label: 'Aquarius' },
+                                                { id: 11, value: allZodiac[11], label: 'Pisces' }
                                             ],
                                             },
                                         ]}
