@@ -102,8 +102,15 @@ export default function Home() {
                         Astrological
                     </h1>
                 </div>
-                <div className="h-fit w-full flex flex-row justify-center gap-4 pt-40">
-
+                <div className="pt-20">
+                    {errorMessage && (
+                        <p className="mt-4 text-red-600 text-center">{errorMessage}</p>
+                    )}
+                    {errorClient && (
+                        <p className="mt-4 text-red-600 text-center">{errorClient}</p>
+                    )}
+                </div>
+                <div className="h-fit w-full flex flex-row justify-center gap-4 pt-10">
                     <div className="max-w-[500px] w-full rounded-sm border-2 border-[#E4E6EF] bg-white py-2 px-2">
                         <div className="pt-4">
                             <div className="w-full flex flex-col items-center text-center">
@@ -130,12 +137,6 @@ export default function Home() {
                                     ) : ''}
                                 </div>
                             </div>
-                            {errorMessage && (
-                                <p className="mt-4 text-red-600 text-center">{errorMessage}</p>
-                            )}
-                            {errorClient && (
-                                <p className="mt-4 text-red-600 text-center">{errorClient}</p>
-                            )}
                         </div>
                     </div>
 
@@ -179,23 +180,16 @@ export default function Home() {
                                     </div>
                                     {isClientBSelected ? (
                                         <>
-                                            <p className="mt-4 p-2 text-sm sm:text-lg w-3/4 text-center ">
+                                            <p className="mt-4 p-2 text-base sm:text-lg w-3/4 text-center ">
                                                 {secondName} {secondSurname}<br/>
                                             </p>
-                                            <p className="mt-4 p-2 text-sm sm:text-lg w-3/4 text-center ">
+                                            <p className="mt-4 p-2 text-base sm:text-lg w-3/4 text-center ">
                                                 {secondAstro}<br/>
                                             </p>
                                         </>
                                     ) : ''}
                                 </div>
                             </div>
-
-                            {errorMessage && (
-                                <p className="mt-4 text-red-600 text-center">{errorMessage}</p>
-                            )}
-                            {errorClient && (
-                                <p className="mt-4 text-red-600 text-center">{errorClient}</p>
-                            )}
                         </div>
                     </div>
                 </div>
@@ -206,7 +200,7 @@ export default function Home() {
                                 <img
                                     aria-hidden="true"
                                     src="/coeur.png"
-                                    className=" select-none hidden size-36 xl:block -left-32 top-1/3"
+                                    className=" select-none size-36 xl:block -left-32 top-1/3"
                                 />
                             )}
                         </div>
