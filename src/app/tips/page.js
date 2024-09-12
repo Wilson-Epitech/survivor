@@ -36,7 +36,7 @@ export default function Home() {
                                             )}
                                         </DisclosureButton>
                                         <DisclosurePanel className={`p-4 border-t transition-all duration-300 ${open ? 'block' : 'hidden'}`}>
-                                            <p className="text-[13px] font-medium text-[#526889]">{user._tip || ""}</p>
+                                            <p className="text-[12px] font-medium text-[#526889]">{user._tip || ""}</p>
                                         </DisclosurePanel>
                                     </div>
                                 )}
