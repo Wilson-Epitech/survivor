@@ -96,7 +96,7 @@ export default function Home() {
 
     return (
         <Layout>
-            <div className="w-full min-h-screen h-full bg-[#F5F6FA] px-4 py-5 sm:px-6 lg:px-8 pt-16">
+            <div className="w-full min-h-screen h-full px-4 py-5 sm:px-6 lg:px-8 pt-16">
                 <div className="mb-4">
                     <h1 className="text-left text-2xl font-semibold leading-9 tracking-tight text-[#2D425C] mb-1">
                         Astrological
