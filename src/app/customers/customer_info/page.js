@@ -1,12 +1,25 @@
 "use client";
 
-import { useRouter, useSearchParams, redirect } from 'next/navigation';
-import { useEffect, useState } from "react";
+import { useRouter, redirect } from 'next/navigation';
+import { Suspense, useEffect, useState } from "react";
 import axios from 'axios';
 import Layout from "@/components/Layout";
+import { useSearchParams } from 'next/navigation';
 
-export default function Home()
-{
+function CustomerSearchParams({ setSearch }) {
+    const searchParams = useSearchParams();
+    const customerIdFromURL = parseInt(searchParams.get('id'));
+
+    useEffect(() => {
+        if (customerIdFromURL) {
+            setSearch(customerIdFromURL);
+        }
+    }, [customerIdFromURL, setSearch]);
+
+    return null;
+}
+
+export default function Home() {
     const [coachCustomersId, setCoachCustomersId] = useState([]);
     const [employeeRole, setEmployeeRole] = useState(0);
     const [employeeID, setEmployeeID] = useState(0);
@@ -19,8 +32,6 @@ export default function Home()
     const [coach, setCoach] = useState([]);
     const [search, setSearch] = useState(0);
 
-    const customerIdFromURL = useSearchParams();
-    const tmpSearch = parseInt(customerIdFromURL.get('id'));
     const route = useRouter();
 
     useEffect(() => {
@@ -33,11 +44,11 @@ export default function Home()
         if (tmpUsers.length === 0)
             return;
         for (let i = 0; i < tmpUsers.length; i++) {
-            if (tmpSearch === tmpUsers[i]._id_customer)
+            if (search === tmpUsers[i]._id_customer)
                 return;
         }
         redirect('/customers');
-    }, [tmpUsers]);
+    }, [tmpUsers, search]);
 
     useEffect(() => {
         axios.get('http://localhost:3000/api/employee/role').then(response => {
@@ -56,12 +67,11 @@ export default function Home()
             return;
         if (employeeRole !== "Coach") {
             setUsers(tmpUsers);
-            setSearch(tmpSearch);
             return;
         }
         let tmpCustomersId = [];
         tmpUsers.forEach((user) => {
-            if (user._coach == employeeID)
+            if (user._coach === employeeID)
                 tmpCustomersId.push(user._id_customer);
         });
         setCoachCustomersId(tmpCustomersId);
@@ -71,14 +81,13 @@ export default function Home()
         if (coachCustomersId.length === 0)
             return;
         for (let i = 0; i < coachCustomersId.length; i++) {
-            if (tmpSearch === coachCustomersId[i]) {
-                setSearch(tmpSearch);
+            if (search === coachCustomersId[i]) {
                 setUsers(tmpUsers);
                 return;
             }
         }
         redirect('/customers');
-    }, [coachCustomersId]);
+    }, [coachCustomersId, search, tmpUsers]);
 
     useEffect(() => {
         if (users.length === 0 || search === 0)
@@ -107,6 +116,9 @@ export default function Home()
 
     return (
         <Layout>
+            <Suspense fallback={<div>Loading...</div>}>
+                <CustomerSearchParams setSearch={setSearch} />
+            </Suspense>
             <main className="w-full h-full min-h-screen bg-[#F5F6FA] px-4 py-5 sm:px-6 lg:px-8 pt-16">
                 <div className="mb-4 flex flx-row gap-4">
                     <h1 className="mt-2 mb-4 text-left text-4xl font-bold leading-9 tracking-tight w-1/2 text-gray-900">
