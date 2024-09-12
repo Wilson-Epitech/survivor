@@ -3,7 +3,7 @@ import { cookies } from 'next/headers';
 import { verifyToken } from './app/login/handleToken';
 import { getEmployeeRole } from "@/app/login/getEmployeeInfos";
 
-const protectedRoutes = ['/', '/coaches', '/tips', '/customers', '/wardrobe', '/astrological', '/statistics'];
+const protectedRoutes = ['/', '/coaches', '/tips', '/customers', '/clothing', '/astrological', '/statistics'];
 
 const coachUnauthorizedRoutes = ['/coaches', '/statistics'];
 

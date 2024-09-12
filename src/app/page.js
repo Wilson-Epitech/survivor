@@ -88,16 +88,17 @@ export default function Home() {
   return (
     <>
       <Layout>
-        <div className="min-h-full w-full flex-col items-center justify-center bg-white">
-          <div className="h-4/6 pt-11 mx-10 mt-10">
-            <div className="mb-4 flex flex-col items-center justify-center">
-              <h1 className="text-4xl font-bold tracking-tight text-gray-900">Soul Connection</h1>
-              <h3 className="mt-5 text-3xl font-bold tracking-tight text-gray-900">Dashboard</h3>
-            </div>
-            <div className="w-full h-0.5 bg-black mb-4 mt-2"></div>
+        <div className="w-full h-full min-h-screen bg-[#F5F6FA] px-4 py-5 sm:px-6 lg:px-8 pt-16">
+          <div className="mb-4">
+            <h1 className="text-left text-2xl font-semibold leading-9 tracking-tight text-[#2D425C] mb-1">
+              Dashboard
+            </h1>
+            <p className="text-[#889DB9] text-sm mb-2">Welcome!</p>
+          </div>
+          <div className="h-4/6 pt-11">
 
-            <div className="ml-10 mt-10 border border-gray-300 p-4 rounded-lg shadow-lg">
-              <div className="flex flex-wrap items-center justify-between gap-8">
+            <div className=" rounded-sm border-2 border-[#E4E6EF] bg-white py-4 px-4">
+              <div className="mb-4 flex lg:flex-row md:flex-col flex-col items-center justify-between gap-8">
                 <div className="flex flex-col items-center">
                   <p className="text-9xl text-blue-300">{numberCoach}</p>
                   <p className="text-5xl">Coaches</p>
@@ -118,7 +119,7 @@ export default function Home() {
             </div>
 
             <div className="flex flex-wrap justify-between mt-10">
-              <div className="border border-gray-300 p-4 rounded-lg shadow-lg">
+              <div className="p-4 rounded-sm border-2 border-[#E4E6EF] bg-white py-2 px-2">
                 <h2 className="text-center">Encounters' rating</h2>
                 <PieChart
                   series={[{ data: numberRating.map((val, idx) => ({ id: idx, value: val, label: `${idx + 1} Star` })) }]}
@@ -127,7 +128,7 @@ export default function Home() {
                 />
               </div>
 
-              <div className="border border-gray-300 p-4 rounded-lg shadow-lg">
+              <div className="p-4 rounded-sm border-2 border-[#E4E6EF] bg-white py-2 px-2">
                 <h2 className="text-center">Coaches Vs Customers</h2>
                 <PieChart
                   series={[{ data: [{ id: 0, value: numberCoach, label: 'Coaches' }, { id: 1, value: numberCustomer, label: 'Customers' }] }]}
@@ -136,7 +137,7 @@ export default function Home() {
                 />
               </div>
 
-              <div className="border border-gray-300 p-4 rounded-lg shadow-lg">
+              <div className="p-4 rounded-sm border-2 border-[#E4E6EF] bg-white py-2 px-2">
                 <h2 className="text-center">Women vs Men</h2>
                 <PieChart
                   series={[{ data: [{ id: 0, value: nbMenVsWomen[1], label: 'Women' }, { id: 1, value: nbMenVsWomen[0], label: 'Men' }] }]}
@@ -146,7 +147,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="mt-10 p-4 rounded-lg bg-white shadow-lg">
+            <div className="mt-10 p-4 rounded-lg bg-white shadow-lg overflow-auto">
               <table className="table-auto w-full text-left text-sm">
                 <thead className="border-y-2 bg-white text-[#889DB9]">
                   <tr>

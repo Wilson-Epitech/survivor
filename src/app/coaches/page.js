@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useEffect, useState } from "react";
 import axios from 'axios';
@@ -8,14 +8,32 @@ import Link from "next/link";
 
 export default function Home() {
     const [coach, setCoach] = useState([]);
+    const [numberCustomer, setCustoNb] = useState([]);
+    const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
 
     useEffect(() => {
-        axios.get('/api/employee/coachs').then(response => {
-            setCoach(response.data);
-        }).catch(err => console.error(err))
+        axios.get('/api/employee/coachs')
+            .then(response => setCoach(response.data))
+            .catch(err => console.error(err));
     }, []);
 
-    const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
+    useEffect(() => {
+        coach.forEach((thisCoach) => {
+            const isAlreadyInList = numberCustomer.some(nbr => nbr._id === thisCoach._id_employee);
+
+            if (!isAlreadyInList) {
+                axios.get(`/api/customers/count_customers_by_coach?id=${thisCoach._id_employee}`)
+                    .then(response => {
+                        setCustoNb(prev => [...prev, response.data]);
+                    })
+                    .catch(error => {
+                        console.error("Failed to fetch customers", error);
+                    });
+            } else {
+                console.log("nop");
+            }
+        });
+    }, [coach]);
 
     const handleSelectionChange = (ids) => {
         setSelectedCustomerIds(ids);
@@ -23,47 +41,49 @@ export default function Home() {
 
     return (
         <Layout>
-            <main className="h-screen sm:w-fit md:w-fit lg:w-full flex-col items-center bg-white">
-                <div className="mx-10 mt-24 h-4/5">
-                    <div className="mb-4 flex items-end justify-between">
-                        <h1 className="mt-2 mb-4 text-left text-5xl font-bold leading-9 tracking-tight text-gray-900">
-                            Coaches
+            <main className="w-full min-h-screen h-full bg-[#F5F6FA] px-4 py-5 sm:px-6 lg:px-8 pt-16">
+                <div className="mb-4 flex justify-between items-center">
+                    <div className="flex flex-col">
+                        <h1 className="text-left text-2xl font-semibold leading-9 tracking-tight text-[#2D425C] mb-1">
+                            Coaches List
                         </h1>
-                        <Link
-                            href='/coaches/create_employee'
-                            className="flex flex-row text-white bg-[#2C84B9] hover:bg-[#5197c3] p-1 text-md rounded-md py-1.5 px-2.5">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="mt-0.5 mr-1 size-5">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                            </svg>
-                            New Employee
-                        </Link>
+                        <p className="text-[#889DB9] text-sm mb-2">You have total {coach.length} coaches.</p>
                     </div>
-                    <div className="w-full h-0.5 bg-black mb-4 mt-4"></div>
+                    <Link
+                        href='/coaches/create_employee'
+                        className="p-1.5 text-white bg-[#2362B3] hover:bg-[#2361b3e0] text-md rounded-[3px] flex items-center"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="mt-0.5 size-4">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+                        </svg>
+                    </Link>
+                </div>
 
-                    <div className="flex flex-row gap-6 w-full h-full overflow-auto border-t-2 border-b-2 border-black">
-                        <table className="w-full text-left text-sm font-light">
-                            <thead className="border-2 border-black bg-[#2C84B9] font-medium dark:border-neutral-500 dark:bg-neutral-600">
-                                <tr>
-                                    <th scope="col" className="px-4 py-2 border-2 border-black text-white">#</th>
-                                    <th scope="col" className="px-4 py-2 border-2 border-black text-white">Name</th>
-                                    <th scope="col" className="px-4 py-2 border-2 border-black text-white">Birth Date</th>
-                                    <th scope="col" className="px-4 py-2 border-2 border-black text-white">Customers</th>
-                                    <th scope="col" className="px-4 py-2 border-2 border-black text-white">Last connection</th>
+                <div className="flex flex-row gap-6 w-full h-full rounded-sm bg-white py-4 px-4">
+                    <table className="table-auto w-full text-left text-sm">
+                        <thead className="border-y-2 bg-white text-[#889DB9]">
+                            <tr>
+                                <td scope="col" className="px-4 py-2">#</td>
+                                <td scope="col" className="px-4 py-2">Coach</td>
+                                <td scope="col" className="px-4 py-2">Email</td>
+                                <td scope="col" className="px-4 py-2">Number of customers</td>
+                                <td scope="col" className="px-4 py-2">Last Connection</td>
+                                <td scope="col" className="px-4 py-2">Actions</td>
+                            </tr>
+                        </thead>
+                        {coach.map((user, index) => (
+                            <tbody>
+                                <tr className="border-y-2 border-[#E4E6EF] bg-white ">
+                                    <td className="whitespace-nowrap px-4 py-2">{user._id_employee}</td>
+                                    <td className="whitespace-nowrap px-4 py-2">{user._name} {user._surname}</td>
+                                    <td className="whitespace-nowrap px-4 py-2 text-[#889DB9]">{user._email}</td>
+                                    <td className="whitespace-nowrap px-4 py-2 text-[#889DB9]">{numberCustomer.find(nbr => nbr._id === user._id_employee)?._nb}</td>
+                                    <td className="whitespace-nowrap px-4 py-2 text-[#889DB9]">{user._last_connexion}</td>
+                                    <td className="whitespace-nowrap px-4 py-2"><Dropdown_coach key={user._id_employee || index} onSelectionChange={handleSelectionChange} coach_id={user._id_employee} /></td>
                                 </tr>
-                            </thead>
-                            {coach.map((user, index) => (
-                                <tbody>
-                                    <tr className="border-2 border-black bg-neutral-100 dark:border-neutral-500 dark:bg-neutral-700">
-                                        <td className="whitespace-nowrap border-2 border-black px-4 py-2">{user._id_employee}</td>
-                                        <td className="whitespace-nowrap border-2 border-black px-4 py-2">{user._name} {user._surname}</td>
-                                        <td className="whitespace-nowrap border-2 border-black px-4 py-2">{user._birth_date}</td>
-                                        <td className="whitespace-nowrap border-2 border-black px-4 py-2"><Dropdown_coach key={user._id_employee || index} onSelectionChange={handleSelectionChange} coach_id={user._id_employee} /></td>
-                                        <td className="whitespace-nowrap border-2 border-black px-4 py-2">03-09-2024</td>
-                                    </tr>
-                                </tbody>
-                            ))}
-                        </table>
-                    </div>
+                            </tbody>
+                        ))}
+                    </table>
                 </div>
             </main>
         </Layout>

@@ -85,17 +85,15 @@ export default function Home() {
 
     return (
         <Layout>
-            <div className="w-full  bg-white">
-                <div className="min-w-max  pt-11 mx-10 mt-10">
-                    <div className="mb-4">
-                        <h1 className="mt-2 mb-4 text-left text-5xl font-bold leading-9 tracking-tight text-gray-900">
-                            Astrological
-                        </h1>
-                    </div>
-                    <div className="w-full h-0.5 bg-black mb-4 mt-2"/>
+            <div className="w-full h-screen bg-[#F5F6FA] px-4 py-5 sm:px-6 lg:px-8 pt-16">
+                <div className="mb-4">
+                    <h1 className="text-left text-2xl font-semibold leading-9 tracking-tight text-[#2D425C] mb-1">
+                        Astrological
+                    </h1>
                 </div>
 
-                <div className="m-10  flex-col items-center justify-center">
+                <div className="h-fit w-full pt-0 flex justify-center ">
+                    <div className="m-10 max-w-[500px] w-full rounded-sm border-2 border-[#E4E6EF] bg-white py-2 px-2">
                         <div className="pt-4">
                             <div className="flex flex-row justify-between items-start">
                                 <div className="w-full flex flex-col items-center text-center">
@@ -181,6 +179,7 @@ export default function Home() {
                             </div>
                         </div>
                     </div>
+                </div>
             </div>
         </Layout>
     );

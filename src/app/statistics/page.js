@@ -181,21 +181,20 @@ export default function Home() {
 
     return (
         <Layout>
-            <main className="min-h-screen w-full flex-col items-center justify-items-stretch bg-white pb-10">
-                <div className="h-full flex-row pt-20 mx-10">
+            <main className="w-full h-full bg-[#F5F6FA] px-4 py-5 sm:px-6 lg:px-8 pt-16">
+                <div className="h-full flex-row">
                     <div className="mb-4">
-                        <h1 className="mt-2 mb-4 text-left text-5xl font-bold leading-9 tracking-tight text-gray-900">
+                        <h1 className="mt-2 mb-4 text-left text-4xl font-bold leading-9 tracking-tight text-gray-900">
                             Statistics
                         </h1>
                     </div>
-                    <div className="w-full h-0.5 bg-black mb-4"></div>
 
-                    <div className="flex flex-col md:flex-col lg:flex-row lg:justify-between items-center lg:items-start">
+                    <div className="flex flex-col md:flex-col lg:flex-row lg:justify-center items-center lg:items-start">
                         <h2 className="text-3xl">Global Statistics</h2>
                     </div>
                     <div className="flex flex-col md:flex-col lg:flex-row lg:justify-between items-center lg:items-start">
 
-                        <div className="ml-10 mr-10 lg:mr-0 mt-10 border border-gray-300 p-4 rounded-lg shadow-lg">
+                        <div className="ml-10 mr-10 lg:mr-0 mt-10 p-4 rounded-sm border-2 border-[#E4E6EF] bg-white py-2 px-2">
                             <div className="justify-center mb-3"><h2 className="ml-20">Encounters' rating</h2></div>
                             <PieChart
                                 series={[
@@ -214,7 +213,7 @@ export default function Home() {
                             />
                         </div>
 
-                        <div className="mt-10 ml-10 mr-10 lg:mr-0 lg:ml-0 border border-gray-300 p-4 rounded-lg shadow-lg">
+                        <div className="mt-10 ml-10 mr-10 lg:mr-0 lg:ml-0 p-4 rounded-sm border-2 border-[#E4E6EF] bg-white py-2 px-2">
                             <div className="justify-center mb-3 ml-20">
                                 <h2 className="mr-0">Coaches Vs Customers</h2>
                             </div>
@@ -232,7 +231,7 @@ export default function Home() {
                             />
                         </div>
 
-                        <div className="mt-10 ml-10 mr-10 lg:mr-0 lg:ml-0 border border-gray-300 p-4 rounded-lg shadow-lg">
+                        <div className="mt-10 ml-10 mr-10 lg:mr-10 lg:ml-0 p-4 rounded-sm border-2 border-[#E4E6EF] bg-white py-2 px-2">
                             <div className="justify-center mb-3 ml-20">
                                 <h2 className="mr-20">Women vs Men</h2>
                             </div>
@@ -251,8 +250,8 @@ export default function Home() {
                         </div>
 
                     </div>
-                    <div className="mt-10 flex justify-center border border-gray-300 p-4 rounded-lg shadow-lg">
-                        <div className="flex flex-col">
+                    <div className="mt-10 ml-0 mr-0 lg:mr-10 lg:ml-10 flex justify-center p-4 rounded-sm lg:border-2 border-[#E4E6EF] lg:bg-white py-2 px-2">
+                        <div className="flex flex-col rounded-sm lg:border-0 border-2 border-[#E4E6EF] bg-white lg:bg-transparent py-2 px-2">
                             <div className="mb-3"><h2 className="text-center">Customers' average age group</h2></div>
                             <BarChart
                                 width={400}
@@ -265,8 +264,7 @@ export default function Home() {
                         </div>
                     </div>
 
-                    <div className="justify-center">
-                        <div className="w-full h-0.5 bg-black mb-4 mt-20"></div>
+                    <div className="justify-center pt-8">
                         <div className="flex justify-center">
                             <h2 className="text-3xl">Coach Statistics</h2>
                         </div>
@@ -274,8 +272,8 @@ export default function Home() {
                             <DropdownStatisticsCoachs onSelectionChange={handleSelectionChange} label="Coach Selection"/>
                         </div>
                     </div>
-                    <div className="flex flex-col md:flex-col lg:flex-row lg:justify-between items-center lg:items-start">
-                        <div className="mt-10 flex justify-center border border-gray-300 p-4 rounded-lg shadow-lg">
+                    <div className="pr-10 pl-10 flex flex-col md:flex-col lg:flex-row lg:justify-between items-center lg:items-start">
+                        <div className="mt-10 flex justify-center p-4 rounded-sm border-2 border-[#E4E6EF] bg-white py-2 px-2">
                             {selectedCoachIds > 0 ? (
                                 <div className="flex flex-col">
                                     <div className="mb-3"><h2 className="text-center font-bold">Number of dates per month</h2></div>
@@ -295,7 +293,7 @@ export default function Home() {
                                 <p>Please select a coach</p>
                             )}
                         </div>
-                        <div className="mt-10 flex justify-center border border-gray-300 p-4 rounded-lg shadow-lg">
+                        <div className="mt-10 flex justify-center p-4 rounded-sm border-2 border-[#E4E6EF] bg-white py-2 px-2">
                             {selectedCoachIds > 0 ? (
                                 <div className="flex flex-col">
                                     <div className="mb-3"><h2 className="text-center font-bold">Dates' rating per month</h2></div>
@@ -317,7 +315,7 @@ export default function Home() {
                             )}
                         </div>
 
-                        <div className="mt-10 flex justify-center border border-gray-300 p-4 rounded-lg shadow-lg">
+                        <div className="mt-10 flex justify-center p-4 rounded-sm border-2 border-[#E4E6EF] bg-white py-2 px-2">
                                 {selectedCoachIds > 0  ? (
                                 <div className="flex flex-col">
                                     <div className="mb-3"><h2 className="text-center font-bold">Income brought by coach vs goal</h2></div>
@@ -339,8 +337,8 @@ export default function Home() {
                                 )}
                         </div>
                     </div>
-                    <div className="w-full flex justify-center overflow-auto">
-                        <div className="mt-10 w-fit flex border border-gray-300 p-4 rounded-lg shadow-lg">
+                    <div className="flex justify-center overflow-auto">
+                        <div className="mt-10 w-full flex justify-center p-4 rounded-sm border-2 border-[#E4E6EF] bg-white py-2 px-2">
                             {selectedCoachIds > 0 ? (
                                 <div className="flex flex-col">
                                     <div className="mb-3"><h2 className="text-center font-bold">Clients' astrological sign</h2></div>
@@ -363,8 +361,7 @@ export default function Home() {
                                             ],
                                             },
                                         ]}
-                                        width={700}
-                                        height={300}
+                                        className="w-[700px] h-[300px]"
                                     />
                                 </div>
                             ) : (
