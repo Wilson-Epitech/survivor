@@ -159,7 +159,7 @@ export default function Home()
                                                 <tr key={meeting._id} className="bg-white border-b border-[#E4E6EF]">
                                                     <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF] text-blue-600 font-bold">{meeting._date}</td>
                                                     <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF]">{meeting._rating}</td>
-                                                    <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF] text-gray-400">{meeting._comment}</td>
+                                                    <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF] text-[#8B9FB7]">{meeting._comment}</td>
                                                     <td className="whitespace-nowrap px-4 py-2 border-2 border-[#E4E6EF]">{meeting._source}</td>
                                                 </tr>
                                             ))}
