@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import axios from 'axios';
 import Layout from "@/components/Layout";
 import Dropdown_coach from "@/components/dropdown_customers_coach";
+import UnauthorizedPopup from "@/components/UnauthorizedPopup"
 import Link from "next/link";
 
 export default function Home() {
@@ -11,12 +12,27 @@ export default function Home() {
     const [numberCustomer, setCustoNb] = useState([]);
     const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
     const [showSearchbar, setShowSearchbar] = useState(false);
+    const [employeeRole, setEmployeeRole] = useState(0);
+    const [loadCoaches, setLoadCoaches] = useState(0);
+
+    useEffect(() => {
+        axios.get('http://localhost:3000/api/employee/role').then(response => {
+            setEmployeeRole(response.data);
+        }).catch(err => {console.error(err)});
+    }, []);
+
+    useEffect(() => {
+        if (employeeRole) {
+            if (employeeRole !== "Coach")
+                setLoadCoaches(true);
+        }
+    }, [employeeRole]);
 
     useEffect(() => {
         axios.get('/api/employee/coachs')
             .then(response => setCoach(response.data))
             .catch(err => console.error(err));
-    }, []);
+    }, [loadCoaches]);
 
     useEffect(() => {
         coach.forEach((thisCoach) => {
@@ -48,9 +64,12 @@ export default function Home() {
         input.length > 1 ? (setFirstInputValue(input[0]), setsecondInputValue(input[1])) : (setFirstInputValue(event.target.value), setsecondInputValue(""))
     };
 
-    return (
-        <Layout>
-            <main className="w-full min-h-screen h-full px-4 py-5 sm:px-6 lg:px-8 pt-16">
+   return (
+       <Layout>
+        {!employeeRole ? null :
+        (employeeRole === "Coach" ?
+            <UnauthorizedPopup link={"/"} pageToRedirect={"dashboard"}/> :
+            (<main className="w-full min-h-screen h-full px-4 py-5 sm:px-6 lg:px-8 pt-16">
                 <div className="mb-4 flex justify-between items-center">
                     <div className="flex flex-col">
                         <h1 className="text-left text-2xl font-semibold leading-9 tracking-tight text-[#2D425C] mb-1">
@@ -113,7 +132,7 @@ export default function Home() {
                         ))}
                     </table>
                 </div>
-            </main>
+            </main>))}
         </Layout>
     );
 }

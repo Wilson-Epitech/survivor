@@ -71,7 +71,7 @@ export default function Home() {
                 <div className="mb-4 flex justify-between items-center">
                     <div className="flex flex-col">
                         <h1 className="text-left text-2xl font-semibold leading-9 tracking-tight text-[#2D425C] mb-1">
-                            Coaches List
+                            Customers List
                         </h1>
                         <p className="text-[#889DB9] text-sm mb-2">You have total {users.length} customers.</p>
                     </div>
