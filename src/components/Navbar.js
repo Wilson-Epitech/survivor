@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation";
+import { logout } from "@/app/logout/logout";
 
 const Navbar = () => {
     const inactiveLink = 'relative block py-2 text-[#30445E] text-sm';
@@ -79,8 +80,8 @@ const Navbar = () => {
 
                 <div className="ml-auto">
                     <button
-                        href=""
                         type="button"
+                        onClick={() => {logout()}}
                         className="text-white bg-[#2D6EB8] hover:bg-[#4c7db5] font-medium rounded-lg text-sm px-4
                         py-2 text-center mr-2">
                         Logout
