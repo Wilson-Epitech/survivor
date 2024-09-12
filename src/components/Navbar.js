@@ -59,9 +59,9 @@ const Navbar = () => {
                             </a>
                         </li>
                         <li>
-                            <a href="/wardrobe" className={pathname === '/wardrobe' ? activeLink : inactiveLink}>
-                                Wardrobe
-                                {pathname === '/wardrobe' && (
+                            <a href="/clothing" className={pathname === '/clothing' ? activeLink : inactiveLink}>
+                                Clothing
+                                {pathname === '/clothing' && (
                                     <span className="absolute left-0 right-0 bottom-[-8px] h-[3px] bg-[#2D6EB8] w-full"></span>
                                 )}
                             </a>
