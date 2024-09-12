@@ -208,11 +208,16 @@ export default function Home()
                                     <p className="text-sm text-[#8B9FB7]">
                                         Coach:
                                     </p>
-                                    {coach.map(user => (
-                                        <p className="text-sm text-[#2D425C]">
-                                            {user._name} {user._surname}
-                                        </p>
-                                    ))}
+                                    {coach.length === 1 ?
+                                        coach.map(user => (
+                                            <p className="text-sm text-[#2D425C]">
+                                                {user._name} {user._surname}
+                                            </p>
+                                        )) :
+                                            <p className="text-sm text-[#2D425C]">
+                                                No assigned coach
+                                            </p>
+                                    }
                                 </div>
                             </div>
                         </div>
