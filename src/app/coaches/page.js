@@ -5,6 +5,7 @@ import axios from 'axios';
 import Layout from "@/components/Layout";
 import Dropdown_coach from "@/components/dropdown_customers_coach";
 import UnauthorizedPopup from "@/components/UnauthorizedPopup"
+import Link from "next/link";
 
 export default function Home() {
     const [coach, setCoach] = useState([]);
@@ -56,10 +57,10 @@ export default function Home() {
 
    return (
        <Layout>
-            {!employeeRole || employeeRole && employeeRole === "Coach" ? (
-                <UnauthorizedPopup />
-            ):
-            <main className="w-full min-h-screen h-full bg-[#F5F6FA] px-4 py-5 sm:px-6 lg:px-8 pt-16">
+        {!employeeRole ? null :
+        (employeeRole === "Coach" ?
+            <UnauthorizedPopup /> :
+            (<main className="w-full min-h-screen h-full bg-[#F5F6FA] px-4 py-5 sm:px-6 lg:px-8 pt-16">
                 <div className="mb-4 flex justify-between items-center">
                     <div className="flex flex-col">
                         <h1 className="text-left text-2xl font-semibold leading-9 tracking-tight text-[#2D425C] mb-1">
@@ -103,7 +104,7 @@ export default function Home() {
                         ))}
                     </table>
                 </div>
-            </main>}
+            </main>))}
         </Layout>
     );
 }
