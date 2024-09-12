@@ -5,6 +5,12 @@ import { usePathname } from "next/navigation";
 import { logout } from "@/app/logout/logout";
 import { useEffect, useState } from "react";
 import axios from 'axios';
+import {
+    TEDropdown,
+    TEDropdownToggle,
+    TEDropdownMenu,
+    TEDropdownItem,
+} from "tw-elements-react";
 
 const Coaches = ({pathname, activeLink, inactiveLink}) =>
 {
@@ -49,7 +55,7 @@ const Navbar = () => {
                     Soul Connection
                 </Link>
 
-                <div className="flex-1 flex justify-center">
+                <div className="flex-1 lg:flex justify-center hidden lg:visible ">
                     <ul className="flex space-x-8">
                         <li>
                             <a href="/" className={pathname === '/' ? activeLink : inactiveLink}>
@@ -102,8 +108,65 @@ const Navbar = () => {
                         </li>
                     </ul>
                 </div>
+                <TEDropdown className="flex-1 flex justify-end lg:hidden">
+                    <TEDropdownToggle className="flex items-center px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal border-2 border-[#DEE3ED] rounded-lg bg-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                        </svg>
+                    <TEDropdownMenu className="flex flex-col text-sm px-3">
+                        <TEDropdownItem>
+                            <a href="/" className={pathname === '/' ? activeLink : inactiveLink}>
+                                Dashboard
+                                {pathname === '/'}
+                            </a>
+                        </TEDropdownItem>
+                        <DisplayCoaches role={employeeRole} pathname={pathname} activeLink={activeLink} inactiveLink={inactiveLink}/>
+                        <TEDropdownItem>
+                            <a href="/customers" className={pathname === '/customers' ? activeLink : inactiveLink}>
+                                Customers
+                                {pathname === '/customers'}
+                            </a>
+                        </TEDropdownItem>
+                        <TEDropdownItem>
+                            <a href="/tips" className={pathname === '/tips' ? activeLink : inactiveLink}>
+                                Tips
+                                {pathname === '/tips'}
+                            </a>
+                        </TEDropdownItem>
+                        <TEDropdownItem>
+                            <a href="/events" className={pathname === '/events' ? activeLink : inactiveLink}>
+                                Events
+                                {pathname === '/events'}
+                            </a>
+                        </TEDropdownItem>
+                        <TEDropdownItem>
+                            <a href="/clothing" className={pathname === '/clothing' ? activeLink : inactiveLink}>
+                                Clothing
+                                {pathname === '/clothing'}
+                            </a>
+                        </TEDropdownItem>
+                        <TEDropdownItem>
+                            <a href="/astrological" className={pathname === '/astrological' ? activeLink : inactiveLink}>
+                                Astrological
+                                {pathname === '/astrological'}
+                            </a>
+                        </TEDropdownItem>
+                        <TEDropdownItem>
+                            <div className="pt-2 w-full border-t-2 border-[#E4E6EF]">
+                                <button
+                                    type="button"
+                                    onClick={() => {logout()}}
+                                    className="text-white bg-[#2D6EB8] hover:bg-[#4c7db5] font-medium rounded-lg text-sm px-4
+                                    py-2 text-center w-full mb-2">
+                                    Logout
+                                </button>
+                            </div>
+                        </TEDropdownItem>
+                    </TEDropdownMenu>
+                  </TEDropdownToggle>
+                </TEDropdown>
 
-                <div className="ml-auto">
+                <div className="ml-auto lg:flex hidden lg:visible">
                     <button
                         type="button"
                         onClick={() => {logout()}}
