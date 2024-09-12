@@ -16,7 +16,6 @@ export default function Home() {
 
     return (
         <Layout>
-            {/* <main className="w-full h-screen bg-[#F5F6FA] px-4 py-5 sm:px-6 lg:px-8 pt-16"> */}
             <div className="mt-[4.5rem] w-full ml-4 mr-4">
                 <div className="mb-[2.5rem]">
                     <h1 className="mt-2 text-4xl leading-9 tracking-tight text-[#2D425C] font-light">
@@ -45,7 +44,6 @@ export default function Home() {
                         ))}
                 </div>
             </div>
-            {/* </main> */}
         </Layout>
     );
 }
