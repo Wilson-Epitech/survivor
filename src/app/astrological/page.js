@@ -154,7 +154,7 @@ export default function Home() {
                         <div className="w-full flex justify-center">
                             <button
                                 type="submit"
-                                className="px-4 py-2 bg-[#2D84B9] hover:bg-[#5197c3] text-white items-center"
+                                className="px-4 py-2 bg-[#2D6EB8] hover:bg-[#4C7DB6] rounded-sm text-white items-center"
                                 onClick={calculateCompatibility}
                             >
                                 Submit
