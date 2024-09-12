@@ -4,6 +4,7 @@ import { useRouter, useSearchParams, redirect } from 'next/navigation';
 import { useEffect, useState } from "react";
 import axios from 'axios';
 import Layout from "@/components/Layout";
+import UnauthorizedPopup from "@/components/UnauthorizedPopup"
 
 export default function Home()
 {
@@ -18,6 +19,7 @@ export default function Home()
     const [userDate, setUserDate] = useState([]);
     const [coach, setCoach] = useState([]);
     const [search, setSearch] = useState(0);
+    const [unauthorized, setUnauthorized] = useState(undefined);
 
     const customerIdFromURL = useSearchParams();
     const tmpSearch = parseInt(customerIdFromURL.get('id'));
@@ -28,17 +30,6 @@ export default function Home()
             setTmpUsers(response.data);
         }).catch(err => {console.error(err)});
     }, []);
-
-    useEffect(() => {
-        if (tmpUsers.length === 0)
-            return;
-        for (let i = 0; i < tmpUsers.length; i++) {
-            if (tmpSearch === tmpUsers[i]._id_customer)
-                return;
-        }
-        window.alert("Unauthorized access");
-        redirect('/customers');
-    }, [tmpUsers]);
 
     useEffect(() => {
         axios.get('http://localhost:3000/api/employee/role').then(response => {
@@ -58,6 +49,7 @@ export default function Home()
         if (employeeRole !== "Coach") {
             setUsers(tmpUsers);
             setSearch(tmpSearch);
+            setUnauthorized(false);
             return;
         }
         let tmpCustomersId = [];
@@ -69,17 +61,18 @@ export default function Home()
     }, [tmpUsers, employeeRole, employeeID]);
 
     useEffect(() => {
-        if (coachCustomersId.length === 0)
+        if (coachCustomersId.length === 0) {
             return;
+        }
         for (let i = 0; i < coachCustomersId.length; i++) {
             if (tmpSearch === coachCustomersId[i]) {
                 setSearch(tmpSearch);
                 setUsers(tmpUsers);
+                setUnauthorized(false);
                 return;
             }
         }
-        window.alert("Unauthorized access");
-        redirect('/customers');
+        setUnauthorized(true);
     }, [coachCustomersId]);
 
     useEffect(() => {
@@ -105,11 +98,24 @@ export default function Home()
         }
     }, [users, search]);
 
+    useEffect(() => {
+        if (tmpUsers.length === 0)
+            return;
+        for (let i = 0; i < tmpUsers.length; i++) {
+            if (tmpSearch === tmpUsers[i]._id_customer)
+                return;
+        }
+        setUnauthorized(true);
+    }, [tmpUsers]);
+
     let img = userPhoto.length > 0 ? userPhoto[0]._image : null
 
     return (
         <Layout>
-            <main className="w-full h-full min-h-screen bg-[#F5F6FA] px-4 py-5 sm:px-6 lg:px-8 pt-16">
+            {unauthorized === undefined ? null :
+            (unauthorized === true ?
+                <UnauthorizedPopup link={"/customers"} pageToRedirect={"customers"}/> :
+            (<main className="w-full h-full min-h-screen bg-[#F5F6FA] px-4 py-5 sm:px-6 lg:px-8 pt-16">
                 <div className="mb-4 flex flx-row gap-4">
                     <h1 className="mt-2 mb-4 text-left text-4xl font-bold leading-9 tracking-tight w-1/2 text-gray-900">
                         Customer Details
@@ -256,7 +262,7 @@ export default function Home()
                         </div>
                     </div>
                 </div>
-            </main>
+            </main>))}
         </Layout>
     );
 }

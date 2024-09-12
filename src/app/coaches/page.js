@@ -59,7 +59,7 @@ export default function Home() {
        <Layout>
         {!employeeRole ? null :
         (employeeRole === "Coach" ?
-            <UnauthorizedPopup /> :
+            <UnauthorizedPopup link={"/"} pageToRedirect={"dashboard"}/> :
             (<main className="w-full min-h-screen h-full bg-[#F5F6FA] px-4 py-5 sm:px-6 lg:px-8 pt-16">
                 <div className="mb-4 flex justify-between items-center">
                     <div className="flex flex-col">
