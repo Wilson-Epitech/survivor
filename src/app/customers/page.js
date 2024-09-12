@@ -1,9 +1,10 @@
-"use client";
+"use client"
 
 import { useEffect, useState } from "react";
 import axios from 'axios';
 import Layout from "@/components/Layout";
 import { useRouter } from 'next/navigation';
+import Link from "next/link";
 
 export default function Home() {
     const [tmpUsers, setTmpUsers] = useState([]);
@@ -67,11 +68,21 @@ export default function Home() {
     return (
         <Layout>
             <main className="w-full min-h-screen h-full bg-[#F5F6FA] px-4 py-5 sm:px-6 lg:px-8 pt-16">
-                <div className="mb-4">
-                    <h1 className="text-left text-2xl font-semibold leading-9 tracking-tight text-[#2D425C] mb-1">
-                        Customers List
-                    </h1>
-                    <p className="text-[#889DB9] text-sm">You have total {users.length} customers.</p>
+                <div className="mb-4 flex justify-between items-center">
+                    <div className="flex flex-col">
+                        <h1 className="text-left text-2xl font-semibold leading-9 tracking-tight text-[#2D425C] mb-1">
+                            Coaches List
+                        </h1>
+                        <p className="text-[#889DB9] text-sm mb-2">You have total {users.length} customers.</p>
+                    </div>
+                    <Link
+                        href='/customers/create'
+                        className="p-1.5 text-white bg-[#2362B3] hover:bg-[#2361b3e0] text-md rounded-[3px] flex items-center"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="mt-0.5 size-4">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+                        </svg>
+                    </Link>
                 </div>
                 <div className="flex flex-col gap-6 w-full h-full overflow-x-auto rounded-sm bg-white border-2 border-[#E4E6EF]">
 
