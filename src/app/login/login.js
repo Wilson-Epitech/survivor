@@ -10,8 +10,9 @@ async function getEmployeeData(email) {
   await mongooseConnect();
 
   try {
-    const data = await employee.find({ _email: email }, {_id_employee: 1, _work: 1});
-    return {id: data[0]._id_employee, work: data[0]._work};
+    const data = await employee.findOne({ _email: email }, {_id_employee: 1, _work: 1});
+    return {id: data._id_employee, work: data._work};
+
   } catch (err) {
     console.error(err);
     return null;
