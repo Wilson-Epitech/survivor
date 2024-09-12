@@ -26,6 +26,8 @@ export default function Home() {
     const [errorClient, setErrorClient] = useState(null);
     const [clientA, setClientA] = useState(null);
     const [clientB, setClientB] = useState(null);
+    const [userPhotoClientA, setUserPhotoClientA] = useState([]);
+    const [userPhotoClientB, setUserPhotoClientB] = useState([]);
     const router = useRouter();
 
     const handleSelectionChange1 = (ids) => {
@@ -43,6 +45,9 @@ export default function Home() {
             setFirstSurname(data['_surname']);
             setIsClientASelected(true);
         }).catch(err => {console.error(err)});
+        axios.get(`/api/customers/customer_photo?id=${id}`).then(response => {
+            setUserPhotoClientA(response.data);
+        }).catch(err => {console.error(err)});
     };
 
     const handleSelectionChange2 = (ids) => {
@@ -59,6 +64,9 @@ export default function Home() {
             setSecondName(data['_name']);
             setSecondSurname(data['_surname']);
             setIsClientBSelected(true);
+        }).catch(err => {console.error(err)});
+        axios.get(`/api/customers/customer_photo?id=${id}`).then(response => {
+            setUserPhotoClientB(response.data);
         }).catch(err => {console.error(err)});
     };
 
@@ -83,102 +91,121 @@ export default function Home() {
         setShowCompatibility(true);
     };
 
+    let imgClientA = userPhotoClientA.length > 0 ? userPhotoClientA[0]._image : null
+    let imgClientB = userPhotoClientB.length > 0 ? userPhotoClientB[0]._image : null
+
     return (
         <Layout>
-            <div className="w-full h-screen bg-[#F5F6FA] px-4 py-5 sm:px-6 lg:px-8 pt-16">
+            <div className="w-full min-h-screen h-full bg-[#F5F6FA] px-4 py-5 sm:px-6 lg:px-8 pt-16">
                 <div className="mb-4">
                     <h1 className="text-left text-2xl font-semibold leading-9 tracking-tight text-[#2D425C] mb-1">
                         Astrological
                     </h1>
                 </div>
-
-                <div className="h-fit w-full pt-0 flex justify-center ">
-                    <div className="m-10 max-w-[500px] w-full rounded-sm border-2 border-[#E4E6EF] bg-white py-2 px-2">
+                <div className="pt-20">
+                    {errorMessage && (
+                        <p className="mt-4 text-red-600 text-center">{errorMessage}</p>
+                    )}
+                    {errorClient && (
+                        <p className="mt-4 text-red-600 text-center">{errorClient}</p>
+                    )}
+                </div>
+                <div className="h-fit w-full flex flex-row justify-center gap-4 pt-10">
+                    <div className="max-w-[500px] w-full rounded-sm border-2 border-[#E4E6EF] bg-white py-2 px-2">
                         <div className="pt-4">
-                            <div className="flex flex-row justify-between items-start">
-                                <div className="w-full flex flex-col items-center text-center">
-                                    <Dropdown onSelectionChange={handleSelectionChange1} label="Client A"/>
-                                        {isClientASelected ? (
-                                            <>
-                                                <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
-                                                    {firstName} {firstSurname}
-                                                </p>
-                                                <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
-                                                    {firstAstro}
-                                                </p>
-                                            </>
+                            <div className="w-full flex flex-col items-center text-center">
+                                <Dropdown onSelectionChange={handleSelectionChange1} label="Client A"/>
+                                <div className="w-full h-full flex flex-col items-center">
+                                    <div className="w-full flex justify-center pt-8">
+                                        {imgClientA ? (
+                                            <img className="object-contain w-24 h-24 sm:w-32 sm:h-32 lg:w-36 lg:h-36 rounded-full" src={`data:image/jpeg;base64,${imgClientA}`} alt="Customer Photo" />
                                         ) : (
-                                            <>
-                                                <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
-                                                    {""}
-                                                </p>
-                                                <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
-                                                    {""}
-                                                </p>
-                                            </>
+                                            <div className="w-24 h-24 sm:w-32 sm:h-32 lg:w-36 lg:h-36 bg-gray-200 flex items-center justify-center rounded-full">
+                                                <span className="text-gray-500">No Image</span>
+                                            </div>
                                         )}
-                                </div>
-
-                                <div className="pt-[5.4rem] flex items-center justify-center w-full">
-                                    <div className="relative">
-                                        <FontAwesomeIcon icon={faArrowsAltH} className="size-10"/>
                                     </div>
-                                </div>
-
-                                <div className="w-full flex flex-col items-center text-center">
-                                    <Dropdown onSelectionChange={handleSelectionChange2} label="Client B"/>
-                                    {isClientBSelected ? (
+                                    {isClientASelected ? (
                                         <>
-                                            <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
-                                                {secondName} {secondSurname}
+                                            <p className="mt-4 p-2 text-base sm:text-lg w-3/4 text-center ">
+                                                {firstName} {firstSurname} <br/>
                                             </p>
-                                            <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
-                                                {secondAstro}
+                                            <p className="mt-4 p-2 text-base sm:text-lg w-3/4 text-center ">
+                                                {firstAstro} <br/>
                                             </p>
                                         </>
-                                    ) : (
-                                        <>
-                                            <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
-                                                {""}
-                                            </p>
-                                            <p className="mt-4 border-2 border-black p-2 text-sm sm:text-lg">
-                                                {""}
-                                            </p>
-                                        </>
-                                    )}
+                                    ) : ''}
                                 </div>
-                            </div>
-
-                            {errorMessage && (
-                                <p className="mt-4 text-red-600 text-center">{errorMessage}</p>
-                            )}
-                            {errorClient && (
-                                <p className="mt-4 text-red-600 text-center">{errorClient}</p>
-                            )}
-
-                            <div className="mt-6 flex flex-col items-center">
-                                {showCompatibility && (
-                                        <p className="mt-4 mb-4 text-xl font-bold">
-                                            {compatibility}%
-                                        </p>
-                                )}
-                                <button
-                                    type="submit"
-                                    className="px-4 py-2 bg-[#2D84B9] hover:bg-[#5197c3] text-white items-center"
-                                    onClick={calculateCompatibility}
-                                >
-                                    Submit
-                                </button>
-                                {showCompatibility && (
-                                    <img
-                                        aria-hidden="true"
-                                        src="/coeur.png"
-                                        className="mt-10 select-none hidden size-36 xl:block -left-32 top-1/3"
-                                    />
-                                )}
                             </div>
                         </div>
                     </div>
+
+                    <div className="max-w-[500px] w-full rounded-sm border-2 border-b-0 border-[#E4E6EF] content-center bg-white py-2 px-2">
+                        <div className="mt-6 flex flex-col items-center">
+                            {showCompatibility && (
+                                <p className="mt-4 mb-4 text-xl font-bold">
+                                    {compatibility}%
+                                </p>
+                            )}
+                            <div className="relative">
+                                <FontAwesomeIcon icon={faArrowsAltH} className="size-10"/>
+                            </div>
+                        </div>
+                        <div className="w-full flex justify-center">
+                            <button
+                                type="submit"
+                                className="px-4 py-2 bg-[#2D84B9] hover:bg-[#5197c3] text-white items-center"
+                                onClick={calculateCompatibility}
+                            >
+                                Submit
+                            </button>
+                        </div>
+                    </div>
+
+
+                    <div className="max-w-[500px] w-full rounded-sm border-2 border-[#E4E6EF] bg-white py-2 px-2">
+                        <div className="pt-4">
+                            <div className="flex flex-row justify-between items-start">
+
+                                <div className="w-full flex flex-col items-center text-center">
+                                    <Dropdown onSelectionChange={handleSelectionChange2} label="Client B"/>
+                                    <div className="w-full flex justify-center pt-8">
+                                        {imgClientB ? (
+                                            <img className="object-contain w-24 h-24 sm:w-32 sm:h-32 lg:w-36 lg:h-36 rounded-full" src={`data:image/jpeg;base64,${imgClientB}`} alt="Customer Photo" />
+                                        ) : (
+                                            <div className="w-24 h-24 sm:w-32 sm:h-32 lg:w-36 lg:h-36 bg-gray-200 flex items-center justify-center rounded-full">
+                                                <span className="text-gray-500">No Image</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                    {isClientBSelected ? (
+                                        <>
+                                            <p className="mt-4 p-2 text-base sm:text-lg w-3/4 text-center ">
+                                                {secondName} {secondSurname}<br/>
+                                            </p>
+                                            <p className="mt-4 p-2 text-base sm:text-lg w-3/4 text-center ">
+                                                {secondAstro}<br/>
+                                            </p>
+                                        </>
+                                    ) : ''}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="h-fit w-full flex flex-row justify-center">
+                    <div className="max-w-[500px] w-full rounded-sm border-2 border-t-0 border-[#E4E6EF] bg-white">
+                        <div className="flex flex-col items-center">
+                            {showCompatibility && (
+                                <img
+                                    aria-hidden="true"
+                                    src="/coeur.png"
+                                    className=" select-none size-36 xl:block -left-32 top-1/3"
+                                />
+                            )}
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </Layout>
