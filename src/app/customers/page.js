@@ -10,7 +10,6 @@ import { useRouter } from 'next/navigation';
 export default function Home() {
     const [users, setUsers] = useState([]);
     const router = useRouter();
-    // const [userPayement, setUserPayement] = useState([]);
 
     useEffect(() => {
         axios.get('/api/customers')
@@ -24,25 +23,7 @@ export default function Home() {
         e.preventDefault()
         router.prefetch(route, 20, 40)
         router.push(route)
-      }
-
-    // useEffect(() => {
-    //     users.forEach((thisUsers) => {
-    //         const isAlreadyInList = userPayement.some(payment => payment._id_client === thisUsers._id_customer);
-
-    //         if (!isAlreadyInList) {
-    //             axios.get(`/api/orders?id=${thisUsers._id_customer}`)
-    //                 .then(response => {
-    //                     setUserPayement(prev => [...prev, response.data]);
-    //                 })
-    //                 .catch(error => {
-    //                     console.error("Failed to fetch customers", error);
-    //                 });
-    //         }
-    //     });
-    // }, [users]);
-
-    // console.log(userPayement)
+    }
 
     return (
         <Layout>
@@ -60,7 +41,6 @@ export default function Home() {
                                 <th scope="col" className="px-4 py-2 flex gap-4"><input type="checkbox" disabled /> Customer</th>
                                 <th scope="col" className="px-4 py-2">Email</th>
                                 <th scope="col" className="px-4 py-2">Phone</th>
-                                {/* <th scope="col" className="px-4 py-2 border-2 border-[#E4E6EF]">Payment Methods</th> */}
                             </tr>
                         </thead>
                         {users.map((user, index) => (
@@ -74,7 +54,6 @@ export default function Home() {
                                     </td>
                                     <td className="whitespace-nowrap px-4 py-2 text-[#889DB9]">{user._email}</td>
                                     <td className="whitespace-nowrap px-4 py-2 text-[#889DB9]">{user._phone_number}</td>
-                                    {/* <td className="whitespace-nowrap border-2 border-[#E4E6EF] px-4 py-2">{userPayement.find(payment => payment._id_client === user._id_employee)?._payment_method}</td> */}
                                 </tr>
                             </tbody>
                         ))}
