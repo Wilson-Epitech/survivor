@@ -73,7 +73,7 @@ export default function Home() {
                     <div className={`h-10 w-full flex flex-row gap-4 py-4 px-4 ${showSearchbar ? "justify-center" : "justify-end"}`}>
                         {showSearchbar ?
                         <div className="w-full">
-                            <input id="search_bar" name="search_bar" type="text" placeholder="Search a customer" value={inputValue} onChange={handleInputChange} className="block w-full rounded-md py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 p-3 sm:text-sm sm:leading-6"/>
+                            <input id="search_bar" name="search_bar" type="text" placeholder="Search a coach" value={inputValue} onChange={handleInputChange} className="block w-full rounded-md py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 p-3 sm:text-sm sm:leading-6"/>
                         </div> : ''
                         }
                         <div className="flex justify-center h-full pt-1.5">
