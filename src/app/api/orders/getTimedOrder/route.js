@@ -10,6 +10,6 @@ export async function GET(req)
         const orders = await order.find({}, {_amount: 1, _date: 1});
         return NextResponse.json(orders);
     } catch (error) {
-        return NextResponse.json({ error: 'Failed to get timed orders' }, { status: 500 });
+        return NextResponse.json({ error: 'Failed to get timed orders' }, { status: 404 });
     }
 }
