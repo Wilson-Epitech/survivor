@@ -361,7 +361,8 @@ export default function Home() {
                                             ],
                                             },
                                         ]}
-                                        className="w-[700px] h-[300px]"
+                                        width={700}
+                                        height={300}
                                     />
                                 </div>
                             ) : (

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useEffect, useState } from "react";
 import axios from 'axios';
@@ -8,14 +8,32 @@ import Link from "next/link";
 
 export default function Home() {
     const [coach, setCoach] = useState([]);
+    const [numberCustomer, setCustoNb] = useState([]);
+    const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
 
     useEffect(() => {
-        axios.get('/api/employee/coachs').then(response => {
-            setCoach(response.data);
-        }).catch(err => console.error(err))
+        axios.get('/api/employee/coachs')
+            .then(response => setCoach(response.data))
+            .catch(err => console.error(err));
     }, []);
 
-    const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
+    useEffect(() => {
+        coach.forEach((thisCoach) => {
+            const isAlreadyInList = numberCustomer.some(nbr => nbr._id === thisCoach._id_employee);
+
+            if (!isAlreadyInList) {
+                axios.get(`/api/customers/count_customers_by_coach?id=${thisCoach._id_employee}`)
+                    .then(response => {
+                        setCustoNb(prev => [...prev, response.data]);
+                    })
+                    .catch(error => {
+                        console.error("Failed to fetch customers", error);
+                    });
+            } else {
+                console.log("nop");
+            }
+        });
+    }, [coach]);
 
     const handleSelectionChange = (ids) => {
         setSelectedCustomerIds(ids);
@@ -48,25 +66,23 @@ export default function Home() {
                                 <td scope="col" className="px-4 py-2">#</td>
                                 <td scope="col" className="px-4 py-2">Coach</td>
                                 <td scope="col" className="px-4 py-2">Email</td>
-                                <td scope="col" className="px-4 py-2">Phone</td>
                                 <td scope="col" className="px-4 py-2">Number of customers</td>
+                                <td scope="col" className="px-4 py-2">Last Connection</td>
                                 <td scope="col" className="px-4 py-2">Actions</td>
                             </tr>
                         </thead>
-                        <tbody>
-                            {coach.map((user, index) => (
-                                <tr key={user._id_employee || index} className="border-y-2 border-[#E4E6EF] bg-white">
+                        {coach.map((user, index) => (
+                            <tbody>
+                                <tr className="border-y-2 border-[#E4E6EF] bg-white ">
                                     <td className="whitespace-nowrap px-4 py-2">{user._id_employee}</td>
                                     <td className="whitespace-nowrap px-4 py-2">{user._name} {user._surname}</td>
                                     <td className="whitespace-nowrap px-4 py-2 text-[#889DB9]">{user._email}</td>
-                                    <td className="whitespace-nowrap px-4 py-2 text-[#889DB9]">00000000</td>
-                                    <td className="whitespace-nowrap px-4 py-2 text-[#889DB9]">0</td>
-                                    <td className="whitespace-nowrap px-4 py-2">
-                                        <Dropdown_coach onSelectionChange={handleSelectionChange} coach_id={user._id_employee} />
-                                    </td>
+                                    <td className="whitespace-nowrap px-4 py-2 text-[#889DB9]">{numberCustomer.find(nbr => nbr._id === user._id_employee)?._nb}</td>
+                                    <td className="whitespace-nowrap px-4 py-2 text-[#889DB9]">{user._last_connexion}</td>
+                                    <td className="whitespace-nowrap px-4 py-2"><Dropdown_coach key={user._id_employee || index} onSelectionChange={handleSelectionChange} coach_id={user._id_employee} /></td>
                                 </tr>
-                            ))}
-                        </tbody>
+                            </tbody>
+                        ))}
                     </table>
                 </div>
             </main>

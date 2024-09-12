@@ -25,23 +25,22 @@ async function clothesToDatabase() {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "X-Group-Authorization": "***REMOVED***",
-                Authorization: `Bearer ***REMOVED***`
+                "X-Group-Authorization": process.env.X_GROUP_KEY,
+                Authorization: `Bearer ${process.env.ADMIN_BEARER_TOKEN}`
             }
         });
 
         const customersFromApi = await data.json();
 
         for (let i = 0; i <= customersFromApi.length; i++) {
-
             let url = `https://soul-connection.fr/api/customers/${customersFromApi[i].id}/clothes`;
 
             const data = await fetch(url, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
-                    "X-Group-Authorization": "***REMOVED***",
-                    Authorization: `Bearer ***REMOVED***`
+                    "X-Group-Authorization": process.env.X_GROUP_KEY,
+                    Authorization: `Bearer ${process.env.ADMIN_BEARER_TOKEN}`
                 }
             });
 
@@ -60,8 +59,8 @@ async function clothesToDatabase() {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
-                        "X-Group-Authorization": "***REMOVED***",
-                        Authorization: `Bearer ***REMOVED***`
+                        "X-Group-Authorization": process.env.X_GROUP_KEY,
+                        Authorization: `Bearer ${process.env.ADMIN_BEARER_TOKEN}`
                     }
                 });
 

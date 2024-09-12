@@ -6,14 +6,14 @@ import { useEffect, useState } from "react";
 
 export default function EmployeeForm
 ({
-    id:exisitingId,
+    id:existingId,
     name:existingName,
     email:existingEmail,
     surname:existingSurname,
     birth_date:existingDate,
     gender:existingGender,
     work:existingWork,
-    image:exisitingImage,
+    image:existingImage,
 }) {
 
     const [_name, setName] = useState(existingName || '');
@@ -50,6 +50,7 @@ export default function EmployeeForm
     {
         event.preventDefault();
         let image_link = '';
+        const emptyLastConnexion = "";
 
         if (!_gender || !_image || !_email || !_name || !_surname || !_birth_date || !_work) {
             setErrorMessage(true);
@@ -61,7 +62,7 @@ export default function EmployeeForm
         }
 
         event.preventDefault();
-        const data = {_email, _name, _surname, _birth_date, _gender, _work, _image: image_link};
+        const data = {_email, _name, _surname, _birth_date, _gender, _work, _image: image_link, _last_connexion: emptyLastConnexion};
 
         try {
             axios.post('/api/employee/create', data);

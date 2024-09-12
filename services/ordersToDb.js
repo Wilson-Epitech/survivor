@@ -27,22 +27,22 @@ async function ordersToDatabase() {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "X-Group-Authorization": "***REMOVED***",
-          Authorization: `Bearer ***REMOVED***`
+          "X-Group-Authorization": process.env.X_GROUP_KEY,
+          Authorization: `Bearer ${process.env.ADMIN_BEARER_TOKEN}`
           }
       });
 
     const customerData = await data.json()
 
-    for (let i = 0; i <= customerData.length; i++) {
+    for (let i = 0; i < customerData.length; i++) {
 
       let url = `https://soul-connection.fr/api/customers/${customerData[i].id}/payments_history`;
       const data = await fetch(url, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "X-Group-Authorization": "***REMOVED***",
-          Authorization: `Bearer ***REMOVED***`
+          "X-Group-Authorization": process.env.X_GROUP_KEY,
+          Authorization: `Bearer ${process.env.ADMIN_BEARER_TOKEN}`
           }
       });
 
