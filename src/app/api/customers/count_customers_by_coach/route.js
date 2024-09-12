@@ -14,5 +14,5 @@ export async function GET(req) {
         return NextResponse.json({_nb: res, _id: id});
     } catch (error) {
         return NextResponse.json({ error: 'Failed to get customer' }, { status: 404 });
-    }top
+    }
 }
