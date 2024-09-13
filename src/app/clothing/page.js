@@ -152,7 +152,7 @@ export default function Home() {
                     </div>
 
                     <div className="flex justify-center pt-4">
-                        <Dropdown onSelectionChange={handleSelectionChange} label="Customer : " />
+                        <Dropdown onSelectionChange={handleSelectionChange} label="Select Customer" />
                     </div>
 
                     {clothes.forEach((car) => car._type === 'hat/cap' ? hat_img_id.push(car._id_clothes) : car._id_clothes)}
