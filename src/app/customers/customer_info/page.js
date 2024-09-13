@@ -33,6 +33,7 @@ export default function Home()
     const [userDate, setUserDate] = useState([]);
     const [coach, setCoach] = useState([]);
     const [search, setSearch] = useState(0);
+    const [decode, setDecode] = useState(0);
     const [unauthorized, setUnauthorized] = useState(undefined);
 
     const route = useRouter();
@@ -121,6 +122,19 @@ export default function Home()
 
     let img = userPhoto.length > 0 ? userPhoto[0]._image : null
 
+    useEffect(() => {
+        if (!img) {
+            return;
+        }
+
+        if (img.endsWith('.jpeg') || img.endsWith('.png')) {
+            setDecode(false);
+        } else {
+            setDecode(true);
+        }
+    }, [img]);
+
+
     return (
         <Layout>
             <Suspense fallback={<div>Loading...</div>}>
@@ -130,22 +144,23 @@ export default function Home()
             (unauthorized === true ?
                 <UnauthorizedPopup link={"/customers"} pageToRedirect={"customers"}/> :
             (<main className="w-full h-full min-h-screen px-4 py-5 sm:px-6 lg:px-8 pt-16">
-                <div className="mb-4 flex flx-row gap-4">
-                    <h1 className="mt-2 mb-4 text-left text-4xl font-bold leading-9 tracking-tight w-1/2 text-gray-900">
-                        Customer Details
-                    </h1>
-                    <div className="w-full flex justify-end items-stretch py-2">
-                        <button onClick={() => route.back() } >
-                            <div className="flex flex-row self-center rounded-sm border-2 border-[#E4E6EF] bg-white py-2 px-2 gap-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                  <div className="mb-4">
+                    <div className="mb-4 flex justify-between items-center">
+                    <div className="flex flex-col">
+                        <h1 className="text-left text-2xl font-semibold leading-9 tracking-tight text-[#2D425C] mb-1">
+                            Customers Details
+                        </h1>
+                    </div>
+                    <button onClick={() => route.back() } >
+                            <div className="flex flex-row self-center rounded-lg border-2 border-[#E4E6EF] bg-white py-2 px-2 gap-2 text-center items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4 text-[#2D425C]">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
                                 </svg>
 
-                                <p>Back</p>
+                                <p className='text-sm text-[#2D425C] font-medium'>Back</p>
                             </div>
                         </button>
-
-                    </div>
+                </div>
                 </div>
 
                 <div className="flex flex-col lg:flex-row gap-8">
@@ -155,7 +170,7 @@ export default function Home()
                         <div className="w-full ">
                             <div className="w-full flex justify-center">
                                 {img ? (
-                                    <img className="object-contain w-24 h-24 sm:w-32 sm:h-32 lg:w-36 lg:h-36 rounded-full" src={`data:image/jpeg;base64,${img}`} alt="Customer Photo" />
+                                    <img className="object-contain w-24 h-24 sm:w-32 sm:h-32 lg:w-36 lg:h-36 rounded-full" src={decode ? `data:image/jpeg;base64,${img}` : `${img}`} alt="Customer Photo" />
                                 ) : (
                                     <div className="w-24 h-24 sm:w-32 sm:h-32 lg:w-36 lg:h-36 bg-gray-200 flex items-center justify-center">
                                         <span className="text-gray-500">No Image</span>
@@ -163,7 +178,7 @@ export default function Home()
                                 )}
                             </div>
                             <div className="w-full mb-4 flex justify-center">
-                                <p className="text-lg sm:text-xl lg:text-3xl font-bold text-gray-900 ">
+                                <p className="text-lg sm:text-xl lg:text-1xl mt-2 font-bold text-[#2D425C]">
                                     {users.find(user => user._id_customer === search)?._name} {users.find(user => user._id_customer === search)?._surname}
                                 </p>
                             </div>
@@ -226,7 +241,7 @@ export default function Home()
                     <div className="flex flex-col gap-4 w-full rounded-sm border-2 border-[#E4E6EF] bg-white py-2 px-2 ">
                         <div className="w-full px-2 sm:px-4 lg:px-2">
                             <div className="py-2">
-                                <h2 className="font-bold text-xl sm:text-2xl lg:text-2xl mb-4">Recent Meetings</h2>
+                                <h2 className="font-bold text-sm text-[#2D425C] mb-4">Recent Meetings</h2>
                                 <div className="overflow-x-auto max-h-56 overflow-auto">
                                     <table className="min-w-full text-left text-sm font-light">
                                         <thead className="bg-white text-gray-400">
@@ -254,7 +269,7 @@ export default function Home()
 
                         <div className="w-full px-2 sm:px-4 lg:px-2">
                             <div className="py-2">
-                                <h2 className="font-bold text-xl sm:text-2xl lg:text-2xl mb-4">Payments history</h2>
+                                <h2 className="font-bold text-sm text-[#2D425C] mb-4">Payments history</h2>
                                 <div className="overflow-x-auto max-h-56 overflow-auto">
                                     <table className="min-w-full text-left text-sm font-light">
                                     <thead className="bg-white text-[#8B9FB7]">
