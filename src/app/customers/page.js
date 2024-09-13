@@ -54,7 +54,6 @@ export default function Home() {
         }
     },[employeeRole, employeeID, tmpUsers]);
 
-
     const [inputValue, setInputValue] = useState('');
     const [firstInputValue, setFirstInputValue] = useState('');
     const [secondInputValue, setsecondInputValue] = useState('');
@@ -75,14 +74,15 @@ export default function Home() {
                         </h1>
                         <p className="text-[#889DB9] text-sm mb-2">You have total {users.length} customers.</p>
                     </div>
-                    <Link
+                    {!employeeRole || employeeRole === "Coach" ? null :
+                    (<Link
                         href='/customers/create'
                         className="p-1.5 text-white bg-[#ff86d7] hover:bg-[#ffbae8] text-md rounded-[3px] flex items-center"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="mt-0.5 size-4">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
                         </svg>
-                    </Link>
+                    </Link>)}
                 </div>
                 <div className="flex flex-col gap-6 w-full h-full overflow-x-auto rounded-sm bg-white border-2 border-[#E4E6EF]">
 
