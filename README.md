@@ -14,7 +14,7 @@
 
 <p align="center"><img src=".github/assets/survivor-home.png" alt="Soul Connection" width="820"/></p>
 
-## En deux mots
+## Le projet en quelques mots
 
 Un rush de deux semaines à quatre pour une agence fictive, *Soul Connection*. On partait d'une API fournie, et il fallait livrer un vrai outil interne : tableau de bord, fiches clients, gestion des coachs, événements… avec un brin d'astrologie pour la compatibilité.
 
@@ -33,10 +33,6 @@ Un rush de deux semaines à quatre pour une agence fictive, *Soul Connection*. O
 <p align="center"><img src=".github/assets/survivor-coaches.png" alt="Les coachs et l'attribution des clients" width="760"/></p>
 <p align="center"><sub>Les coachs et l'attribution des clients</sub></p>
 
-## Sous le capot
-
-L'app Next.js (App Router) expose ses propres routes API au-dessus de MongoDB (Mongoose). Un script synchronise les données de l'API fournie vers la base, et les photos sont stockées sur S3. Un middleware protège les pages selon le rôle de la personne connectée.
-
 ## Lancer le projet
 
 ```bash
@@ -53,4 +49,4 @@ pnpm build && pnpm start
 
 Wilson Bordichon, Mathis Brehm, Yanis Harkouk, Eva Legrand
 
-**Ma part :** J'ai fait la **navigation** de l'app, les **formulaires** de création et d'édition des clients et des employés, les pages **Clients**, **Coachs** et **Compatibilité astrologique**, et plusieurs composants réutilisables.
+**Ma partition :** J'ai fait la **navigation** de l'app, les **formulaires** de création et d'édition des clients et des employés, les pages **Clients**, **Coachs** et **Compatibilité astrologique**, et plusieurs composants réutilisables.
