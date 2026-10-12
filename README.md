@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<div align="center">
 
-## Getting Started
+# Soul Connection
 
-First, run the development server:
+**Le CRM d'une agence de coaching amoureux, conçu et livré en deux semaines.**
+
+<img alt="Next.js" src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white"/> <img alt="React" src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=white"/> <img alt="Tailwind" src="https://img.shields.io/badge/Tailwind-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white"/> <img alt="MongoDB" src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white"/> <img alt="MUI" src="https://img.shields.io/badge/MUI-007FFF?style=for-the-badge&logo=mui&logoColor=white"/> <img alt="AWS S3" src="https://img.shields.io/badge/AWS%20S3-569A31?style=for-the-badge&logo=amazons3&logoColor=white"/> <img alt="Docker" src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white"/>
+
+<sub>Projet à 4 · 2024</sub>
+
+</div>
+
+<br/>
+
+<p align="center"><img src=".github/assets/survivor-home.png" alt="Soul Connection" width="820"/></p>
+
+## En deux mots
+
+Un rush de deux semaines à quatre pour une agence fictive, *Soul Connection*. On partait d'une API fournie, et il fallait livrer un vrai outil interne : tableau de bord, fiches clients, gestion des coachs, événements… avec un brin d'astrologie pour la compatibilité.
+
+## Ce que ça fait
+
+- **Tableau de bord** : tranches d'âge, revenus de l'année, notes des rendez-vous, signes astrologiques
+- **Clients** : liste, recherche, fiche détaillée, création et modification
+- **Coachs** : liste, nombre de clients, attribution de clients, création de compte
+- **Compatibilité astrologique** entre deux clients
+- Événements sur une carte, conseils pour les coachs, garde-robe des clients
+- Rôles manager / coach, session sécurisée par JWT et cookies chiffrés
+
+<p align="center"><img src=".github/assets/survivor-customers.png" alt="La liste des clients" width="760"/></p>
+<p align="center"><sub>La liste des clients</sub></p>
+
+<p align="center"><img src=".github/assets/survivor-coaches.png" alt="Les coachs et l'attribution des clients" width="760"/></p>
+<p align="center"><sub>Les coachs et l'attribution des clients</sub></p>
+
+## Sous le capot
+
+L'app Next.js (App Router) expose ses propres routes API au-dessus de MongoDB (Mongoose). Un script synchronise les données de l'API fournie vers la base, et les photos sont stockées sur S3. Un middleware protège les pages selon le rôle de la personne connectée.
+
+## Lancer le projet
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
+# .env.local : MONGODB_URI, SECRET_KEY, clés S3 et Google Maps
+pnpm build && pnpm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+> Les captures ont été prises en local avec des données fictives.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## L'équipe
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+<a href="https://github.com/Wilson-Epitech/survivor/graphs/contributors"><img src="https://contrib.rocks/image?repo=Wilson-Epitech/survivor" alt="Contributeurs"/></a>
 
-## Learn More
+Wilson Bordichon, Mathis Brehm, Yanis Harkouk, Eva Legrand
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+**Ma part :** J'ai fait la **navigation** de l'app, les **formulaires** de création et d'édition des clients et des employés, les pages **Clients**, **Coachs** et **Compatibilité astrologique**, et plusieurs composants réutilisables.
