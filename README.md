@@ -46,4 +46,4 @@ pnpm build && pnpm start
 
 Wilson Bordichon, Mathis Brehm, Yanis Harkouk, Eva Legrand
 
-**Ma partition :** J'ai fait la **navigation** de l'app, les **formulaires** de création et d'édition des clients et des employés, les pages **Clients**, **Coachs** et **Compatibilité astrologique**, et plusieurs composants réutilisables.
+**Ma partition :** J'ai fait la **navigation** de l'app, la plupart des **composants** (formulaires de création et d'édition des clients et des employés, menus déroulants, cartes), les pages **Clients**, **Coachs** et **Compatibilité astrologique**, une partie des modèles de données et la CI.
