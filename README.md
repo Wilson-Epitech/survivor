@@ -37,11 +37,8 @@ Un rush de deux semaines à quatre pour une agence fictive, *Soul Connection*. O
 
 ```bash
 pnpm install
-# .env.local : MONGODB_URI, SECRET_KEY, clés S3 et Google Maps
 pnpm build && pnpm start
 ```
-
-> Les captures ont été prises en local avec des données fictives.
 
 ## L'équipe
 
